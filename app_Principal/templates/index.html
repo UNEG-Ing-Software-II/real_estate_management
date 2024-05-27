@@ -1,0 +1,24 @@
+{% extends 'base/base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="login-container">
+            <div class="logo">
+                <img src="{% static 'img/logo.png' %}" alt="logo">
+            </div>
+            <h1>INVERSIONES Y DESARROLLOS M&R</h1>
+                <h2>ACCEDE A TU CUENTA</h2>
+                <form>
+                    {% csrf_token %}
+                    <input type="text"  placeholder="Usuario" id="usuario" >
+                    <input type="password"  placeholder="Contraseña" id="password" >
+                    <button type="submit" class="btn btn-primary">ACCEDER</button>
+                </form>
+        </div>
+    </div>
+
+    {% endblock %}
+

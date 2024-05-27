@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+25&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;  
+}
+
+body{
+  width: 100vw;
+  height: 100vh;
+  background-image: url("../img/fondo_login.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+  backdrop-filter: blur(5px);
+  position: absolute;
+}
+
+.container{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.login-container{
+  width: 600px;
+  height: 420px;
+  color: #ffffff;
+  background-color: rgba(65, 42, 113, 0.85); 
+  padding: 20px;
+  border-radius: 5px;
+}
+
+h1{
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2{
+  font-size: 22px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input {
+  border: none;
+  border-bottom: 2px solid #ffffff;
+  background-color: transparent;
+  padding: 10px 0px; /* add some padding to create a box-like appearance */
+  width: 80%;
+  outline: none;
+  color: white;
+  margin-bottom: 20px;
+}
+
+input::placeholder{
+  color: white;
+}
+
+img{
+  width: 90px;
+}
+
+.login-container .btn-primary {
+  border-radius: 1px;
+  padding: 10px 20px;
+  background-color: #8936bd;
+  border: none;
+  width: 80%;
+  margin-top: 20px;
+}
+
+
+@media (width <= 776px){
+
+  h1{
+    font-size: 24px;
+  }
+
+  h2{
+    font-size: 20px;
+  }
+  
+  }
+
+
+@media (width <= 520px){
+
+input{
+  text-align: center;
+}
+
+}
+
+@media (width <= 468px){
+
+  .login-container{
+    height: 440px;
+   }
+  
+  }
