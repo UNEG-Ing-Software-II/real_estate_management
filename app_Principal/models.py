@@ -13,15 +13,14 @@ TIPO_AREA_CHOICES = [
 ]
 
 class UsuarioPersonalizado(BaseUserManager):
-    def create_user(self, correo, nombre, apellido, password,cedula,rol):
+    def create_user(self, correo, nombre,apellido,password,**extra_fields):
       
         correo = self.normalize_email(correo)
         user = self.model(
-            cedula=cedula,
             correo=correo,
             nombre=nombre, 
             apellido=apellido,
-            rol=rol
+            **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)

@@ -57,7 +57,7 @@ ROOT_URLCONF = 'MyR.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['app_Principal/plantillas'],
+        'DIRS': ['app_Principal/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
