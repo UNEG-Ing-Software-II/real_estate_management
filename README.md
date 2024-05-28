@@ -1,10 +1,9 @@
 # Requerimientos
 - [Python 3.12.3](https://www.python.org/downloads/)
 - [Django 5.0.6](https://www.djangoproject.com/download/)
+- [PostgreSQL](https://www.postgresql.org/download/)
 
-Para poder trabajar con este proyecto es necesario tener la versión más actual de Python que la página oficial 
-para el soporte de dicho lenguaje nos ofrece, siendo Python 3.12.3. Enlace: https://www.python.org/downloads/. 
-Se requiere a su vez el framework de Python Django en su versión más actual 5.0.6. 
-Para instalar Django en nuestro sistema es necesario acceder a la terminal, y utilizar el comando: 
-
-pip install django==5.0.6
+# Documentación
+- [Modelo Entidad Relación (MER)](https://app.diagrams.net/#G1CuRcRZdyddpSssAah_tsF6MrQzH-SVeg#%7B%22pageId%22%3A%226hHa2C_K5NSkVydCL7FX%22%7D)
+- [Python](https://docs.python.org/es/3/tutorial/index.html)
+- [Django](https://docs.djangoproject.com/es/5.0/)
