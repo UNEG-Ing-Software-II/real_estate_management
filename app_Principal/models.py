@@ -37,6 +37,7 @@ class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     correo = models.EmailField(unique=True)
+    foto = models.ImageField()
     rol = models.CharField(
         max_length=20,
         choices=ROL_CHOICES,
@@ -158,6 +159,20 @@ class Incidencia(models.Model):
    porcentaje = models.FloatField()
    class Meta:
     db_table = 'Incidencia'
+
+class Imagen_inmueble(models.Model):
+   id = models.UUIDField(primary_key=True)
+   inmueble = models.ForeignKey(Inmueble,on_delete=models.CASCADE) #FK la tabla Inmueble
+   foto = models.ImageField()
+   class Meta:
+    db_table = 'imagen_inmueble'
+
+class Imagen_area(models.Model):
+    id = models.UUIDField(primary_key=True)
+    area = models.ForeignKey(Area,on_delete=models.CASCADE) #FK la tabla Area
+    foto = models.ImageField()
+    class Meta:
+     db_table = 'imagen_area'
 
    
    
