@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from app_Principal.views import *
+#from MyR.backend import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index),
+    path('', index, name = 'index'),
+    path('inicio_coordinador/',coordinador, name='inicio Coordinador' ),
+    path('cerrar_sesion/',cerrar_sesion),
 ]

@@ -13,20 +13,21 @@ TIPO_AREA_CHOICES = [
 ]
 
 class UsuarioPersonalizado(BaseUserManager):
-    def create_user(self, correo, nombre, apellido, password,cedula,rol):
+    def create_user(self, correo, nombre,apellido,password,**extra_fields):
       
         correo = self.normalize_email(correo)
         user = self.model(
-            cedula=cedula,
             correo=correo,
             nombre=nombre, 
             apellido=apellido,
-            rol=rol
+            **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
+       
+
 class Usuario(AbstractBaseUser):
     ROL_CHOICES = [
         ('Director General', 'Director General'),
@@ -38,6 +39,7 @@ class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     correo = models.EmailField(unique=True)
+    foto = models.ImageField(null=True)
     rol = models.CharField(
         max_length=20,
         choices=ROL_CHOICES,
@@ -159,6 +161,20 @@ class Incidencia(models.Model):
    porcentaje = models.FloatField()
    class Meta:
     db_table = 'Incidencia'
+
+class Imagen_inmueble(models.Model):
+   id = models.UUIDField(primary_key=True)
+   inmueble = models.ForeignKey(Inmueble,on_delete=models.CASCADE) #FK la tabla Inmueble
+   foto = models.ImageField()
+   class Meta:
+    db_table = 'imagen_inmueble'
+
+class Imagen_area(models.Model):
+    id = models.UUIDField(primary_key=True)
+    area = models.ForeignKey(Area,on_delete=models.CASCADE) #FK la tabla Area
+    foto = models.ImageField()
+    class Meta:
+     db_table = 'imagen_area'
 
    
    
