@@ -25,7 +25,9 @@ class UsuarioPersonalizado(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
-    
+
+       
+
 class Usuario(AbstractBaseUser):
     ROL_CHOICES = [
         ('Director General', 'Director General'),
@@ -37,7 +39,7 @@ class Usuario(AbstractBaseUser):
     nombre = models.CharField(max_length=30)
     apellido = models.CharField(max_length=30)
     correo = models.EmailField(unique=True)
-    foto = models.ImageField()
+    foto = models.ImageField(null=True)
     rol = models.CharField(
         max_length=20,
         choices=ROL_CHOICES,
