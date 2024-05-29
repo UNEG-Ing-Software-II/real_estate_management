@@ -1,0 +1,125 @@
+{% extends 'base/base.html'%}
+
+{% load static %}
+
+{% block content %}
+
+    <body id="Fondo">
+            <!-- nav -->
+
+        <nav>
+            <div class="d-flex justify-content-around align-items-center">
+                <img
+                    src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
+                    alt="M&R Logo"
+                    class="h-12"
+                />
+                <input
+                    type="text"
+                    placeholder="Buscar Inmueble"
+                    class="form-control rounded-pill px-4 py-2 w-50"
+                />
+                <button class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-building-house'></i>Agregar Inmueble
+                </button>
+                <button class="btn btn-secondary rounded-pill px-4 py-2 out"> <i class='bx bx-log-out'></i> Cerrar sesión
+                </button>
+            </div>
+
+        </nav>
+            
+
+            <!-- cards -->
+
+        <div class="cards">
+            <div class="row">
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                            src="{% static 'img/Inmueble1.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">1 Casa Veraniega</h3>
+                            <h4>Propietario: Luis Santacruz</h4>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repite el bloque anterior para cada propiedad -->
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                        src="{% static 'img/Inmueble1.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">2 Casa Veraniega</h3>
+                            <h4>Propietario: Sebastian Landaeta</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                        src="{% static 'img/Inmueble1.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">3 Casa Veraniega</h3>
+                            <h4>Propietario: Henry Navarro</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                        src="{% static 'img/Inmueble2.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">4 Casa Veraniega</h3>
+                            <h4>Propietario: Antonietta Palazzo</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                        src="{% static 'img/Inmueble2.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">5 Casa Veraniega</h3>
+                            <h4>Propietario: Jorge Caraballo</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-sm-6 col-lg-4 mb-4">
+                    <div class="card bg-white">
+                        <img
+                        src="{% static 'img/Inmueble2.jpeg' %}"
+                            alt="Exterior View"
+                            class="card-img-top"
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title">6 Casa Veraniega</h3>
+                            <h4>Propietario: Saúl Acosta</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+{% endblock %}

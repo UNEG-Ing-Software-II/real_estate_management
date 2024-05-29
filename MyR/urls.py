@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name = 'index'),
     path('inicio_coordinador/',coordinador, name='inicio Coordinador' ),
+    path('inicio_asesor/',asesor, name='inicio Asesor' ),
     path('cerrar_sesion/',cerrar_sesion),
 ]

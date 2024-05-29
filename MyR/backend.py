@@ -16,7 +16,7 @@ def redirecion(rol):
         return redirect('inicio Coordinador')
     elif rol=='Asesor':
         print("usted entro en la vista Asesor")
-        #return redirect('inicio Asesor')
+        return redirect('inicio Asesor')
     elif rol=='Propietario': 
         print("usted entro en la vista Propietario")
         return redirect('inicio Propietario')
@@ -32,7 +32,7 @@ def guardar_usuario():
         password='password',
         nombre='Pablo',
         apellido='Jimenez',
-        rol='Coordinador',
+        rol='Asesor',
         correo='prjr2002@gmail.com'
     )
 

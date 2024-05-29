@@ -40,9 +40,12 @@ def index(request):
     return render(request, 'index.html', {'next_page': next_page})
 
 def coordinador(request):
-   
+
     return render(request,'inicio_coordinador.html')
 
+def asesor(request):
+
+    return render(request,'views_asesor/views_asesor.html')
 
 def cerrar_sesion(request):
     logout(request)
