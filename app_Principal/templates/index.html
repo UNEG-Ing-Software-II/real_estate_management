@@ -4,6 +4,10 @@
 
 {% block content %}
 
+{% if error_message %}
+<h1 class="texto_r">{{ error_message }}</h1>
+{% endif %}
+
     <div class="container">
 
         {% if next_page != none %}
@@ -24,10 +28,6 @@
                 </form>
         </div>
     </div>
-
-    {% if error_message %}
-    <p class="text-danger">{{ error_message }}</p>
-    {% endif %}
     
     {% endblock %}
 
