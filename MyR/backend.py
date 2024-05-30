@@ -2,6 +2,8 @@ from app_Principal.models import *
 from django.shortcuts import redirect, render
 from app_Principal.models import *
 from django.http import request
+from functools import wraps
+from django.http import HttpResponseForbidden
 
 
 # Esta funcion recibe el rol del usuario que esta logueado, dependiendo lo va a redirigir a su pagina correspondiente
@@ -9,12 +11,26 @@ from django.http import request
 # basicamente cada return va llamar a la funcion del archivo views.py que procesa cada vista, claro la direccion debe estar en el archivo urls.py
 def redirecion(rol):
     roles = {
-        "Director General": "director_general",
+        "Director General": "Director General",
         "Coordinador": "Coordinador",
         "Asesor": "Asesor",
         "Propietario": "Propietario",
     }
     return redirect("inicio %s" % roles.get(rol))
+
+
+def role_required(role):
+    def decorator(view_func):
+        @wraps(view_func)
+        def _wrapped_view(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return redirect('login')
+            if request.user.rol != role:
+                return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+            return view_func(request, *args, **kwargs)
+        return _wrapped_view
+    return decorator
+
 
     # if rol=="Director General":
     #     print("usted entro en la vista Director general")

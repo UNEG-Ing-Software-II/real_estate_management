@@ -7,11 +7,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # importacion para mensajes de error
 from django.shortcuts import render, redirect, get_object_or_404
 
-# Create your views here.
 
+# Create your views here.
+def index(request):
+    return render(request, "index.html")
 
 # funcion para procesar el inicio de sesion
-def index(request):
+def login_view(request):
     # Verificamos primero si en el computador  hay un usario logueado
     if request.user.is_authenticated:
         messages.error(
@@ -40,30 +42,35 @@ def index(request):
             # Llama a la funcion redirecion que se encuentra en el archivo backend.py y determina su inicio dependiendo el rol
             return redirecion(user.rol)
 
-        guardar_usuario()
+        #guardar_usuario()
         return render(
             request,
-            "index.html",
+            "login.html",
             {
                 "error_message": "Credenciales inválidas. Por favor, inténtalo de nuevo."
             },
         )  # vuelva a llamar al inicio de login y manda el mensaje de error
 
-    return render(request, "index.html", {"next_page": next_page})
+    return render(request, "login.html", {"next_page": next_page})
 
-
+@login_required(login_url='login')
+@role_required('Coordinador')
 def coordinador(request):
     return render(request, "inicio_coordinador.html")
 
-
+@login_required(login_url='login')
+@role_required('Asesor')
 def asesor(request):
-
     return render(request, "views_asesor/views_asesor.html")
 
+@login_required(login_url='login')
+@role_required('Director General')
+def director_general(request):
+    return render(request, "inicio_DG.html")
 
 def cerrar_sesion(request):
     logout(request)
-    return redirect("index")
+    return redirect("login")
 
 
 # -------------------------------------------------------------------------------------#

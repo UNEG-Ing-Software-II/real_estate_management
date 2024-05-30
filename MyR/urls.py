@@ -20,9 +20,11 @@ from app_Principal.views import *
 #from MyR.backend import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', index, name = 'index'),
-    path('inicio_coordinador/',coordinador, name='inicio Coordinador' ),
-    path('inicio_asesor/',asesor, name='inicio Asesor' ),
-    path('cerrar_sesion/',cerrar_sesion),
+    path('admin', admin.site.urls),
+    path('',index,name='index'),
+    path('login', login_view, name = 'login'),
+    path('inicio_coordinador',coordinador, name='inicio Coordinador' ),
+    path('inicio_asesor',asesor, name='inicio Asesor' ),
+    path('inicio_director_general',director_general, name='inicio Director General'),
+    path('cerrar_sesion',cerrar_sesion, name='cerrar sesion'),
 ]
