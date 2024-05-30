@@ -57,7 +57,6 @@ def coordinador(request):
 
 
 def asesor(request):
-
     return render(request, "views_asesor/views_asesor.html")
 
 
