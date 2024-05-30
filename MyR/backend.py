@@ -16,19 +16,6 @@ def redirecion(rol):
     }
     return redirect("inicio %s" % roles.get(rol))
 
-    # if rol=="Director General":
-    #     print("usted entro en la vista Director general")
-    #     return redirect("inicio director_General")
-    # elif rol=="Coordinador":
-    #     print("usted entro en la vista Coordinador")
-    #     return redirect("inicio Coordinador")
-    # elif rol=="Asesor":
-    #     print("usted entro en la vista Asesor")
-    #     #return redirect("inicio Asesor")
-    # elif rol=="Propietario":
-    #     print("usted entro en la vista Propietario")
-    #     return redirect("inicio Propietario")
-
 
 # funcion temporal para cargar un registro a la tabla usuario
 def guardar_usuario():
