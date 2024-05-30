@@ -27,4 +27,5 @@ urlpatterns = [
     path('inicio_asesor',asesor, name='inicio Asesor' ),
     path('inicio_director_general',director_general, name='inicio Director General'),
     path('cerrar_sesion',cerrar_sesion, name='cerrar sesion'),
+    path('crear_usuario',crear_usuario, name='crear usuario')
 ]

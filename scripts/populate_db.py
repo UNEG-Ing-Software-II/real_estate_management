@@ -20,7 +20,7 @@ def create_users():
             'nombre': 'Juan',
             'apellido': 'Pérez',
             'correo': 'juan.perez@example.com',
-            'password': 'password123',
+            'password': 'password',
             'rol': 'Asesor'
         },
         {
@@ -28,7 +28,7 @@ def create_users():
             'nombre': 'Ana',
             'apellido': 'Gómez',
             'correo': 'ana.gomez@example.com',
-            'password': 'password123',
+            'password': 'password',
             'rol': 'Coordinador'
         },
         {
@@ -36,7 +36,7 @@ def create_users():
             'nombre': 'Luis',
             'apellido': 'Martínez',
             'correo': 'luis.martinez@example.com',
-            'password': 'password123',
+            'password': 'password',
             'rol': 'Director General'
         }
     ]
@@ -50,7 +50,7 @@ def create_users():
             password=user_data['password'],
             rol=user_data['rol']
         )
-        user.save()
+        #user.save()
         print(f'Usuario {user.nombre} {user.apellido} creado exitosamente.')
 
 def main():

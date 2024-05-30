@@ -26,7 +26,8 @@ def role_required(role):
             if not request.user.is_authenticated:
                 return redirect('login')
             if request.user.rol != role:
-                return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+                #return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+                return redirecion(request.user.rol)
             return view_func(request, *args, **kwargs)
         return _wrapped_view
     return decorator

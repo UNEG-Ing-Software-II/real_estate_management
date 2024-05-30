@@ -26,17 +26,17 @@
                 alt="M&R Logo"
                 class="h-12"
             />
-
-            <span class="bg-white">{{ request.user.nombre }}--{{ request.user.rol }}</span>
             
-            <input
-                type="text"
-                placeholder="Buscar Inmueble"
-                class="form-control rounded-pill px-4 py-2 w-50"
-            />
+ 
             
             {% if request.user.is_authenticated %}
+                <span class="bg-white">{{ request.user.nombre }}  {{ request.user.rol }}</span>
                 {% if request.user.rol == "Asesor" %}
+                    <input
+                        type="text"
+                        placeholder="Buscar Inmueble"
+                        class="form-control rounded-pill px-4 py-2 w-50"
+                    />
                     <button class="btn btn-secondary rounded-pill px-4 py-2 in">
                         <i class='bx bx-building-house'></i>Agregar Inmueble
                     </button>
@@ -75,6 +75,9 @@
             {% else %}
                 <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
                     <i class='bx bx-log-in'></i>Iniciar sesión
+                </a>
+                <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'crear usuario' %}">
+                    <i class='bx bx-log-in'></i>crear usuario
                 </a>
             {% endif %}
         </div>

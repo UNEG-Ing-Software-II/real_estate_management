@@ -192,3 +192,21 @@ def delete_inmueble(request):
     # Eliminar el condominio
     inmueble.delete()
     return redirect("/view_director_g/delete_inmueble/")
+
+
+# -------------------------------------------------------------------------------------#
+# Crear usuario (provisional)
+
+def crear_usuario(request):
+    if request.method == "POST":
+        Usuario.objects.create_user(
+            cedula=request.POST["cedula"],
+            correo=request.POST["correo"],
+            nombre=request.POST["nombre"],
+            apellido=request.POST["apellido"],
+            password=request.POST["password"],
+            rol=request.POST["rol"],
+        )
+        print("usuario registrado correctamente")
+        return render(request, "index.html")
+    return render(request,"registrar_usuario.html")
