@@ -31,14 +31,16 @@ def redirecion(rol):
 
 
 # funcion temporal para cargar un registro a la tabla usuario
+
+
 def guardar_usuario():
     Usuario.objects.create_user(
-        cedula="30110259",
-        password="password",
-        nombre="Pablo",
-        apellido="Jimenez",
-        rol="Coordinador",
-        correo="prjr2002@gmail.com",
+        cedula="123456789",
+        password="admin",
+        nombre="Admin",
+        apellido="Admin",
+        rol="Asesor",
+        correo="admin@gmail.com",
     )
 
 
