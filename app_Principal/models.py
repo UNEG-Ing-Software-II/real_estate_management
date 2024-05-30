@@ -100,7 +100,7 @@ class Inmueble(models.Model):
     half_bath = models.BooleanField()  # medio baño
     terraza = models.BooleanField()
     habitacion = models.BooleanField()
-    maletero = models.BooleanField()  # es algo como almacenes aticos, sotano...
+    maletero = models.BooleanField()  # es algo como almacenes, áticos, sotano...
 
     class Meta:
         db_table = "Inmueble"
