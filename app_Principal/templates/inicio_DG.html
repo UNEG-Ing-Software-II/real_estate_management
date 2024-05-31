@@ -1,9 +1,11 @@
 {% extends 'base/base.html'%}
 {% load static %}
 
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static '/styles/style.css' %}">
+{% endblock %}
 
 {%block content%}
 <h1>VISTA DE INICIO DIRECTOR GENERAL</H1>
 
-    
 {%endblock%}

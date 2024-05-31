@@ -1,4 +1,4 @@
-{% extends 'base/base_auxiliar.html'%}
+{% extends 'base/base.html'%}
 
 {% load static %}
 
@@ -9,11 +9,7 @@
 
 <!-- Botones dinámicos -->
 {% block dynamic_button %}
-<input
-type="text"
-placeholder="Buscar Inmueble"
-class="form-control rounded-pill px-4 py-2 w-50"
-/>
+
 <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
 
 <button class=" btn-delete" type="submit"><i class='bx bx-trash' ></i>Eliminar</button>

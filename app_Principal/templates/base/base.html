@@ -9,16 +9,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
-
-
-    <link rel="stylesheet" href="{% static '/styles/login.css' %}">
-
+    {% block extra_styles %}{% endblock %}
     <title>M&R Inversiones y Desarrollos</title>
 </head>
 <body>      
     
     <!-- nav -->
-
     <nav>
         <div class="d-flex justify-content-around align-items-center">
             <img
@@ -27,41 +23,25 @@
                 class="h-12"
             />
             
- 
-            
             {% if request.user.is_authenticated %}
-                <span class="bg-white">{{ request.user.nombre }}  {{ request.user.rol }}</span>
+
+                <h2 class="d-fluid bg-white">{{ request.user.nombre }}  {{ request.user.rol }}</h2>
+                
                 {% if request.user.rol == "Asesor" %}
-                    <input
-                        type="text"
-                        placeholder="Buscar Inmueble"
-                        class="form-control rounded-pill px-4 py-2 w-50"
-                    />
-                    <button class="btn btn-secondary rounded-pill px-4 py-2 in">
-                        <i class='bx bx-building-house'></i>Agregar Inmueble
-                    </button>
-                
-                
+
+
                 {% elif request.user.rol == "Coordinador" %}
                     <!-- Agrega otros botones o enlaces específicos para Coordinador -->
-                
-                
                 
                 {% elif request.user.rol == "Propietario" %}
                     <!-- Agrega otros botones o enlaces específicos para Propietario -->
                 
-                
-                
-                
                 {% elif request.user.rol == "Director General" %}
                     <!-- Agrega otros botones o enlaces específicos para Director General" -->
                 
-                
-                
-                
                 {% endif %}
 
-                
+                {% block dynamic_button %}{% endblock %}
 
                 <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="{% url 'cerrar sesion' %}">
                     <i class='bx bx-log-out'></i>Cerrar sesión
@@ -69,9 +49,6 @@
             
             
                 
-            
-            
-            
             {% else %}
                 <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
                     <i class='bx bx-log-in'></i>Iniciar sesión
@@ -81,17 +58,11 @@
                 </a>
             {% endif %}
         </div>
-
     </nav>
 
-{%block content%}
+{%block content%} <!--NO PONER NADA (CONTENIDO DE LA VISTA HIJA)-->{%endblock%}
 
-
-    
-
-
-
-{%endblock%}
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # importacion para mensajes de error
 from django.shortcuts import render, redirect, get_object_or_404
 
-
 # Create your views here.
 def index(request):
     return render(request, "index.html")
@@ -72,7 +71,6 @@ def director_general(request):
 def cerrar_sesion(request):
     logout(request)
     return redirect("login")
-
 
 # -------------------------------------------------------------------------------------#
 # CRUD para los inmuebles
@@ -195,7 +193,8 @@ def delete_inmueble(request):
     return redirect("/view_director_g/delete_inmueble/")
 
 
-
+@login_required(login_url='login')
+@role_required('Asesor')
 def inmueble(request, inmueble_id):
     context = {
         'inmueble_id':inmueble_id 
