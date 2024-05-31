@@ -39,8 +39,9 @@ def login_view(request):
             if next_page:
                 return redirect(next_page)
 
-            # Llama a la funcion redirecion que se encuentra en el archivo backend.py y determina su inicio dependiendo el rol
-            return redirecion(user.rol)
+            return redirecion(
+                user.rol
+            )  # Llama a la funcion redirecion que se encuentra en el archivo backend.py y determina su inicio dependiendo el rol
 
         #guardar_usuario()
         return render(
