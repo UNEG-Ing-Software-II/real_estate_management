@@ -16,12 +16,17 @@ TIPO_AREA_CHOICES = [
 
 class UsuarioPersonalizado(BaseUserManager):
     def create_user(self, correo, nombre, apellido, password, **extra_fields):
-
         correo = self.normalize_email(correo)
         user = self.model(
             correo=correo, nombre=nombre, apellido=apellido, **extra_fields
         )
         user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, *args, **kwargs):
+        user = self.create_user(*args, **kwargs)
+        user.is_staff = True
         user.save(using=self._db)
         return user
 
@@ -43,11 +48,28 @@ class Usuario(AbstractBaseUser):
         choices=ROL_CHOICES,
         default="Asesor",
     )
+    is_admin = models.BooleanField(default=False)
 
     objects = UsuarioPersonalizado()
 
     USERNAME_FIELD = "correo"
-    REQUIRED_FIELDS = ["nombre", "apellido", "rol"]
+    REQUIRED_FIELDS = ["nombre", "cedula", "apellido", "rol"]
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of staff?"
+        # Simplest possible answer: All admins are staff
+        return self.is_admin
 
     class Meta:
         db_table = "Usuario"
