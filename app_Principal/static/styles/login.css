@@ -14,6 +14,7 @@ body{
   background-position: center center;
   background-size: cover;
   background-attachment: fixed;
+  /*backdrop-filter: blur(5px);*/ 
   position: absolute;
 }
 
@@ -53,14 +54,14 @@ h2{
   margin-bottom: 10px;
 }
 
-form{
+form.card-log{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-input {
+input.log {
   border: none;
   border-bottom: 2px solid #ffffff;
   background-color: transparent;

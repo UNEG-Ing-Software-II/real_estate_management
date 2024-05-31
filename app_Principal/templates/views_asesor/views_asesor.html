@@ -1,6 +1,22 @@
-{% extends 'base/base.html'%}
+{% extends 'base/base_auxiliar.html'%}
 
 {% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static '/styles/style.css' %}">
+{% endblock %}
+
+<!-- Botones dinámicos -->
+{% block dynamic_button %}
+<input
+type="text"
+placeholder="Buscar Inmueble"
+class="form-control rounded-pill px-4 py-2 w-50"
+/>
+<button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='bx bx-building-house'></i>Agregar Inmueble
+</button>
+{%endblock%}
+
 
 {% block content %}
 
@@ -90,6 +106,7 @@
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card bg-white">
+                        <a href="{% url 'inmueble' inmueble_id=1 %}" target="_blank">
                         <img
                             src="{% static 'img/Inmueble1.jpeg' %}"
                             alt="Exterior View"
@@ -99,11 +116,13 @@
                             <h3 class="card-title">1 Casa Veraniega</h3>
                             <h4>Propietario: Luis Santacruz</h4>
                         </div>
+                    </a>
                     </div>
                 </div>
                 <!-- Repite el bloque anterior para cada propiedad -->
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card bg-white">
+                        <a href="{% url 'inmueble' inmueble_id=2 %}" target="_blank">
                         <img
                         src="{% static 'img/Inmueble1.jpeg' %}"
                             alt="Exterior View"
@@ -113,11 +132,13 @@
                             <h3 class="card-title">2 Casa Veraniega</h3>
                             <h4>Propietario: Sebastian Landaeta</h4>
                         </div>
+                    </a>
                     </div>
                 </div>
 
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card bg-white">
+                        <a href="{% url 'inmueble' inmueble_id=3 %}" target="_blank">
                         <img
                         src="{% static 'img/Inmueble1.jpeg' %}"
                             alt="Exterior View"
@@ -128,6 +149,7 @@
                             <h4>Propietario: Henry Navarro</h4>
                             
                         </div>
+                        </a>
                     </div>
                 </div>
 

@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 
-#Fondo{
+body{
   width: 100vw;
   height: 100vh;
   background-image: url("../img/fondo2.jpeg");
@@ -13,6 +13,12 @@
   background-size: cover;
   background-attachment: fixed;
   position: absolute;
+  overflow-x: hidden;
+}
+
+
+a{
+  text-decoration: none;
 }
 
 .in{
@@ -23,6 +29,7 @@
 
 h4{
   font-size: 14px;
+  color:#343a40;
 }
 
 .card {
@@ -37,6 +44,12 @@ h4{
   box-sizing: border-box;
   border-radius: 15px; 
   overflow: hidden; 
+}
+
+form.details-inm{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .card-title{
@@ -141,4 +154,127 @@ h3{
     font-size: 0.8em; /* Reducir el tamaño del texto del botón */
     padding: 5px 10px; /* Reducir el espacio alrededor del texto */
   }
+}
+.center{
+  height: 50rem;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.form-control{
+   width: 250px; 
+}
+
+.form-select{
+  width: 250px; 
+}
+
+option{
+  border: none; 
+}
+
+.block{
+  margin: 20px;
+  background-color: white;
+  -webkit-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
+  -moz-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
+  box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
+  display: flex;
+ 
+}
+.inmueble{
+
+  width: 100%;
+
+}
+
+.carousel{
+  width: 100%;
+  height: 100%;
+  background-color: rgb(255, 255, 255);
+}
+
+.info{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(251, 251, 251, 0.791);
+  
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+ 
+}
+
+.form-group {
+  flex: 1 1 calc(50% - 20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+#details-title{
+  color:#343a40;
+  margin-top: 10px; 
+  font-weight: bold;
+  font-size: 38px;
+  text-align: center;
+}
+
+
+#btn-special{
+  visibility: hidden;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.btn-save{
+
+  width: 150px;
+
+  padding: 10px 15px;
+  background-color: rgb(18, 168, 171);
+  color: white;
+  border:none;
+  border-radius: 60px;
+  font-size: 16px;
+}
+
+.btn-save:hover{
+  background-color: #343a40;
+  color:white;
+}
+
+
+.btn-delete{
+  width: 120px;
+  height: 40px;
+  padding: 8px 15px;
+  background-color: #B05099;
+  color: white;
+  border:none;
+  border-radius: 60px;
+  font-size: 16px;
+}
+
+.btn-x{
+  width: 150px;
+
+  padding: 10px 15px;
+  background-color: rgb(173, 81, 47) ;
+  color: white;
+  border:none;
+  border-radius: 60px;
+  font-size: 16px;
 }
