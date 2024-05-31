@@ -10,22 +10,30 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
-
-    <link rel="stylesheet" href="{% static '/styles/login.css' %}">
-
-    
-
-
+    {% block extra_styles %}{% endblock %}
     <title>M&R Inversiones y Desarrollos</title>
+
 </head>
 
 <body>
+  <!-- nav -->
+  <nav>
+    <div class="d-flex justify-content-around align-items-center">
+        <img
+            src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
+            alt="M&R Logo"
+            class="h-12"
+        />
+        {% block dynamic_button %}{% endblock %}
+
+<a class="btn btn-secondary rounded-pill px-4 py-2 out" href="/cerrar_sesion/"> <i class='bx bx-log-out'></i>Cerrar sesión</a>
+    </div>
+</nav>
+
 {%block content%}
-    
-
-
-
 {%endblock%}
+
+
 </body>
 
 </html>

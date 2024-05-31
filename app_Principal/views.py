@@ -185,3 +185,11 @@ def delete_inmueble(request):
     # Eliminar el condominio
     inmueble.delete()
     return redirect("/view_director_g/delete_inmueble/")
+
+
+
+def inmueble(request, inmueble_id):
+    context = {
+        'inmueble_id':inmueble_id 
+    }
+    return render(request, 'views_asesor/inmueble.html', context)
