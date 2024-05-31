@@ -5,8 +5,7 @@
 {% block content %}
 
     <body id="Fondo">
-            <!-- nav -->
-
+        <!-- nav -->
         <nav>
             <div class="d-flex justify-content-around align-items-center">
                 <img
@@ -19,16 +18,70 @@
                     placeholder="Buscar Inmueble"
                     class="form-control rounded-pill px-4 py-2 w-50"
                 />
-                <button class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-building-house'></i>Agregar Inmueble
+
+                <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='bx bx-building-house'></i>Agregar Inmueble
                 </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar inmueble</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <label for="InputPropietario" class="form-label">Propietario</label>
+                                <input type="text" class="form-control" id="InputPropietario" required>
+
+                                <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
+                                <select class="form-select" aria-label="Default select example" required>
+                                    <option selected disabled hidden>Seleccione un tipo de propiedad</option>
+                                    <option value="Casa">Casa</option>
+                                    <option value="Apartamento">Apartamento</option>
+                                    <option value="Oficina">Oficina</option>
+                                    <option value="Town House">Town House</option>
+                                    <option value="Quinta">Quinta</option>
+                                    <option value="Galpón">Galpón</option>
+                                    <option value="F. Comercio">F. Comercio</option>
+                                    <option value="Otros">Otros</option>
+                                </select>
+
+                                <label for="InputEstado" class="form-label">Estado</label>
+                                <select class="form-select" aria-label="Default select example" required>
+                                    <option selected disabled hidden>Seleccione un tipo de estado</option>
+                                    <option value="En venta">En venta</option>
+                                    <option value="En alquiler">En alquiler</option>
+                                </select>
+                                  
+                                <label for="InputPrecio" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="InputPrecio" min="1" required>
+
+                                <label for="InputNiveles" class="form-label">Niveles</label>
+                                <input type="number" class="form-control" id="InputNiveles" min="1" required>
+
+                                <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
+                                <input type="number" class="form-control" id="InputMetrosTerreno" min="1" required>
+
+                                <label for="InputMetrosConstrucción" class="form-label">Metros² de construcción</label>
+                                <input type="number" class="form-control" id="InputMetrosConstrucción" min="1" required> 
+                                
+                                <label for="InputImagen" class="form-label">Imagen de portada</label>
+                                <input type="file" id="InputImagen" accept="image/*">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                <button type="button" class="btn btn-primary">Guardar cambios</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="/cerrar_sesion/"> <i class='bx bx-log-out'></i>Cerrar sesión</a>
             </div>
-
         </nav>
             
-
-            <!-- cards -->
-
+        <!-- cards -->
         <div class="cards">
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
@@ -118,7 +171,5 @@
             </div>
         </div>
             
-
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 {% endblock %}
