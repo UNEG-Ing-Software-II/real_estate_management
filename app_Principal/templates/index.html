@@ -7,27 +7,7 @@
 {% if error_message %}
 <h1 class="texto_r">{{ error_message }}</h1>
 {% endif %}
-
-    <div class="container">
-
-        {% if next_page != none %}
-        <p>Primero loguese para acceder a la pagina</p>
-        {% endif %}
-
-        <div class="login-container">
-            <div class="logo">
-                <img src="{% static 'img/logo.png' %}" alt="logo">
-            </div>
-            <h1>INVERSIONES Y DESARROLLOS M&R</h1>
-                <h2>ACCEDE A TU CUENTA</h2>
-                <form method="POST">
-                    {% csrf_token %}
-                    <input type="email"  placeholder="Email" id="usuario" name="correo">
-                    <input type="password"  placeholder="Contraseña" id="password" name="password" >
-                    <button type="submit" class="btn btn-primary">ACCEDER</button>
-                </form>
-        </div>
-    </div>
+    <h1>Vista de inicio (espacio neutro)</h1>
     
-    {% endblock %}
+{% endblock %}
 
