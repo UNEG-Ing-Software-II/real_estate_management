@@ -13,13 +13,8 @@
                     alt="M&R Logo"
                     class="h-12"
                 />
-                <input
-                    type="text"
-                    placeholder="Buscar Inmueble"
-                    class="form-control rounded-pill px-4 py-2 w-50"
-                />
-
-                <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class='bx bx-building-house'></i>Agregar Inmueble
+                <button type="button" class="btn-responsive d-flex rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class='bx bx-building-house'></i> Agregar Inmueble
                 </button>
 
                 <!-- Modal -->
@@ -45,15 +40,13 @@
                                     <option value="Galpón">Galpón</option>
                                     <option value="F. Comercio">F. Comercio</option>
                                     <option value="Otros">Otros</option>
-                                </select>
-
+                                </select> <br>
                                 <label for="InputEstado" class="form-label">Estado</label>
                                 <select class="form-select" aria-label="Default select example" required>
                                     <option selected disabled hidden>Seleccione un tipo de estado</option>
                                     <option value="En venta">En venta</option>
                                     <option value="En alquiler">En alquiler</option>
-                                </select>
-                                  
+                                </select><br>
                                 <label for="InputPrecio" class="form-label">Precio</label>
                                 <input type="number" class="form-control" id="InputPrecio" min="1" required>
 
@@ -79,10 +72,21 @@
 
                 <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="/cerrar_sesion/"> <i class='bx bx-log-out'></i>Cerrar sesión</a>
             </div>
-        </nav>
             
+
+        </nav>
+
+        <br>
+        <div class="d-fluid">
+        <div class="buscador">
+            <input type="text" placeholder="Buscar Inmueble" class="form-control rounded-pill px-4 py-2 w-50 center" />
+            <button type="button" class="d-fluid btn btn-secondary rounded-pill px-4 py-2 in "><i class='bx bx-search-alt'></i></button>
+        </div>
+    </div>
         <!-- cards -->
-        <div class="cards">
+        <div class="cards-fluid">
+
+
             <div class="row">
                 <div class="col-12 col-sm-6 col-lg-4 mb-4">
                     <div class="card bg-white">

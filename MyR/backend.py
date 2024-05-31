@@ -35,10 +35,10 @@ def guardar_usuario():
     Usuario.objects.create_user(
         cedula="30110259",
         password="password",
-        nombre="Pablo",
-        apellido="Jimenez",
-        rol="Coordinador",
-        correo="prjr2002@gmail.com",
+        nombre="luis",
+        apellido="Santacruz",
+        rol="Asesor",
+        correo="luisma@gmail.com",
     )
 
 
