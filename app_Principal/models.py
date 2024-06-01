@@ -26,7 +26,7 @@ class UsuarioPersonalizado(BaseUserManager):
 
     def create_superuser(self, *args, **kwargs):
         user = self.create_user(*args, **kwargs)
-        user.is_staff = True
+        user.is_admin = True
         user.save(using=self._db)
         return user
 
@@ -49,10 +49,7 @@ class Usuario(AbstractBaseUser):
         default="Asesor",
     )
     descripcion = models.CharField(null=True)
-
-
     is_admin = models.BooleanField(default=False)
-
     objects = UsuarioPersonalizado()
 
     USERNAME_FIELD = "correo"
@@ -83,12 +80,8 @@ class Usuario(AbstractBaseUser):
 
 class Telefono(models.Model):
     id = models.UUIDField(primary_key=True)
-    persona = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE
-    )  # FK la tabla Usuario
-    telefono = models.CharField(
-        max_length=15
-    )  # numero de contacto, tipo char porque puede tener +58 y asi
+    user_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    telefono = models.CharField(max_length=15)
 
     class Meta:
         db_table = "Telefono"
@@ -130,7 +123,9 @@ class Inmueble(models.Model):
     half_bath = models.BooleanField()  # medio baño
     terraza = models.BooleanField()
     habitacion = models.BooleanField()
-    maletero = models.BooleanField()  # es algo como almacenes, áticos, sotano...
+    maletero = (
+        models.BooleanField()
+    )  # es algo como almacenes, áticos, sotano...
     estado = models.CharField(
         max_length=20,
         choices=ESTADO_CHOICES,
@@ -143,24 +138,18 @@ class Inmueble(models.Model):
     class Meta:
         db_table = "Inmueble"
 
-class Inmueble_usuario(models.Model):
-    TIPO_PERSONA_CHOICES = [
-        ("Asesor", "Asesor"),
-        ("Propietario", "Propietario"),
-        ("Director General", "Director General"),
-    ]
+
+class InmueblePropietario(models.Model):
     id = models.UUIDField(primary_key=True)
-    persona_id = models.ForeignKey(
-        Usuario, on_delete= models.CASCADE
-    )
-    inmueble_id = models.ForeignKey(
-        Inmueble, on_delete=models.CASCADE
-    )  # FK la tabla Inmueble
-    tipo_persona = models.CharField(
-        max_length=20,
-        choices=TIPO_PERSONA_CHOICES,
-        default="Propietario",
-    )
+    persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
+
+
+class InmuebleAsesor(models.Model):
+    id = models.UUIDField(primary_key=True)
+    persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
+
 
 class Documentos(models.Model):  # documentos del inmueble
     id = models.UUIDField(primary_key=True)
