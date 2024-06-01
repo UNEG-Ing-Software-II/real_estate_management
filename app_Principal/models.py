@@ -48,6 +48,9 @@ class Usuario(AbstractBaseUser):
         choices=ROL_CHOICES,
         default="Asesor",
     )
+    descripcion = models.CharField(null=True)
+
+
     is_admin = models.BooleanField(default=False)
 
     objects = UsuarioPersonalizado()
@@ -102,6 +105,11 @@ class Inmueble(models.Model):
         ("F comercio", "F comercio"),
         ("Otros", "Otros"),
     ]
+    ESTADO_CHOICES = [
+        ("En venta", "En venta"),
+        ("En alquiler", "En alquiler"),
+        ("Finalizado", "Finalizado"),
+    ]
     id = models.UUIDField(primary_key=True)
     propietario = models.ForeignKey(
         Usuario, on_delete=models.CASCADE
@@ -123,17 +131,43 @@ class Inmueble(models.Model):
     terraza = models.BooleanField()
     habitacion = models.BooleanField()
     maletero = models.BooleanField()  # es algo como almacenes, áticos, sotano...
+    estado = models.CharField(
+        max_length=20,
+        choices=ESTADO_CHOICES,
+        default="En venta",
+    )
+    ubicacion = models.CharField(
+        default="",
+    )
 
     class Meta:
         db_table = "Inmueble"
 
+class Inmueble_usuario(models.Model):
+    TIPO_PERSONA_CHOICES = [
+        ("Asesor", "Asesor"),
+        ("Propietario", "Propietario"),
+        ("Director General", "Director General"),
+    ]
+    id = models.UUIDField(primary_key=True)
+    persona_id = models.ForeignKey(
+        Usuario, on_delete= models.CASCADE
+    )
+    inmueble_id = models.ForeignKey(
+        Inmueble, on_delete=models.CASCADE
+    )  # FK la tabla Inmueble
+    tipo_persona = models.CharField(
+        max_length=20,
+        choices=TIPO_PERSONA_CHOICES,
+        default="Propietario",
+    )
 
 class Documentos(models.Model):  # documentos del inmueble
     id = models.UUIDField(primary_key=True)
-    asesor = models.ForeignKey(
+    asesor_id = models.ForeignKey(
         Usuario, on_delete=models.CASCADE
     )  # FK la tabla Usuario
-    inmueble = models.ForeignKey(
+    inmueble_id = models.ForeignKey(
         Inmueble, on_delete=models.CASCADE
     )  # FK la tabla Inmueble
     cedula = models.BooleanField()
@@ -205,6 +239,10 @@ class Incidencia(models.Model):
     asesor = models.ForeignKey(
         Usuario, on_delete=models.CASCADE
     )  # FK la tabla Usuario
+    nombre = models.CharField(
+        max_length=50,
+        default="",
+    )
     tipo = models.CharField(
         max_length=20,
         choices=TIPO_INCIDENCIA_CHOICES,
