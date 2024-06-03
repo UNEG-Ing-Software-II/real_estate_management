@@ -25,10 +25,6 @@
     <div class="block">
       <div class="carousel">
         <img src="{% static 'img/Inmueble1.jpeg' %}" class="inmueble" alt="">
-
-        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae ex neque consequuntur, officiis aliquam voluptatum? Labore perferendis sapiente doloribus iste, voluptatibus incidunt quod dolorem possimus, quisquam laudantium nam rerum illo!</p>
-
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae quam non modi cum aspernatur fuga incidunt accusamus consequatur veritatis praesentium, maxime inventore maiores explicabo laudantium numquam, dolores quos beatae natus placeat iste aliquam delectus quae! At expedita aliquid temporibus, nisi maxime eius, voluptate minus velit totas!</p>
       </div>
       <div class="info">
         <h1 id="details-title">DETALLES DEL INMUEBLE</h1>
@@ -37,12 +33,12 @@
         <form class="form-container" id="form">
           <div class="form-group">
               <label for="Propietario">Propietario</label>
-              <input class="form-control" type="text" id="Propietario" value="Mario Carreño" disabled>
+              <input class="form-control input-control" type="text" id="Propietario" value="Mario Carreño" disabled>
               
           </div>
           <div class="form-group">
               <label for="Tipo-Propiedad">Tipo de Propiedad</label>
-              <select class="form-select" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
+              <select class="form-select input-select" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
                 <option selected disabled hidden></option>
                 <option selected value="Casa">Casa</option>
                 <option value="Apartamento">Apartamento</option>
@@ -56,7 +52,7 @@
           </div>
           <div class="form-group">
               <label for="InputEstado">Estado</label>
-                                <select class="form-select" aria-label="Default select example" required id="InputEstado" disabled>
+                                <select class="form-select input-select" aria-label="Default select example" required id="InputEstado" disabled>
                                     <option selected disabled hidden></option>
                                     <option selected value="En venta">En venta</option>
                                     <option value="En alquiler">En alquiler</option>
@@ -64,23 +60,23 @@
           </div>
           <div class="form-group">
               <label for="InputPrecio">Precio</label>
-              <input type="number" class="form-control" id="InputPrecio" min="1" value="12.000" disabled required>
+              <input type="number" class="form-control input-control" id="InputPrecio" min="1" value="12.000" disabled required>
           </div>
           <div class="form-group">
               <label for="InputNiveles">Niveles</label>
-              <input type="number" value="3" disabled class="form-control" id="InputNiveles" min="1" required>
+              <input type="number" value="3" disabled class="form-control input-control" id="InputNiveles" min="1" required>
           </div>
           <div class="form-group">
               <label for="InputMetrosTerreno">Metros² del terreno</label>
-              <input type="number" value="330" disabled class="form-control" id="InputMetrosTerreno" min="1" required>
+              <input type="number" value="330" disabled class="form-control input-control" id="InputMetrosTerreno" min="1" required>
           </div>
           <div class="form-group">
               <label for="InputMetrosConstrucción">Metros² de construcción</label>
-              <input type="number" value="280" disabled class="form-control" id="InputMetrosConstrucción" min="1" required> 
+              <input type="number" value="280" disabled class="form-control input-control" id="InputMetrosConstrucción" min="1" required> 
           </div>
           <div class="form-group">
               <label for="InputImagen">Imagen de portada</label>
-              <input disabled class="form-control" type="file" id="InputImagen" accept="image/*">
+              <input disabled class="form-control input-control" type="file" id="InputImagen" accept="image/*">
           </div>
           
           <div id="btn-special">

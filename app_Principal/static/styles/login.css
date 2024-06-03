@@ -34,8 +34,8 @@ body{
 }
 
 .login-container{
-  width: 600px;
-  height: 420px;
+  width: 400px;
+  height: 500px;
   color: #ffffff;
   background-color: rgba(65, 42, 113, 0.85); 
   padding: 20px;
@@ -111,13 +111,7 @@ input{
 
 }
 
-@media (width <= 468px){
 
-  .login-container{
-    height: 440px;
-  }
-  
-  }
 
 
   .texto_g{

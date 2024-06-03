@@ -16,7 +16,7 @@
     
     <!-- nav -->
     <nav>
-        <div class="d-flex justify-content-around align-items-center">
+        <div id="navbar">
             <img
                 src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
                 alt="M&R Logo"
@@ -25,7 +25,7 @@
             
             {% if request.user.is_authenticated %}
 
-                <h2 class="d-fluid bg-white">{{ request.user.nombre }}  {{ request.user.rol }}</h2>
+                
                 
                 {% if request.user.rol == "Asesor" %}
 
@@ -40,19 +40,24 @@
                     <!-- Agrega otros botones o enlaces específicos para Director General" -->
                 
                 {% endif %}
-
+                <button id="menu-responsive" onclick="abrir()"><i class='bx bx-menu'></i></button>
                 {% block dynamic_button %}{% endblock %}
-
+                <div class="gap">
+                
                 <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="{% url 'cerrar sesion' %}">
-                    <i class='bx bx-log-out'></i>Cerrar sesión
+                  <i class='bx bx-log-out icn'></i>Cerrar sesión
                 </a>
+
+              </div>
+            
+                </div>
             
             
                 
             {% else %}
-                <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
-                    <i class='bx bx-log-in'></i>Iniciar sesión
-                </a>
+            <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
+                <i class='bx bx-log-in'></i>Iniciar sesión
+            </a>
                 <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'crear usuario' %}">
                     <i class='bx bx-log-in'></i>crear usuario
                 </a>
@@ -61,6 +66,8 @@
     </nav>
 
 {%block content%} <!--NO PONER NADA (CONTENIDO DE LA VISTA HIJA)-->{%endblock%}
+
+<script src="{% static 'js/menu-responsive.js' %}"></script>
 
 </body>
 
