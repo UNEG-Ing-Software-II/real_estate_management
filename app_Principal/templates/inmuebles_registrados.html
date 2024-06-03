@@ -1,0 +1,147 @@
+{% extends 'base/base.html'%}
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static '/styles/style.css' %}">
+{% endblock %}
+
+
+{% block content %}
+    <h2>Inmuebles Registrados</h2>
+    {% if inmuebles %}
+        {% for inmueble in inmuebles %}
+        <div class="container">
+            <div class="card m-3">
+                <div class="card-header">
+                    ID: {{ inmueble.id }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Tipo de Propiedad: {{ inmueble.tipoPropiedad }}</h5>
+                    <p class="card-text">Precio: {{ inmueble.precio }}</p>
+                    <p class="card-text">Niveles: {{ inmueble.niveles }}</p>
+                    <p class="card-text">Metros Terreno: {{ inmueble.metros_terreno }}</p>
+                    <p class="card-text">Metros Construcción: {{ inmueble.metros_construccion }}</p>
+                    <p class="card-text">Baño: {{ inmueble.bathroom|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Cuarto de Servicio: {{ inmueble.cuarto_servicio|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Oficina: {{ inmueble.oficina|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Estacionamiento: {{ inmueble.estacionamiento|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Medio Baño: {{ inmueble.half_bath|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Terraza: {{ inmueble.terraza|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Habitación: {{ inmueble.habitacion|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Maletero: {{ inmueble.maletero|yesno:"Sí,No" }}</p>
+                    <p class="card-text">Estado: {{ inmueble.estado }}</p>
+                    <p class="card-text">Ubicación: {{ inmueble.ubicacion }}</p>
+                    <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalModificar{{ inmueble.id }}">Modificar</a>
+                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}">Borrar</a>
+                
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal De Modificacion Inmueble -->
+    <div class="modal fade" id="modalModificar{{ inmueble.id }}" tabindex="-1" aria-labelledby="modalModificarLabel{{ inmueble.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalModificarLabel{{ inmueble.id }}">Modificar Propiedad <br>{{inmueble.id}}</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'modificar_inmueble' inmueble.id %}" method="post">
+                        {% csrf_token %}
+                            <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
+                            <select class="form-select" name="tipoPropiedad" id="InputTipoDePropiedad" required>
+                                <option selected disabled hidden>Seleccione un tipo de propiedad</option>
+                                <option value="Apartamento" {% if inmueble.tipoPropiedad == 'Apartamento' %} selected {% endif %}>Apartamento</option>
+                                <option value="Town house" {% if inmueble.tipoPropiedad == 'Town house' %} selected {% endif %}>Town house</option>
+                                <option value="Quinta" {% if inmueble.tipoPropiedad == 'Quinta' %} selected {% endif %}>Quinta</option>
+                                <option value="Casa" {% if inmueble.tipoPropiedad == 'Casa' %} selected {% endif %}>Casa</option>
+                                <option value="Galpon" {% if inmueble.tipoPropiedad == 'Galpon' %} selected {% endif %}>Galpon</option>
+                                <option value="Oficina" {% if inmueble.tipoPropiedad == 'Oficina' %} selected {% endif %}>Oficina</option>
+                                <option value="F comercio" {% if inmueble.tipoPropiedad == 'F comercio' %} selected {% endif %}>F comercio</option>
+                                <option value="Otros" {% if inmueble.tipoPropiedad == 'Otros' %} selected {% endif %}>Otros</option>
+                            </select><br>
+        
+                            <label for="InputEstado" class="form-label">Estado</label>
+                            <select class="form-select" name="estado" id="InputEstado" required>
+                                <option selected disabled hidden>Seleccione un tipo de estado</option>
+                                <option value="En venta" {% if inmueble.estado == 'En venta' %} selected {% endif %}>En venta</option>
+                                <option value="En alquiler" {% if inmueble.estado == 'En alquiler' %} selected {% endif %}>En alquiler</option>
+                                <option value="Finalizado" {% if inmueble.estado == 'Finalizado' %} selected {% endif %}>Finalizado</option>
+                            </select><br>
+        
+                            <label for="InputPrecio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" name="precio" id="InputPrecio" value="{{ inmueble.precio }}" min="0.001" step="0.001" required>
+                            
+                            <label for="InputNiveles" class="form-label">Niveles</label>
+                            <input type="number" class="form-control" name="niveles" id="InputNiveles" value="{{ inmueble.niveles }}" min="1" step="1" required>
+                            
+                            <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
+                            <input type="number" class="form-control" name="metros_terreno" id="InputMetrosTerreno" value="{{ inmueble.metros_terreno }}" min="0.001" step="0.001" required>
+        
+                            <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
+                            <input type="number" class="form-control" name="metros_construccion" id="InputMetrosConstruccion" value="{{ inmueble.metros_construccion }}" min="0.001" step="0.001" required> 
+        
+                            <label for="InputBathroom" class="form-label">Baño</label>
+                            <input type="checkbox" class="form-check-input" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
+        
+                            <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
+                            <input type="checkbox" class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio" {% if inmueble.cuarto_servicio %} checked {% endif %}>
+        
+                            <label for="InputOficina" class="form-label">Oficina</label>
+                            <input type="checkbox" class="form-check-input" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
+        
+                            <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
+                            <input type="checkbox" class="form-check-input" name="estacionamiento" id="InputEstacionamiento" {% if inmueble.estacionamiento %} checked {% endif %}>
+        
+                            <label for="InputHalfBath" class="form-label">Medio baño</label>
+                            <input type="checkbox" class="form-check-input" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
+        
+                            <label for="InputTerraza" class="form-label">Terraza</label>
+                            <input type="checkbox" class="form-check-input" name="terraza" id="InputTerraza" {% if inmueble.terraza %} checked {% endif %}>
+        
+                            <label for="InputHabitacion" class="form-label">Habitación</label>
+                            <input type="checkbox" class="form-check-input" name="habitacion" id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
+        
+                            <label for="InputMaletero" class="form-label">Maletero</label>
+                            <input type="checkbox" class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
+        
+                            <label for="InputUbicacion" class="form-label">Ubicación</label>
+                            <input type="text" class="form-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.ubicacion }}" required>
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Modal para Borrar -->
+        <div class="modal fade" id="modalBorrar{{ inmueble.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ inmueble.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar inmueble {{inmueble.id}}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                        <form action="{% url 'eliminar_inmueble' inmueble.id%}" method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <p>¿Estás seguro que deseas eliminar este inmueble?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No hay inmuebles registrados.</p>
+    {% endif %}
+{% endblock %}
