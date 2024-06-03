@@ -24,30 +24,15 @@ def role_required(role):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
             if not request.user.is_authenticated:
-                return redirect('login')
+                return redirect("login")
             if request.user.rol != role:
-                #return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
+                # return HttpResponseForbidden("No tienes permiso para acceder a esta página.")
                 return redirecion(request.user.rol)
             return view_func(request, *args, **kwargs)
+
         return _wrapped_view
+
     return decorator
-
-
-    # if rol=="Director General":
-    #     print("usted entro en la vista Director general")
-    #     return redirect("inicio director_General")
-    # elif rol=="Coordinador":
-    #     print("usted entro en la vista Coordinador")
-    #     return redirect("inicio Coordinador")
-    # elif rol=="Asesor":
-    #     print("usted entro en la vista Asesor")
-    #     #return redirect("inicio Asesor")
-    # elif rol=="Propietario":
-    #     print("usted entro en la vista Propietario")
-    #     return redirect("inicio Propietario")
-
-
-# funcion temporal para cargar un registro a la tabla usuario
 
 
 def guardar_usuario():
