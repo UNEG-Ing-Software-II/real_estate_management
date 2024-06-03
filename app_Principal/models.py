@@ -1,5 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+import uuid
+
 
 TIPO_AREA_CHOICES = [
     ("Cocina", "Cocina"),
@@ -103,10 +105,7 @@ class Inmueble(models.Model):
         ("En alquiler", "En alquiler"),
         ("Finalizado", "Finalizado"),
     ]
-    id = models.UUIDField(primary_key=True)
-    propietario = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE
-    )  # FK la tabla Usuario
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tipoPropiedad = models.CharField(
         max_length=20,
         choices=PROPIEDAD_CHOICES,
@@ -144,11 +143,16 @@ class InmueblePropietario(models.Model):
     persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
 
+    class Meta:
+        db_table = "InmueblePropietario"
 
 class InmuebleAsesor(models.Model):
     id = models.UUIDField(primary_key=True)
     persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "InmuebleAsesor"
 
 
 class Documentos(models.Model):  # documentos del inmueble
