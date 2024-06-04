@@ -9,11 +9,14 @@
 
 <!-- Botones dinámicos -->
 {% block dynamic_button %}
-
+<div class="add-button " id="nav-group">
+  <button class="cerrar" onclick="cerrar()"><i class='bx bx-x'></i></button>
+  <div class="gap">
 <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
-
+  </div>
+    <div class="gap">
 <button class=" btn-delete" type="submit"><i class='bx bx-trash' ></i>Eliminar</button>
-
+     </div>
 {%endblock%}
 
 
@@ -21,6 +24,9 @@
 {% block content %}
 <body id="Fondo">
 
+  <div class="container-center">
+
+    
   <div class="center">
     <div class="block">
       <div class="carousel">
@@ -71,7 +77,7 @@
               <input type="number" value="330" disabled class="form-control input-control" id="InputMetrosTerreno" min="1" required>
           </div>
           <div class="form-group">
-              <label for="InputMetrosConstrucción">Metros² de construcción</label>
+              <label for="InputMetrosConstrucción" id="m_c">Metros² de construcción</label>
               <input type="number" value="280" disabled class="form-control input-control" id="InputMetrosConstrucción" min="1" required> 
           </div>
           <div class="form-group">
@@ -81,7 +87,7 @@
           
           <div id="btn-special">
             <button class="btn-save" type="submit"><i class='bx bx-save' ></i>Guardar</button>
-            <button class="btn-x" type="submit"><i class='bx bx-x'></i>Cancelar</button>
+            <button class="btn-x" type="submit"><i class='bx bx-x second-view'></i>Cancelar</button>
           </div>
       </form>
 
@@ -101,6 +107,9 @@
     </div>
     
   </div>
+
+  </div>
+
 
 
 <!-- Esto es para el Backend -->
