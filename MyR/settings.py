@@ -54,7 +54,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "app_Principal.urls"
+ROOT_URLCONF = "MyR.urls"
 
 TEMPLATES = [
     {
@@ -87,7 +87,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "MyR",
         "USER": "postgres",
-        "PASSWORD": "diaz3214",
+        "PASSWORD": "password",
         "HOST": "localhost",
         "DATABASE_PORT": "5432",
     }
