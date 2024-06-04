@@ -61,7 +61,8 @@ def coordinador(request):
 @login_required(login_url='login')
 @role_required('Asesor')
 def asesor(request):
-    return render(request, "views_asesor/views_asesor.html")
+    inmuebles = Inmueble.objects.all()
+    return render(request, "views_asesor/views_asesor.html", {'inmuebles': inmuebles})
 
 @login_required(login_url='login')
 @role_required('Director General')
@@ -72,134 +73,24 @@ def cerrar_sesion(request):
     logout(request)
     return redirect("login")
 
-# -------------------------------------------------------------------------------------#
-# CRUD para los inmuebles
-
-
-# Leer inmuebles
-def read_inmueble(request):
-    if request.method == "GET":
-        # Consulta a la tabla Inmueble para obtener todos los registros
-        # inmueble = Inmueble.objects.all()
-
-        # Pasar los datos al contexto de renderizado
-        # context = {"inmuebles": inmueble}
-
-        return render(
-            request, "read_inmueble.html", {"inmuebles": Inmueble.objects.all()}
-        )
-
-
-# Crear inmueble
-def create_inmueble(request):
-    if request.method == "GET":
-        # usuario = Usuario.objects.all()
-        # context = {"usuario": usuario}
-        return render(
-            request, "create_inmueble.html", {"usuario": Usuario.objects.all()}
-        )
-
-    values = get_inmueble_values(request.POST)
-    Inmueble.objects.create(**values)
-
-    # propietario_id = request.POST["propietario_id"]
-    # precio = request.POST["precio"]
-    # tipoPropiedad =  request.POST["tipoPropiedad"]
-    # niveles =  request.POST["niveles"]
-    # metros_terreno = request.POST["metros_terreno"]
-    # metros_construccion = request.POST["metros_construccion"]
-    # bathroom = request.POST["bathroom"]
-    # cuarto_servicio = request.POST["cuarto_servicio"]
-    # oficina = request.POST["oficina"]
-    # estacionamiento = request.POST["estacionamiento"]
-    # half_bath = request.POST["half_bath"]
-    # terraza = request.POST["terraza"]
-    # habitacion = request.POST["habitacion"]
-    # maletero = request.POST["maletero"]
-
-    # Inmueble.objects.create(propietario_id = propietario_id , precio = precio, tipoPropiedad = tipoPropiedad,
-    #                         niveles = niveles, metros_terreno = metros_terreno, metros_construccion = metros_construccion,
-    #                         bathroom = bathroom, cuarto_servicio = cuarto_servicio, oficina = oficina, estacionamiento = estacionamiento,
-    #                         half_bath = half_bath, terraza = terraza, habitacion = habitacion, maletero = maletero)
-
-    # return redirect("/view_director_g/create_inmueble")
-
-
-# Modificar inmueble
-
-
-def update_inmueble(request):
-    if request.method == "GET":
-        inmueble = Inmueble.objects.all()
-        usuario = Usuario.objects.all()
-        context = {"inmuebles": inmueble, "usuario": usuario}
-        return render(request, "update_inmueble.html", context)
-
-    vals = get_inmueble_values(request.POST)
-    # # Obtener los datos actualizados del formulario
-    # # inmueble_id = request.POST["inmueble"]
-    # propietario_id = request.POST["propietario_id"]
-    # precio = request.POST["precio"]
-    # tipoPropiedad =  request.POST["tipoPropiedad"]
-    # niveles =  request.POST["niveles"]
-    # metros_terreno = request.POST["metros_terreno"]
-    # metros_construccion = request.POST["metros_construccion"]
-    # bathroom = request.POST["bathroom"]
-    # cuarto_servicio = request.POST["cuarto_servicio"]
-    # oficina = request.POST["oficina"]
-    # estacionamiento = request.POST["estacionamiento"]
-    # half_bath = request.POST["half_bath"]
-    # terraza = request.POST["terraza"]
-    # habitacion = request.POST["habitacion"]
-    # maletero = request.POST["maletero"]
-
-    inmueble = get_object_or_404(Inmueble, pk=request.POST["inmueble"])
-
-    # Actualizar los campos del inmueble
-    inmueble.propietario_id = vals["propietario_id"]
-    inmueble.precio = vals["precio"]
-    inmueble.tipoPropiedad = vals["tipoPropiedad"]
-    inmueble.niveles = vals["niveles"]
-    inmueble.metros_terreno = vals["metros_terreno"]
-    inmueble.metros_contruccion = vals["metros_construccion"]
-    inmueble.bathroom = vals["bathroom"]
-    inmueble.cuarto_servicio = vals["cuarto_servicio"]
-    inmueble.oficina = vals["oficina"]
-    inmueble.estacionamiento = vals["estacionamiento"]
-    inmueble.half_bath = vals["half_bath"]
-    inmueble.terraza = vals["terraza"]
-    inmueble.habitacion = vals["habitacion"]
-    inmueble.maletero = vals["maletero"]
-
-    # Guardar los cambios en la base de datos
-    inmueble.save()
-    return redirect("/view_director_g/update_inmueble/")
-
-
-def delete_inmueble(request):
-    if request.method == "GET":
-        # inmueble = Inmueble.objects.all()
-        # Pasar los datos al contexto de renderizado
-        # context = {"inmueble": inmueble}
-        return render(
-            request,
-            "delete_edificio.html",
-            {"inmueble": Inmueble.objects.all()},
-        )
-
-    inmueble = get_object_or_404(Inmueble, pk=request.POST["inmueble"])
-    # Eliminar el condominio
-    inmueble.delete()
-    return redirect("/view_director_g/delete_inmueble/")
-
-
 @login_required(login_url='login')
 @role_required('Asesor')
 def inmueble(request, inmueble_id):
     context = {
         'inmueble_id':inmueble_id 
     }
-    return render(request, 'views_asesor/inmueble.html', context)
+    return render(request, 'views_asesor/inmueble_front.html', context)
+
+@login_required(login_url='login')
+@role_required('Asesor')
+def detalles_inmueble(request, inmueble_id):
+    inmueble = get_object_or_404(Inmueble, id=inmueble_id)
+    context = {
+        'inmueble': inmueble 
+    }
+    return render(request, 'views_asesor/inmueble_backend.html', context)
+
+
 # -------------------------------------------------------------------------------------#
 # Crear usuario (provisional)
 
