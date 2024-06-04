@@ -159,4 +159,4 @@ cython_debug/
 .vscode/
 
 #Archivo Settings
-# app_Principal/settings.py
+app_Principal/settings.py
