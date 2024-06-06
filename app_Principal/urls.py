@@ -12,6 +12,7 @@ urlpatterns = [
     path('cerrar_sesion',cerrar_sesion, name='cerrar sesion'),
     path('crear_usuario',crear_usuario, name='crear usuario'),
     #inmuebles
+    path('detalles-inmueble/<uuid:inmueble_id>/', detalles_inmueble, name='inmueble_detalles'), #URL de vista para modificar/eliminar inmmueble
     path('inmuebles-registrados/', inmuebles_registrados, name='inmuebles registrados'), #Leer
     path('registrar-inmueble/', registrar_inmueble, name='registrar_inmueble'), #Crear
     path('modificar_inmueble/<uuid:inmueble_id>/', modificar_inmueble, name='modificar_inmueble'),
