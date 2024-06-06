@@ -77,31 +77,33 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "MyR.wsgi.application"
 
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-#[ESTA ES LA CONFIG A LA BASE DE DATOS LOCAL PARA LOS DE BACK]
+#  [ESTA ES LA CONFIG A LA BASE DE DATOS LOCAL PARA LOS DE BACK]
 DATABASES = {
-     'default': {
-         'ENGINE': 'django.db.backends.postgresql',
-         'NAME': 'MyR',
-         'USER': 'postgres',
-         'PASSWORD': '10572820',
-         'HOST': 'localhost',
-         'DATABASE_PORT': '5432'
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "MyR",
+        "USER": "postgres",
+        "PASSWORD": "10572820",
+        "HOST": "localhost",
+        "DATABASE_PORT": "5432",
     }
 }
 
+
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
 # DATABASES = {
-#   "default": {
-#        "ENGINE": "django.db.backends.postgresql",
-#        "NAME": "railway",
-#        "USER": "postgres",
-#        "PASSWORD": "xsGtDYouRDKbmJPJexIEbpsyBtCjmXJZ",
-#        "HOST": "monorail.proxy.rlwy.net",
-#        "PORT": "21064",
-#    }
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "railway",
+#         "USER": "postgres",
+#         "PASSWORD": "xsGtDYouRDKbmJPJexIEbpsyBtCjmXJZ",
+#         "HOST": "monorail.proxy.rlwy.net",
+#         "PORT": "21064",
+#     }
 # }
 
 
