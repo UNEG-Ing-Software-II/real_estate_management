@@ -1,7 +1,7 @@
 # forms.py
 from django import forms
 from app_Principal.models import *
-
+        
 class InmuebleForm(forms.ModelForm):
     class Meta:
         model = Inmueble
@@ -12,7 +12,6 @@ class InmuebleForm(forms.ModelForm):
             'habitacion', 'maletero', 'estado', 'ubicacion'
         ]
 
-
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -21,7 +20,7 @@ def registrar_inmueble(request):
         form = InmuebleForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('inmuebles registrados')
+            return redirect('inicio Asesor')
 
 def modificar_inmueble(request, inmueble_id):
     # Obtener el inmueble por su ID
@@ -30,15 +29,14 @@ def modificar_inmueble(request, inmueble_id):
         form = InmuebleForm(request.POST, instance=inmueble)
         if form.is_valid():
             form.save()
-            return redirect('inmuebles registrados')
-
+            return redirect('inicio Asesor')
 
 def eliminar_inmueble(request, inmueble_id):
     # Obtener el inmueble por su ID
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
     if request.method == 'POST':
         inmueble.delete()
-        return redirect('inmuebles registrados')
+        return redirect('inicio Asesor')
 
 def inmuebles_registrados(request):
     inmuebles = Inmueble.objects.all()
