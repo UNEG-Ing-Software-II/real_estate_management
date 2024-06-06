@@ -73,13 +73,6 @@ def cerrar_sesion(request):
     logout(request)
     return redirect("login")
 
-@login_required(login_url='login')
-@role_required('Asesor')
-def inmueble(request, inmueble_id):
-    context = {
-        'inmueble_id':inmueble_id 
-    }
-    return render(request, 'views_asesor/inmueble_front.html', context)
 
 @login_required(login_url='login')
 @role_required('Asesor')
@@ -88,8 +81,7 @@ def detalles_inmueble(request, inmueble_id):
     context = {
         'inmueble': inmueble 
     }
-    return render(request, 'views_asesor/inmueble_backend.html', context)
-
+    return render(request, 'views_asesor/inmueble_detalle.html', context)
 
 # -------------------------------------------------------------------------------------#
 # Crear usuario (provisional)

@@ -14,7 +14,6 @@
         <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroInmueble"><i class='bx bx-building-house icn'></i>Agregar Inmueble
         </button>
     </div>
-
     
 {%endblock%}
 
@@ -48,7 +47,7 @@
         </div>
     </div>
 
-    <h1 class="mt-5 text-center text-light">Dinamicos: (base de datos)</h1>
+    <h1 class="mt-5 text-center text-light">Inmuebles: (base de datos)</h1>
     {% if inmuebles %}
         <div class="cards">
             <div class="row">
@@ -73,107 +72,8 @@
             </div>
         </div>
     {% else %}
-        <p>No hay inmuebles registrados (BD).</p>
+        <h2 class="text-center text-light">No hay inmuebles registrados (BD).</h2>
     {% endif %}
-
-    <h1 class="text-center text-light">Estaticos: (fuera de la base de datos)</h1>
-    <div class="cards">
-        <div class="row">
-            <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                <div class="card bg-white">
-                    <a href="{% url 'inmueble' inmueble_id=1 %}" target="_blank">
-                    <img
-                        src="{% static 'img/Inmueble1.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">1 Casa Veraniega</h3>
-                        <h4>Propietario: Luis Santacruz</h4>
-                    </div>
-                    </a>
-
-                </div>
-            </div>
-            <!-- Repite el bloque anterior para cada propiedad -->
-            <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                <div class="card bg-white">
-                    <a href="{% url 'inmueble' inmueble_id=2 %}" target="_blank">
-                    <img
-                    src="{% static 'img/Inmueble1.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">2 Casa Veraniega</h3>
-                        <h4>Propietario: Sebastian Landaeta</h4>
-                    </div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                <div class="card bg-white">
-                    <a href="{% url 'inmueble' inmueble_id=3 %}" target="_blank">
-                    <img
-                    src="{% static 'img/Inmueble1.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">3 Casa Veraniega</h3>
-                        <h4>Propietario: Henry Navarro</h4>
-                        
-                    </div>
-                    </a>
-
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-4 mb-4  rule">
-                <div class="card bg-white">
-                    <img
-                    src="{% static 'img/Inmueble2.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">4 Casa Veraniega</h3>
-                        <h4>Propietario: Antonietta Palazzo</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-4 mb-4 rule">
-                <div class="card bg-white">
-                    <img
-                    src="{% static 'img/Inmueble2.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">5 Casa Veraniega</h3>
-                        <h4>Propietario: Jorge Caraballo</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-sm-6 col-lg-4 mb-4 rule">
-                <div class="card bg-white">
-                    <img
-                    src="{% static 'img/Inmueble2.jpeg' %}"
-                        alt="Exterior View"
-                        class="card-img-top"
-                    />
-                    <div class="card-body">
-                        <h3 class="card-title">6 Casa Veraniega</h3>
-                        <h4>Propietario: Saúl Acosta</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
         
 <!-- Modal De registro Inmueble -->
@@ -220,32 +120,49 @@
                     <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
                     <input type="number" class="form-control" name="metros_construccion" id="InputMetrosConstruccion" min="0.001" step="0.001" required> 
 
-                    <label for="InputBathroom" class="form-label">Baño</label>
+                    <br>
                     <input type="checkbox" class="form-check-input" name="bathroom" id="InputBathroom">
-
-                    <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
+                    <label for="InputBathroom" class="form-label">Baño</label>
+                    
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio">
-
-                    <label for="InputOficina" class="form-label">Oficina</label>
+                    <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
+                    
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="oficina" id="InputOficina">
-
-                    <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
+                    <label for="InputOficina" class="form-label">Oficina</label>
+                    
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="estacionamiento" id="InputEstacionamiento">
-
-                    <label for="InputHalfBath" class="form-label">Medio baño</label>
+                    <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
+                    
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="half_bath" id="InputHalfBath">
-
-                    <label for="InputTerraza" class="form-label">Terraza</label>
+                    <label for="InputHalfBath" class="form-label">Medio baño</label>
+                    
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="terraza" id="InputTerraza">
-
-                    <label for="InputHabitacion" class="form-label">Habitación</label>
+                    <label for="InputTerraza" class="form-label">Terraza</label>
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="habitacion" id="InputHabitacion">
-
-                    <label for="InputMaletero" class="form-label">Maletero</label>
+                    <label for="InputHabitacion" class="form-label">Habitación</label>
+                    
+                    <br>
                     <input type="checkbox" class="form-check-input" name="maletero" id="InputMaletero">
+                    <label for="InputMaletero" class="form-label">Maletero</label>
+                    
 
-                    <label for="InputUbicacion" class="form-label">Ubicación</label>
+
+                    <br>
+                    <label for="InputUbicacion" class="form-label mt-2">Ubicación</label>
                     <input type="text" class="form-control" name="ubicacion" id="InputUbicacion" required>
+                    <br>
 
                     <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
                     <input type="file" id="InputImagen" accept="image/*">-->

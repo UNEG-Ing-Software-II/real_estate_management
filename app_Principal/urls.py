@@ -29,8 +29,7 @@ urlpatterns = [
     path('inicio_director_general',director_general, name='inicio Director General'),
     path('cerrar_sesion',cerrar_sesion, name='cerrar sesion'),
     path('crear_usuario',crear_usuario, name='crear usuario'),
-    path('detalles-inmueble_front/<int:inmueble_id>/', inmueble, name='inmueble'),
-
+    
     #inmuebles
     path('inmuebles-registrados/', inmuebles_registrados, name='inmuebles registrados'), #Leer
     path('registrar-inmueble/', registrar_inmueble, name='registrar_inmueble'), #Crear
