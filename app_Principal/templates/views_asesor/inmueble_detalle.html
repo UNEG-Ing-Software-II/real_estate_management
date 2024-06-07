@@ -4,6 +4,18 @@
 
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static '/styles/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 400px;
+        }
+    </style>
 {% endblock %}
 
 <!-- Botones dinámicos -->
@@ -140,9 +152,31 @@
             </div>
 
             <div class="form-group"> 
-              <label for="InputUbicacion" class="form-label">Ubicación</label>
-              <input type="text" disabled class="form-control input-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.ubicacion }}" required>
+              <label for="InputDireccion" class="form-label">Dirección</label>
+              <input type="text" disabled class="form-control input-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.direccion }}" required>
             </div>
+
+            <div class="form-group">
+              <label for="InputLatitud">Latitud</label>
+              <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitud" value="{{ inmueble.latitud }}" min="-90" max="90" step="0.000001" required>
+            </div>
+
+            <div class="form-group">
+              <label for="InputLongitud">Longitud</label>
+              <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.000001" required>
+            </div>
+
+            <div id="map"></div>
+
+            <script>
+              var map = L.map('map').setView([8.288707, -62.719769], 16);
+
+              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+              L.marker([8.288707, -62.719769]).addTo(map)
+              .bindPopup('Inmueble')
+              .openPopup();
+            </script>
             
             <div id="btn-special">
               <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>

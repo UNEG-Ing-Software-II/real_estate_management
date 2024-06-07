@@ -11,7 +11,8 @@ class InmuebleForm(forms.ModelForm):
             'tipoPropiedad', 'precio', 'niveles', 'metros_terreno', 
             'metros_construccion', 'bathroom', 'cuarto_servicio', 
             'oficina', 'estacionamiento', 'half_bath', 'terraza', 
-            'habitacion', 'maletero', 'estado', 'ubicacion'
+            'habitacion', 'maletero', 'estado', 'direccion',
+            'latitud', 'longitud'
         ]
 
 # views.py

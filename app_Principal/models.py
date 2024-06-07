@@ -130,9 +130,9 @@ class Inmueble(models.Model):
         choices=ESTADO_CHOICES,
         default="En venta",
     )
-    ubicacion = models.CharField(
-        default="",
-    )
+    direccion = models.CharField(default=" ")
+    latitud = models.FloatField(default=0.0)
+    longitud = models.FloatField(default=0.0)
 
     class Meta:
         db_table = "Inmueble"
