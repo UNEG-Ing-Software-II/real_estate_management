@@ -17,15 +17,20 @@
     <!-- nav -->
     <nav>
         <div id="navbar">
-            <img
-                src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
-                alt="M&R Logo"
-                class="h-12"
-            />
             
-            {% if request.user.is_authenticated %}
 
-                
+            {% if request.user.is_authenticated %}
+             
+                {% with url_name='inicio '|add:request.user.rol %}
+                    <a  href="{% url url_name %}">
+                        <img
+                            src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
+                            alt="M&R Logo"
+                            class="h-12"
+                            
+                        />
+                    </a>
+                {% endwith %}
                 
                 {% if request.user.rol == "Asesor" %}
 
@@ -55,6 +60,11 @@
             
                 
             {% else %}
+                <img
+                    src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
+                    alt="M&R Logo"
+                    class="h-12"
+                 />
             <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
                 <i class='bx bx-log-in'></i>Iniciar sesión
             </a>

@@ -54,7 +54,7 @@
                 {% for inmueble in inmuebles %}
                         <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
                             <div class="card bg-white">
-                                <a href="{% url 'inmueble_detalles' inmueble.id %}" target="_blank">
+                                <a href="{% url 'inmueble_detalles' inmueble.id %}">
                                 <img
                                     src="{% static 'img/Inmueble1.jpeg' %}"
                                     alt="Exterior View"
