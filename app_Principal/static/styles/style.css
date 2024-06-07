@@ -16,6 +16,11 @@ body{
   overflow-x: hidden;
 }
 
+.grid-temp{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .gap{
   margin-left:10px;
 }
@@ -206,6 +211,23 @@ h3{
 
 
 
+.btn-delete{
+  width: 120px;
+  height: 40px;
+  padding: 8px 15px;
+  background-color: #B05099;
+  color: white;
+  border:none;
+  border-radius: 60px;
+  font-size: 16px;
+}
+
+.btn-delete:hover{
+  background-color: #5c636a;
+}
+
+
+
 
 @media (width <= 823px){
   h2.name-asesor{
@@ -231,7 +253,8 @@ h3{
   .gap{
     display: flex;
     margin: 10px 0;
-  }  
+  } 
+  
   
 .cerrar{
   margin-right: 10px;
@@ -354,18 +377,32 @@ h3{
     display: inline;
   }
   
-  div.add-button{
+  /* div.add-button{
     /* display: none; */
+  /* } */
+
+  .btn-delete{
+    background: none;
   }
 
 }
 
+.style-body-modal{
+  background-color: #2E2A37;
+}
 
+#add-form{
+  color: white;
+}
 
+option{
+  width: 20px;
+}
 
 
 .center{
   margin-top: 50px;
+  margin-bottom: 50px;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -449,6 +486,7 @@ label {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .btn-save{
@@ -468,17 +506,6 @@ label {
   color:white;
 }
 
-
-.btn-delete{
-  width: 120px;
-  height: 40px;
-  padding: 8px 15px;
-  background-color: #B05099;
-  color: white;
-  border:none;
-  border-radius: 60px;
-  font-size: 16px;
-}
 
 .btn-x{
   width: 150px;
@@ -522,6 +549,7 @@ div.block-name{
   .second-view{
     font-size: 20px;
   }
+  
 
 }
 
@@ -545,12 +573,7 @@ div.block-name{
 
   .btn-delete{
     background: none;
-    
   }
-
-
- 
-  
 }
 
 
