@@ -168,6 +168,67 @@ h3{
   margin: 0;
 } */
 
+.pagination{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+
+.group{
+  display: none;
+}
+
+
+.active-group{
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+}
+
+.grid-templ{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  gap: 10px;
+}
+
+
+.btn-pag{
+  margin: 0 5px;
+  border: none;
+  padding: 4px 8px;
+  height: 35px;
+  font-size: 15px;
+}
+
+
+.btn-pag:hover{
+  background-color: #2E2A37;
+  color: white;
+}
+
+
+
+.active{
+  background-color:#5E1F5A;
+  padding: 4px 8px;
+  margin: 0 5px;
+  font-size: 15px;
+  border: none;
+  color: white;
+  height: 35px;
+}
+
+
+
+
+
+
 
 .btn-responsive {
   display: flex;
@@ -263,7 +324,10 @@ h3{
   color: white;
 }
 
-
+  .grid-templ{
+    grid-template-columns: repeat(2,1fr);
+    gap: 5px;
+  }
 
 
 .add-button{
@@ -432,11 +496,11 @@ option{
   -moz-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 .inmueble{
   width: 100%;
-  height: 65vh;
+  height: 75vh;
 }
 
 .carousel{
@@ -448,7 +512,6 @@ option{
 
 .info{
   width: 100%;
-  height: 100%;
   background-color: rgba(251, 251, 251, 0.791);
   
 }
@@ -500,6 +563,8 @@ label {
   border-radius: 60px;
   font-size: 16px;
 }
+
+
 
 .btn-save:hover{
   background-color: #343a40;

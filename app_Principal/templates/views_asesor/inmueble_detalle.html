@@ -64,8 +64,11 @@
   
             <form class="form-container" id="form" action="{% url 'modificar_inmueble' inmueble.id %}" method="post">
               {% csrf_token %}
-  
-              <div class="form-group">
+              
+
+             <div id="first-group" class="group active-group"> 
+
+                <div class="form-group">
                   <label for="Tipo-Propiedad">Tipo de Propiedad</label>
                   <select class="form-select input-select" name="tipoPropiedad" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
                     <option selected disabled hidden></option>
@@ -110,57 +113,75 @@
                   <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="metros_construccion" value="{{ inmueble.metros_construccion }}" min="0.001" step="0.001" required> 
               </div>
   
-              <div class="form-group">        
-                <label for="InputBathroom" class="form-label">Baño</label>
-                <input type="checkbox" disabled class="form-check-input" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
-              </div>
-              
-              <div class="form-group">    
-                <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
-                <input type="checkbox" disabled class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio" {% if inmueble.cuarto_servicio %} checked {% endif %}>
-              </div>
-  
-              <div class="form-group"> 
-                <label for="InputOficina" class="form-label">Oficina</label>
-                <input type="checkbox" disabled class="form-check-input" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
-              </div>
-  
-              <div class="form-group"> 
-                <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
-                <input type="checkbox" disabled class="form-check-input" name="estacionamiento" id="InputEstacionamiento" {% if inmueble.estacionamiento %} checked {% endif %}>
-              </div>
-  
-              <div class="form-group"> 
-                <label for="InputHalfBath" class="form-label">Medio baño</label>
-                <input type="checkbox" disabled class="form-check-input" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
-              </div>
-  
-              <div class="form-group"> 
-                <label for="InputTerraza" class="form-label">Terraza</label>
-                <input type="checkbox" disabled class="form-check-input" name="terraza" id="InputTerraza" {% if inmueble.terraza %} checked {% endif %}>
-              </div>
-  
-  
-              <div class="form-group"> 
-                <label for="InputHabitacion" class="form-label">Habitación</label>
-                <input type="checkbox" disabled class="form-check-input" name="habitacion" id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
-              </div>
-  
-              <div class="form-group"> 
-                <label for="InputMaletero" class="form-label">Maletero</label>
-                <input type="checkbox" disabled class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
-              </div>
   
               <div class="form-group"> 
                 <label for="InputUbicacion" class="form-label">Ubicación</label>
                 <input type="text" disabled class="form-control input-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.ubicacion }}" required>
               </div>
+
+            </div> 
+
+            <div id="second-group"  class="group ">
+
+             <div class="form-group">
+              <label for="InputBathroom" class="form-label">Baño</label>
+              <input type="checkbox" disabled class="" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
+             </div>
+             
+             <div class="form-group">
+              <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
+              <input type="checkbox" disabled class="" name="cuarto_servicio" id="InputCuartoServicio" {% if inmueble.cuarto_servicio %} checked {% endif %}>
+             </div>
+            
+
+             <div class="form-group">
+              <label for="InputOficina" class="form-label">Oficina</label>
+              <input type="checkbox" disabled class="" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
+             </div>
+            
+             <div class="form-group">
+               <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
+               <input type="checkbox" disabled class="" name="estacionamiento"  id="InputEstacionamiento" {% if inmueble.estacionamiento %} checked {% endif %}>
+             </div>
+             
+              <div class="form-group">
+                <label for="InputHalfBath" class="form-label">Medio baño</label>
+                <input type="checkbox" disabled class="" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
+              </div>
+             
+              <div class="form-group">
+                <label for="InputTerraza" class="form-label">Terraza</label>
+                <input type="checkbox" disabled class="" name="terraza" id="InputTerraza" {% if inmueble.terraza %} checked {% endif %}>
+              </div>
+           
+              <div class="form-group">
+                <label for="InputHabitacion" class="form-label">Habitación</label>
+                <input type="checkbox" disabled class="" name="habitacion"     id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
+              </div>
+             
+              <div class="form-group">
+                <label for="InputMaletero" class="form-label">Maletero</label>
+                <input type="checkbox" disabled class="" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
+              </div>
+            
+
+            </div>
+
               
+            
+
               <div id="btn-special">
                 <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
                 <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
               </div>
         </form>
+
+        <div class="pagination">
+          <button class="btn-pag active" onclick="form_change(this, 'first-group')">1</button>
+          <button class="btn-pag" onclick="form_change(this, 'second-group')">2</button>
+          <button class="btn-pag" onclick="form_change(this)">3</button>
+        </div>
+        
         </div>
       </div>
       
@@ -168,7 +189,13 @@
 
 
   </div>
-  
+
+
+
+  <script src="{% static 'js/pagination.js' %}"></script>
+
+
+
 
   <script>
     const btn_special = document.getElementById("btn-special");
