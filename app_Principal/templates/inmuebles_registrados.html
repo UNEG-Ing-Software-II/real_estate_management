@@ -132,10 +132,16 @@
                             <input type="checkbox" class="form-check-input" name="habitacion" id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
         
                             <label for="InputMaletero" class="form-label">Maletero</label>
-                            <input type="checkbox" class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
+                            <input type="checkbox"  class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
         
-                            <label for="InputUbicacion" class="form-label">Ubicación</label>
-                            <input type="text" class="form-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.ubicacion }}" required>
+                            <label for="InputDireccion" class="form-label">Direccion</label>
+                            <input type="text" class="form-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
+
+                            <label for="InputLatitud">Latitud</label>
+                            <input type="number" class="form-control input-control" id="InputLatitud" name="latitud" value="{{ inmueble.latitud }}" min="-90" max="90" step="0.000001" required>
+
+                            <label for="InputLongitud">Longitud</label>
+                            <input type="number" class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.000001" required>
                         
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

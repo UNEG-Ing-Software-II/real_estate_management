@@ -64,7 +64,6 @@
           <form class="form-container" id="form" action="{% url 'modificar_inmueble' inmueble.id %}" method="post">
             {% csrf_token %}
 
-          
             <div class="form-group">
                 <label for="Tipo-Propiedad">Tipo de Propiedad</label>
                 <select class="form-select input-select" name="tipoPropiedad" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
@@ -153,7 +152,7 @@
 
             <div class="form-group"> 
               <label for="InputDireccion" class="form-label">Dirección</label>
-              <input type="text" disabled class="form-control input-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.direccion }}" required>
+              <input type="text" disabled class="form-control input-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
             </div>
 
             <div class="form-group">
@@ -169,11 +168,11 @@
             <div id="map"></div>
 
             <script>
-              var map = L.map('map').setView([8.288707, -62.719769], 16);
+              var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
 
               L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-              L.marker([8.288707, -62.719769]).addTo(map)
+              L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map)
               .bindPopup('Inmueble')
               .openPopup();
             </script>
@@ -205,7 +204,9 @@
       Terraza: document.getElementById("InputTerraza"),
       Habitacion: document.getElementById("InputHabitacion"),
       Maletero: document.getElementById("InputMaletero"),
-      Ubicacion: document.getElementById("InputUbicacion"),
+      Direccion: document.getElementById("InputDireccion"),
+      Latitud: document.getElementById("InputLatitud"),
+      Longitud: document.getElementById("InputLongitud"),
     };
 
     const visible = () => {
