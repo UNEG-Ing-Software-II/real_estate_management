@@ -16,6 +16,11 @@ body{
   overflow-x: hidden;
 }
 
+.grid-temp{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
 .gap{
   margin-left:10px;
 }
@@ -163,6 +168,67 @@ h3{
   margin: 0;
 } */
 
+.pagination{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+
+
+.group{
+  display: none;
+}
+
+
+.active-group{
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 20px; 
+}
+
+.grid-templ{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  text-align: center;
+  font-size: 14px;
+  width: 100%;
+  gap: 10px;
+}
+
+
+.btn-pag{
+  margin: 0 5px;
+  border: none;
+  padding: 4px 8px;
+  height: 35px;
+  font-size: 15px;
+}
+
+
+.btn-pag:hover{
+  background-color: #2E2A37;
+  color: white;
+}
+
+
+
+.active{
+  background-color:#5E1F5A;
+  padding: 4px 8px;
+  margin: 0 5px;
+  font-size: 15px;
+  border: none;
+  color: white;
+  height: 35px;
+}
+
+
+
+
+
+
 
 .btn-responsive {
   display: flex;
@@ -206,6 +272,23 @@ h3{
 
 
 
+.btn-delete{
+  width: 120px;
+  height: 40px;
+  padding: 8px 15px;
+  background-color: #B05099;
+  color: white;
+  border:none;
+  border-radius: 60px;
+  font-size: 16px;
+}
+
+.btn-delete:hover{
+  background-color: #5c636a;
+}
+
+
+
 
 @media (width <= 823px){
   h2.name-asesor{
@@ -231,7 +314,8 @@ h3{
   .gap{
     display: flex;
     margin: 10px 0;
-  }  
+  } 
+  
   
 .cerrar{
   margin-right: 10px;
@@ -240,7 +324,10 @@ h3{
   color: white;
 }
 
-
+  .grid-templ{
+    grid-template-columns: repeat(2,1fr);
+    gap: 5px;
+  }
 
 
 .add-button{
@@ -354,18 +441,32 @@ h3{
     display: inline;
   }
   
-  div.add-button{
+  /* div.add-button{
     /* display: none; */
+  /* } */
+
+  .btn-delete{
+    background: none;
   }
 
 }
 
+.style-body-modal{
+  background-color: #2E2A37;
+}
 
+#add-form{
+  color: white;
+}
 
+option{
+  width: 20px;
+}
 
 
 .center{
   margin-top: 50px;
+  margin-bottom: 50px;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -395,11 +496,11 @@ option{
   -moz-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 .inmueble{
   width: 100%;
-  height: 65vh;
+  height: 75vh;
 }
 
 .carousel{
@@ -411,7 +512,6 @@ option{
 
 .info{
   width: 100%;
-  height: 100%;
   background-color: rgba(251, 251, 251, 0.791);
   
 }
@@ -449,6 +549,7 @@ label {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .btn-save{
@@ -463,22 +564,13 @@ label {
   font-size: 16px;
 }
 
+
+
 .btn-save:hover{
   background-color: #343a40;
   color:white;
 }
 
-
-.btn-delete{
-  width: 120px;
-  height: 40px;
-  padding: 8px 15px;
-  background-color: #B05099;
-  color: white;
-  border:none;
-  border-radius: 60px;
-  font-size: 16px;
-}
 
 .btn-x{
   width: 150px;
@@ -522,6 +614,7 @@ div.block-name{
   .second-view{
     font-size: 20px;
   }
+  
 
 }
 
@@ -545,12 +638,7 @@ div.block-name{
 
   .btn-delete{
     background: none;
-    
   }
-
-
- 
-  
 }
 
 
