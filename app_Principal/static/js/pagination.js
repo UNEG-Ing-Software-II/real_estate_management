@@ -1,7 +1,7 @@
 const form_change = (clickedButton, groupToShow) => {
   const buttons = document.querySelectorAll(".btn-pag");
-  buttons.forEach((button) => button.classList.remove("active"));
-  clickedButton.classList.add("active");
+  buttons.forEach((button) => button.classList.remove("act-btn"));
+  clickedButton.classList.add("act-btn");
 
   const group = document.querySelectorAll(".group");
   group.forEach((group) => group.classList.remove("active-group"));
