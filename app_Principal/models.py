@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import uuid
+import os
 
 
 TIPO_AREA_CHOICES = [
@@ -134,12 +135,40 @@ class Inmueble(models.Model):
     latitud = models.FloatField(default=0.0)
     longitud = models.FloatField(default=0.0)
 
+    def create_inmueble(self, tipoPropiedad, precio, niveles,
+                        metros_terreno, metros_construccion, 
+                        bathroom, cuarto_servicio, oficina, 
+                        estacionamiento, half_bath, terraza, 
+                        habitacion, maletero, estado, direccion, 
+                        latitud, longitud):
+        inmueble = Inmueble(
+            tipoPropiedad=tipoPropiedad,
+            precio=precio,
+            niveles=niveles,
+            metros_terreno=metros_terreno,
+            metros_construccion=metros_construccion,
+            bathroom=bathroom,
+            cuarto_servicio=cuarto_servicio,
+            oficina=oficina,
+            estacionamiento=estacionamiento,
+            half_bath=half_bath,
+            terraza=terraza,
+            habitacion=habitacion,
+            maletero=maletero,
+            estado=estado,
+            direccion=direccion,
+            latitud=latitud,
+            longitud=longitud
+        )
+        inmueble.save(using=self._db)
+        return inmueble
+
     class Meta:
         db_table = "Inmueble"
 
 
 class InmueblePropietario(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
 
@@ -147,7 +176,7 @@ class InmueblePropietario(models.Model):
         db_table = "InmueblePropietario"
 
 class InmuebleAsesor(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     persona_id = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     inmueble_id = models.ForeignKey(Inmueble, on_delete=models.CASCADE)
 
@@ -156,7 +185,7 @@ class InmuebleAsesor(models.Model):
 
 
 class Documentos(models.Model):  # documentos del inmueble
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     asesor_id = models.ForeignKey(
         Usuario, on_delete=models.CASCADE
     )  # FK la tabla Usuario
@@ -180,7 +209,7 @@ class Documentos(models.Model):  # documentos del inmueble
 
 
 class Area(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     inmueble = models.ForeignKey(
         Inmueble, on_delete=models.CASCADE
     )  # FK la tabla Inmueble
@@ -196,7 +225,7 @@ class Area(models.Model):
 
 
 class Caracteristica(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     tipo = (
         models.CharField(  # seleccion de tipo de area, definido en la linea 3
             max_length=20,
@@ -210,7 +239,7 @@ class Caracteristica(models.Model):
 
 
 class Area_caracteristicas(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)  # FK la tabla Area
     caracteristica = models.ForeignKey(
         Caracteristica, on_delete=models.CASCADE
@@ -225,7 +254,7 @@ class Incidencia(models.Model):
         ("Captacion", "Captacion"),
         ("Venta", "Venta"),
     ]
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     inmueble = models.ForeignKey(
         Inmueble, on_delete=models.CASCADE
     )  # FK la tabla Inmueble
@@ -246,20 +275,23 @@ class Incidencia(models.Model):
     class Meta:
         db_table = "Incidencia"
 
+def get_image_upload_path(instance, filename):
+    # para guardar las imagenes de esta forma>> "inmueble_fotos/<inmueble_id>/<filename>"
+    return os.path.join('inmueble_fotos', str(instance.inmueble.id), filename)
 
 class Imagen_inmueble(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     inmueble = models.ForeignKey(
         Inmueble, on_delete=models.CASCADE
     )  # FK la tabla Inmueble
-    foto = models.ImageField()
+    foto = models.ImageField(upload_to=get_image_upload_path)
 
     class Meta:
         db_table = "imagen_inmueble"
 
 
 class Imagen_area(models.Model):
-    id = models.UUIDField(primary_key=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     area = models.ForeignKey(Area, on_delete=models.CASCADE)  # FK la tabla Area
     foto = models.ImageField()
 

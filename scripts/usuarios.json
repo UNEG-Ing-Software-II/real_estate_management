@@ -1,0 +1,82 @@
+[
+  {
+    "cedula": "12345678",
+    "nombre": "Juan",
+    "apellido": "Perez",
+    "correo": "juan.perez@gmail.com",
+    "rol": "Coordinador",
+    "password": "123"
+  },
+  {
+    "cedula": "87654321",
+    "nombre": "Maria",
+    "apellido": "Gonzalez",
+    "correo": "maria.gonzalez@gmail.com",
+    "rol": "Asesor",
+    "password": "123"
+  },
+  {
+    "cedula": "99988877",
+    "nombre": "Pedro",
+    "apellido": "Rodriguez",
+    "correo": "pedro.rodriguez@gmail.com",
+    "rol": "Director General",
+    "password": "123"
+  },
+  {
+    "cedula": "11223344",
+    "nombre": "Ana",
+    "apellido": "Lopez",
+    "correo": "ana.lopez@gmail.com",
+    "rol": "Propietario",
+    "password": "123"
+  },
+  {
+    "cedula": "55667788",
+    "nombre": "Carlos",
+    "apellido": "Sanchez",
+    "correo": "carlos.sanchez@gmail.com",
+    "rol": "Asesor",
+    "password": "123"
+  },
+  {
+    "cedula": "33445566",
+    "nombre": "Sofia",
+    "apellido": "Diaz",
+    "correo": "sofia.diaz@gmail.com",
+    "rol": "Coordinador",
+    "password": "123"
+  },
+  {
+    "cedula": "77889900",
+    "nombre": "David",
+    "apellido": "Fernandez",
+    "correo": "david.fernandez@gmail.com",
+    "rol": "Asesor",
+    "password": "123"
+  },
+  {
+    "cedula": "00112233",
+    "nombre": "Isabella",
+    "apellido": "Garcia",
+    "correo": "isabella.garcia@gmail.com",
+    "rol": "Coordinador",
+    "password": "123"
+  },
+  {
+    "cedula": "22334455",
+    "nombre": "Miguel",
+    "apellido": "Torres",
+    "correo": "miguel.torres@gmail.com",
+    "rol": "Asesor",
+    "password": "123"
+  },
+  {
+    "cedula": "66778899",
+    "nombre": "Laura",
+    "apellido": "Mendoza",
+    "correo": "laura.mendoza@gmail.com",
+    "rol": "Propietario",
+    "password": "123"
+  }
+]

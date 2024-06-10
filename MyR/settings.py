@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,6 +29,10 @@ SECRET_KEY = (
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+#para las imagenes: 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Application definition
@@ -56,6 +61,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "MyR.urls"
 
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -82,29 +88,29 @@ WSGI_APPLICATION = "MyR.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 #  [ESTA ES LA CONFIG A LA BASE DE DATOS LOCAL PARA LOS DE BACK]
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "MyR",
-#         "USER": "postgres",
-#         "PASSWORD": "password",
-#         "HOST": "localhost",
-#         "DATABASE_PORT": "5432",
-#     }
-# }
+DATABASES = {
+"default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "MyR",
+        "USER": "postgres",
+        "PASSWORD": "diaz3214",
+        "HOST": "localhost",
+        "DATABASE_PORT": "5432",
+    }
+}
 
 
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
-DATABASES = {
+"""DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-       "NAME": "railway",
+        "NAME": "railway",
         "USER": "postgres",
         "PASSWORD": "xsGtDYouRDKbmJPJexIEbpsyBtCjmXJZ",
         "HOST": "monorail.proxy.rlwy.net",
         "PORT": "21064",
     }
-}
+}"""
 
 
 # Password validation
