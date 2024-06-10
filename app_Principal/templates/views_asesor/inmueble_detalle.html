@@ -78,9 +78,6 @@ crossorigin=""></script>
 
 {% block dynamic_button %}
 
-
-  
-  
   <div class="gap">
   <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
   </div>
@@ -88,7 +85,7 @@ crossorigin=""></script>
     <div class="gap"> 
       <button class=" btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
     </div>
-</div>
+
 {% endblock %}
 
 {% block content %}
@@ -257,6 +254,7 @@ crossorigin=""></script>
                             <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
                         </div>
                     </form>
+               
 
                     <div class="pagination">
                         <button class="btn-pag act-btn" onclick="form_change(this, 'first-group')">1</button>
@@ -264,6 +262,10 @@ crossorigin=""></script>
                         <button class="btn-pag" onclick="form_change(this, 'third-group')">3</button>
                         <button class="btn-pag" onclick="form_change(this, 'fourth-group')">4</button>
                     </div>
+
+                    
+             
+                   
                 </div>
             </div>
         </div>
