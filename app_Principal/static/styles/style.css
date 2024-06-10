@@ -220,7 +220,7 @@ h3{
 
 
 
-.active{
+.act{
   background-color:#5E1F5A;
   padding: 4px 8px;
   margin: 0 5px;
@@ -229,11 +229,6 @@ h3{
   color: white;
   height: 35px;
 }
-
-
-
-
-
 
 
 .btn-responsive {
@@ -276,8 +271,6 @@ h3{
     left: 0;
 }
 
-
-
 .btn-delete{
   width: 120px;
   height: 40px;
@@ -292,8 +285,6 @@ h3{
 .btn-delete:hover{
   background-color: #5c636a;
 }
-
-
 
 
 @media (width <= 823px){
@@ -399,12 +390,6 @@ h3{
   font-size: 40px;
   color:white;
   }
-
-
- 
-
-  
-
 
   div.row{
     justify-content: center;

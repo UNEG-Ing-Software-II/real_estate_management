@@ -78,8 +78,10 @@ def cerrar_sesion(request):
 @role_required('Asesor')
 def detalles_inmueble(request, inmueble_id):
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
+    imagenes_inmueble = Imagen_inmueble.objects.filter(inmueble=inmueble)
     context = {
-        'inmueble': inmueble 
+        'inmueble': inmueble,
+        'imagenes_inmueble': imagenes_inmueble,
     }
     return render(request, 'views_asesor/inmueble_detalle.html', context)
 
