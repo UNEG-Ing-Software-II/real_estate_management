@@ -12,8 +12,18 @@
     crossorigin=""></script>
     <style>
         #map {
-            height: 400px;
-            width: 400px;
+          
+            height: 169px;
+            width: 350px;
+            margin: 10px 20px;
+        }
+
+        @media (width <= 555px){
+          #map {
+           
+            width: 70%;
+            margin: 10px 20px;
+        }
         }
     </style>
 {% endblock %}
@@ -124,12 +134,6 @@
                   <label for="InputMetrosConstrucción">Metros² de construcción</label>
                   <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="metros_construccion" value="{{ inmueble.metros_construccion }}" min="0.001" step="0.001" required> 
               </div>
-  
-  
-              <div class="form-group"> 
-                <label for="InputUbicacion" class="form-label">Ubicación</label>
-                <input type="text" disabled class="form-control input-control" name="ubicacion" id="InputUbicacion" value="{{ inmueble.ubicacion }}" required>
-              </div>
 
             </div> 
 
@@ -176,34 +180,17 @@
               <input type="checkbox" disabled class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
             </div>
 
-            <div class="form-group"> 
-              <label for="InputDireccion" class="form-label">Dirección</label>
-              <input type="text" disabled class="form-control input-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
-            </div>
+          </div>
 
-            <div class="form-group">
-              <label for="InputLatitud">Latitud</label>
-              <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitud" value="{{ inmueble.latitud }}" min="-90" max="90" step="0.000001" required>
-            </div>
 
-            <div class="form-group">
-              <label for="InputLongitud">Longitud</label>
-              <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.000001" required>
-            </div>
 
-            <div id="map"></div>
 
-            <script>
-              var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
+            <div id="third-group"  class="group ">
 
-              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-              L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map)
-              .bindPopup('Inmueble')
-              .openPopup();
-            </script>
-            
-
+              <div class="form-group"> 
+                <label for="InputDireccion" class="form-label">Dirección</label>
+                <input type="text" disabled class="form-control input-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
              <div class="form-group">
               <label for="InputOficina" class="form-label">Oficina</label>
               <input type="checkbox" disabled class="" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
@@ -218,24 +205,44 @@
                 <label for="InputHalfBath" class="form-label">Medio baño</label>
                 <input type="checkbox" disabled class="" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
               </div>
-             
+  
               <div class="form-group">
-                <label for="InputTerraza" class="form-label">Terraza</label>
-                <input type="checkbox" disabled class="" name="terraza" id="InputTerraza" {% if inmueble.terraza %} checked {% endif %}>
+                <label for="InputLatitud">Latitud</label>
+                <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitud" value="{{ inmueble.latitud }}" min="-90" max="90" step="0.000001" required>
               </div>
-           
+  
               <div class="form-group">
-                <label for="InputHabitacion" class="form-label">Habitación</label>
-                <input type="checkbox" disabled class="" name="habitacion"     id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
+                <label for="InputLongitud">Longitud</label>
+                <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.000001" required>
               </div>
-             
-              <div class="form-group">
-                <label for="InputMaletero" class="form-label">Maletero</label>
-                <input type="checkbox" disabled class="" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
-              </div>
-            
+  
+              <div id="map"></div>
+  
+              <script>
+          var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
+  
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  
+    L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map).bindPopup('Inmueble').openPopup();
+              </script>
+
+
+
+
 
             </div>
+
+            <div id="map"></div>
+
+            <script>
+              var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
+
+              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+              L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map)
+              .bindPopup('Inmueble')
+              .openPopup();
+            </script>
 
               
             
@@ -249,7 +256,7 @@
         <div class="pagination">
           <button class="btn-pag active" onclick="form_change(this, 'first-group')">1</button>
           <button class="btn-pag" onclick="form_change(this, 'second-group')">2</button>
-          <button class="btn-pag" onclick="form_change(this)">3</button>
+          <button class="btn-pag" onclick="form_change(this, 'third-group')">3</button>
         </div>
         
         </div>

@@ -99,3 +99,19 @@ def crear_usuario(request):
         print("usuario registrado correctamente")
         return render(request, "index.html")
     return render(request,"registrar_usuario.html")
+
+
+
+# ESTO BORRA TODAS LAS TABLAS DEL RAILWAY, USAR CUANDO SE ACTUALICE LA BDcls
+# from django.db import connection
+
+# def eliminar_todas_las_tablas():
+#     with connection.cursor() as cursor:
+
+#         cursor.execute('SET session_replication_role = replica;')
+#         cursor.execute('DROP SCHEMA public CASCADE; CREATE SCHEMA public;')
+#         cursor.execute('SET session_replication_role = DEFAULT;')
+
+#     print("Todas las tablas han sido eliminadas, incluyendo aquellas con restricciones de clave externa.")
+
+# eliminar_todas_las_tablas()

@@ -173,73 +173,35 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="mt-3">
-                        <label for="InputUbicacion" class="form-label">Ubicación</label>
-                        <input type="text" class="form-control" name="ubicacion" id="InputUbicacion" required>
+
+
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputLatitud" class="form-label mt-2">Latitud</label>
+                            <input type="number" class="form-control" name="latitud" id="InputLatitud" min="-90" max="90" step="0.000001" required>
+                         
+                        </div>
+
+                        <div class="col-md-6">
+                            
+                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
+                    <input type="number" class="form-control" name="longitud" id="InputLongitud" min="-180" max="180" step="0.000001" required>
+                
+                        </div>
                     </div>
 
-                    <label for="InputPrecio" class="form-label">Precio</label>
-                    <input type="number" class="form-control" name="precio" id="InputPrecio"  min="0.001" step="0.001" required>
+                 
 
-                    <label for="InputNiveles" class="form-label">Niveles</label>
-                    <input type="number" class="form-control" name="niveles" id="InputNiveles"  min="1" step="1" required>
 
-                    <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
-                    <input type="number" class="form-control" name="metros_terreno" id="InputMetrosTerreno" min="0.001" step="0.001" required>
-
-                    <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
-                    <input type="number" class="form-control" name="metros_construccion" id="InputMetrosConstruccion" min="0.001" step="0.001" required> 
-
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="bathroom" id="InputBathroom">
-                    <label for="InputBathroom" class="form-label">Baño</label>
                     
                     
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio">
-                    <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
-                    
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="oficina" id="InputOficina">
-                    <label for="InputOficina" class="form-label">Oficina</label>
-                    
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="estacionamiento" id="InputEstacionamiento">
-                    <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
-                    
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="half_bath" id="InputHalfBath">
-                    <label for="InputHalfBath" class="form-label">Medio baño</label>
-                    
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="terraza" id="InputTerraza">
-                    <label for="InputTerraza" class="form-label">Terraza</label>
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="habitacion" id="InputHabitacion">
-                    <label for="InputHabitacion" class="form-label">Habitación</label>
-                    
-                    <br>
-                    <input type="checkbox" class="form-check-input" name="maletero" id="InputMaletero">
-                    <label for="InputMaletero" class="form-label">Maletero</label>
-                    
-                    <br>
+                 
                     <label for="InputDirección" class="form-label mt-2">Dirección</label>
                     <input type="text" class="form-control" name="direccion" id="InputDireccion" required>
                     <br>
 
-                    <label for="InputLatitud" class="form-label mt-2">Latitud</label>
-                    <input type="number" class="form-control" name="latitud" id="InputLatitud" min="-90" max="90" step="0.000001" required>
-                    <br>
-
-                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
-                    <input type="number" class="form-control" name="longitud" id="InputLongitud" min="-180" max="180" step="0.000001" required>
-                    <br>
+                    
 
                     <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
                     <input type="file" id="InputImagen" accept="image/*">-->
