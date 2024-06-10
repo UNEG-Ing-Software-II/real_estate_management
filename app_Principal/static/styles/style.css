@@ -566,7 +566,7 @@ label {
   width: 150px;
 
   padding: 10px 15px;
-  background-color: rgb(18, 168, 171);
+  background-color: #B05099;
   color: white;
   border:none;
   border-radius: 60px;
@@ -583,9 +583,8 @@ label {
 
 .btn-x{
   width: 150px;
-
   padding: 10px 15px;
-  background-color: rgb(173, 81, 47) ;
+  background-color: #8B87AF ;
   color: white;
   border:none;
   border-radius: 60px;

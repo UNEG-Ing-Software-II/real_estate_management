@@ -134,6 +134,9 @@
                   <label for="InputMetrosConstrucción">Metros² de construcción</label>
                   <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="metros_construccion" value="{{ inmueble.metros_construccion }}" min="0.001" step="0.001" required> 
               </div>
+  
+  
+             
 
             </div> 
 
@@ -191,19 +194,6 @@
               <div class="form-group"> 
                 <label for="InputDireccion" class="form-label">Dirección</label>
                 <input type="text" disabled class="form-control input-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
-             <div class="form-group">
-              <label for="InputOficina" class="form-label">Oficina</label>
-              <input type="checkbox" disabled class="" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
-             </div>
-            
-             <div class="form-group">
-               <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
-               <input type="checkbox" disabled class="" name="estacionamiento"  id="InputEstacionamiento" {% if inmueble.estacionamiento %} checked {% endif %}>
-             </div>
-             
-              <div class="form-group">
-                <label for="InputHalfBath" class="form-label">Medio baño</label>
-                <input type="checkbox" disabled class="" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
               </div>
   
               <div class="form-group">
@@ -231,20 +221,6 @@
 
 
             </div>
-
-            <div id="map"></div>
-
-            <script>
-              var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
-
-              L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-              L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map)
-              .bindPopup('Inmueble')
-              .openPopup();
-            </script>
-
-              
             
 
               <div id="btn-special">
