@@ -11,6 +11,7 @@ urlpatterns = [
     path('inicio_director_general',director_general, name='inicio Director General'),
     path('cerrar_sesion',cerrar_sesion, name='cerrar sesion'),
     path('crear_usuario',crear_usuario, name='crear usuario'),
+    path('cuenta_usuario',cuenta_usuario, name='cuenta usuario'),
     #inmuebles
     path('detalles-inmueble/<uuid:inmueble_id>/', detalles_inmueble, name='inmueble_detalles'), #URL de vista para modificar/eliminar inmmueble
     path('inmuebles-registrados/', inmuebles_registrados, name='inmuebles registrados'), #Leer
