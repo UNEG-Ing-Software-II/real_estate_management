@@ -102,7 +102,20 @@ def crear_usuario(request):
 
 
 
-# ESTO BORRA TODAS LAS TABLAS DEL RAILWAY, USAR CUANDO SE ACTUALICE LA BDcls
+
+# ---------------------------------------------------------------
+
+def cuenta_usuario (request):
+    return render(request, 'datos_cuenta.html')
+
+
+
+
+
+
+
+
+# ESTO BORRA TODAS LAS TABLAS DEL RAILWAY Y LOCAL, USAR CUANDO SE ACTUALICE LA BD
 # from django.db import connection
 
 # def eliminar_todas_las_tablas():

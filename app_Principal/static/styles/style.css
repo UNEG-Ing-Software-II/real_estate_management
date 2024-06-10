@@ -120,8 +120,17 @@ h4{
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
 }
 
+
+
+
+.bx-user-circle{
+  color: white;
+}
+
+
 .add-button{
   display: flex;
+  align-items: center;
 }
 
 .cerrar{
@@ -253,6 +262,11 @@ h3{
   margin-top : 20px;
 }
 
+.btn-secondary{
+  transition: .5s;
+}
+
+
 .buscador .btn {
   background-color: rgb(2, 219, 211) ;
   margin-left: 5px;
@@ -315,7 +329,7 @@ h3{
 
 }
 
-@media (width <= 637px){
+@media (width <= 839px){
     
   .gap{
     display: flex;
