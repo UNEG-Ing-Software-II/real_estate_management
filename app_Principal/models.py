@@ -134,6 +134,34 @@ class Inmueble(models.Model):
     latitud = models.FloatField(default=0.0)
     longitud = models.FloatField(default=0.0)
 
+    def create_inmueble(self, tipoPropiedad, precio, niveles,
+                        metros_terreno, metros_construccion, 
+                        bathroom, cuarto_servicio, oficina, 
+                        estacionamiento, half_bath, terraza, 
+                        habitacion, maletero, estado, direccion, 
+                        latitud, longitud):
+        inmueble = Inmueble(
+            tipoPropiedad=tipoPropiedad,
+            precio=precio,
+            niveles=niveles,
+            metros_terreno=metros_terreno,
+            metros_construccion=metros_construccion,
+            bathroom=bathroom,
+            cuarto_servicio=cuarto_servicio,
+            oficina=oficina,
+            estacionamiento=estacionamiento,
+            half_bath=half_bath,
+            terraza=terraza,
+            habitacion=habitacion,
+            maletero=maletero,
+            estado=estado,
+            direccion=direccion,
+            latitud=latitud,
+            longitud=longitud
+        )
+        inmueble.save(using=self._db)
+        return inmueble
+
     class Meta:
         db_table = "Inmueble"
 
