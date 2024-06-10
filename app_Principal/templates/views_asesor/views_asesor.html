@@ -68,7 +68,7 @@
                 {% for inmueble in inmuebles %}
                         <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
                             <div class="card bg-white">
-                                <a href="{% url 'inmueble_detalles' inmueble.id %}" target="_blank">
+                                <a href="{% url 'inmueble_detalles' inmueble.id %}">
                                 <img
                                     src="{% static 'img/Inmueble1.jpeg' %}"
                                     alt="Exterior View"
@@ -188,6 +188,7 @@
                         </div>
                     </div>
 
+                    <!-- Agregar coordenadas geográficas por escrito
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="InputLatitud" class="form-label mt-2">Latitud</label>
@@ -201,74 +202,84 @@
                     <input type="number" class="form-control" name="longitud" id="InputLongitud" min="-180" max="180" step="0.000001" required>
                 
                         </div>
-                    </div>
+                    </div>                 
+                    -->
                  
                     <label for="InputDirección" class="form-label mt-2">Dirección</label>
                     <input type="text" class="form-control" name="direccion" id="InputDireccion" required>
                     <br>
 
                     <div id="map"></div>
-                    <script>
-                        var map;
-                        var currentMarker = null;
                     
-                        document.addEventListener('DOMContentLoaded', function() {
-                            // Evento para mostrar el modal
-                            var myModal = document.getElementById('ModalRegistroInmueble');
-                            myModal.addEventListener('shown.bs.modal', function () {
-                                if (!map) {
-                                    // Inicializa el mapa cuando se muestra el modal
-                                    map = L.map('map').setView([51.505, -0.09], 13);
-                    
-                                    // Añade el tile layer desde OpenStreetMap
-                                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                    }).addTo(map);
-                    
-                                    // Añade el geocodificador
-                                    var geocoder = L.Control.geocoder({
-                                        defaultMarkGeocode: false
-                                    }).on('markgeocode', function(e) {
-                                        var bbox = e.geocode.bbox;
-                                        map.fitBounds([
-                                            [bbox.getSouthWest().lat, bbox.getSouthWest().lng],
-                                            [bbox.getNorthEast().lat, bbox.getNorthEast().lng]
-                                        ]);
-                                        var latlng = e.geocode.center;
-                    
-                                        // Evento de clic en el mapa
-                                        map.on('click', function(e) {
-                                            // Elimina el marcador actual si existe
-                                            if (currentMarker) {
-                                                map.removeLayer(currentMarker);
-                                            }
-                    
-                                            // Agrega un nuevo marcador
-                                            currentMarker = L.marker(e.latlng).addTo(map)
-                                                .bindPopup(e.latlng.toString())
-                                                .openPopup();
-                    
-                                            // Muestra las coordenadas en la consola
-                                            console.log('Latitud: ' + e.latlng.lat + ', Longitud: ' + e.latlng.lng);
-                                        });
-                                    }).addTo(map);
-                                } else {
-                                    // Si el mapa ya fue inicializado, simplemente ajusta su tamaño
-                                    map.invalidateSize();
-                                }
-                            });
-                        });
-                    </script>
+                    <!-- Agregar coordenadas geográficas por mapa -->
+                    <input type="hidden" id="InputLatitud" name="latitud" value="">
+                    <input type="hidden" id="InputLongitud" name="longitud" value="">
 
-                    
+                    <!--
+                    <label for="InputImagen" class="form-label">Imagen de portada</label>
+                    <input type="file" id="InputImagen" accept="image/*">
+                    -->
 
-                    <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
-                    <input type="file" id="InputImagen" accept="image/*">-->
                     <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
                     </div>
                 </form>
+                <script>
+                    var map;
+                    var currentMarker = null;
+                
+                    document.addEventListener('DOMContentLoaded', function() {
+                        // Evento para mostrar el modal
+                        var myModal = document.getElementById('ModalRegistroInmueble');
+                        myModal.addEventListener('shown.bs.modal', function () {
+                            if (!map) {
+                                // Inicializa el mapa cuando se muestra el modal
+                                map = L.map('map').setView([51.505, -0.09], 13);
+                
+                                // Añade el tile layer desde OpenStreetMap
+                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                }).addTo(map);
+                
+                                // Añade el geocodificador
+                                var geocoder = L.Control.geocoder({
+                                    defaultMarkGeocode: false
+                                }).on('markgeocode', function(e) {
+                                    var bbox = e.geocode.bbox;
+                                    map.fitBounds([
+                                        [bbox.getSouthWest().lat, bbox.getSouthWest().lng],
+                                        [bbox.getNorthEast().lat, bbox.getNorthEast().lng]
+                                    ]);
+                                    var latlng = e.geocode.center;
+                
+                                    // Evento de clic en el mapa
+                                    map.on('click', function(e) {
+                                        // Elimina el marcador actual si existe
+                                        if (currentMarker) {
+                                            map.removeLayer(currentMarker);
+                                        }
+                
+                                        // Agrega un nuevo marcador
+                                        currentMarker = L.marker(e.latlng).addTo(map)
+                                            .bindPopup(e.latlng.toString())
+                                            .openPopup();
+                
+                                        // Muestra las coordenadas en la consola
+                                        console.log('Latitud: ' + e.latlng.lat + ', Longitud: ' + e.latlng.lng);
+
+                                        // Actualiza los valores del formulario
+                                        document.getElementById('InputLatitud').value = e.latlng.lat;
+                                        document.getElementById('InputLongitud').value = e.latlng.lng;
+                                    });
+                                }).addTo(map);
+                            } else {
+                                // Si el mapa ya fue inicializado, simplemente ajusta su tamaño
+                                map.invalidateSize();
+                            }
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
