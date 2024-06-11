@@ -13,8 +13,8 @@ sys.path.append(BASE_DIR)
 # Configurar el entorno de Django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'MyR.settings')
 django.setup()
-
 from  app_Principal.models import *
+
 
 def create_users(json_file_path):
     

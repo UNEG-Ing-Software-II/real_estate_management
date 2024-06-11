@@ -88,16 +88,16 @@ WSGI_APPLICATION = "MyR.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 #  [ESTA ES LA CONFIG A LA BASE DE DATOS LOCAL PARA LOS DE BACK]
-# DATABASES = {
-# "default": {
-#         "ENGINE": "django.db.backends.postgresql",
-#         "NAME": "MyR",
-#         "USER": "postgres",
-#         "PASSWORD": "diaz3214",
-#         "HOST": "localhost",
-#         "DATABASE_PORT": "5432",
-#     }
-# }
+DATABASES = {
+"default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "MyR",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "localhost",
+        "DATABASE_PORT": "5432",
+    }
+}
 
 
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
