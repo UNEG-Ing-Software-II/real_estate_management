@@ -86,6 +86,28 @@ crossorigin=""></script>
       <button class=" btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
     </div>
 
+    <!-- Modal para Borrar -->
+    <div class="modal fade" id="modalBorrar{{ inmueble.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ inmueble.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Eliminar inmueble {{ inmueble.id }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{% url 'eliminar_inmueble' inmueble.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <p>¿Estás seguro que deseas eliminar este inmueble?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
 {% block content %}
