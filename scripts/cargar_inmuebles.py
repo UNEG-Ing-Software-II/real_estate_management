@@ -6,7 +6,10 @@ configure_env()
 from  app_Principal.models import *
 
 
-for inmuebles_entrada in json.loads(open("inmuebles.json").read()):
-    inmueble = Inmueble.objects.create(**inmuebles_entrada)
+data = open("inmuebles.json").read()
+create_data = Inmueble.objects.create
+
+for inmuebles_entrada in json.loads(data):
+    inmueble = create_data(**inmuebles_entrada)
     print("Inmueble %s creado exitosamente." %inmueble.direccion)
 
