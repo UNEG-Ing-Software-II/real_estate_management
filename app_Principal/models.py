@@ -112,6 +112,7 @@ class Inmueble(models.Model):
         choices=PROPIEDAD_CHOICES,
         default="Otros",
     )
+    nombre = models.CharField(default="")
     precio = models.FloatField()
     niveles = models.IntegerField()
     metros_terreno = models.FloatField()
