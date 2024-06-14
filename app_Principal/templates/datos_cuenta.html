@@ -7,14 +7,230 @@
 {% endblock %}
 
 
+{% block dynamic_button %}
+
+
+<div class="gap">
+    <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
+</div>
+
+{% endblock %}
   
 
 
 {% block content %}
 
 
-<h1>Cuenta configuracion</h1>
+<div
+                class="d-flex justify-content-center align-items-center mb-3"
+            >
+                <div class="row container-count">
+                    <div class="header text-white text-center">
+                        <h2>Configuración de Datos de Usuario</h2>
+                    </div>
 
+                    <!-- Contenido de la izquierda -->
+                    <div
+                        style="background-color: #472c44"
+                        class="col-4 text-white count-cont"
+                    >
+                        <!-- Círculo imagen -->
+                        <div class="d-flex justify-content-center mt-5">
+                            <img
+                                src="{% static 'img/Herobrine.jpg' %}"
+                                class="rounded-circle avatar"
+                                alt="Avatar"
+                            />
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-grid gap-2 mt-3 mb-5">
+                            <button
+                                class="btn"
+                                style="background-color: #B05099; color: white; width: 150px; border-radius: 0;"
+                                     >
+                                Actualizar avatar
+                            </button>
+                            <button
+                                class="btn"
+                                style="background-color: #8B87AF; color:white; border-radius: 0;"
+                            >
+                                Eliminar avatar
+                            </button>
+                        </div>
+
+                        <p class="mt-3 mb-5">
+                            ‘’Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa.’’
+                        </p>
+                    </div>
+
+                    <!-- Contenido de la derecha -->
+                    <div class="col-8 bg-white count-cont">
+                        <form>
+                            <h2>Detalles Personales</h2>
+                            <div class="group-count-grid">
+                                <div>
+                              
+                                    <div class="mb-3">
+        
+                                        <label for="cedula" class="form-label"
+                                            >Cédula</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="cedula" value="99.999.999"
+                                        disabled />
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label"
+                                            >Nombre</label
+                                        >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="nombre"
+                                        disabled  value="Herobrine"/>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="apellido" class="form-label"
+                                            >Apellido</label
+                                            >
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="apellido" value="Steve"
+                                        disabled />
+                                    </div>
+                                </div>
+                              
+
+                            <div>
+                                <div class="mb-3">
+                                  
+    
+                                    <label for="telefono1" class="form-label"
+                                        >Teléfono 1</label
+                                    >
+                                    <input
+                                        type="tel"
+                                        class="form-control"
+                                        id="telefono1"
+                                    disabled value="09090909090" />
+                                    </div>
+                                    <div class="mb-3">
+                                    <label for="telefono2" class="form-label"
+                                        >Teléfono 2</label
+                                    >
+                                    <input
+                                        type="tel"
+                                        class="form-control"
+                                        id="telefono2" value="09090909090"
+                                    disabled />
+                                    </div>
+                                    <div class="mb-3">
+                                    <label for="correo" class="form-label"
+                                        >Correo</label
+                                    >
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="correo" value="herobrine-asesor@hotmail.com"
+                                    disabled />
+                                    </div>
+                            </div>
+                              
+
+                            </div>
+                           
+
+                            
+
+                            <h2>Número de inmuebles al cargo</h2>
+                            <div class="mb-3">
+                                <label for="completados" class="form-label"
+                                    >Número de Inmuebles al cargo -
+                                    Completados</label
+                                >
+                                <p>2</p>
+                            </div>
+                            <div class="mb-3">
+                                <label for="enproceso" class="form-label"
+                                    >Número de Inmuebles al cargo - En
+                                    proceso</label
+                                >
+                                <p>3</p>
+                            </div>
+
+                            <!-- botones -->
+                            <div
+                                class="d-fluid gap-2 mt-3 mb-3 mx-auto"
+                        
+                            >
+                            <div id="btn-special">
+                              
+                                
+                                <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
+                                <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
+                        
+            
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+            <script>
+                const btn_special = document.getElementById("btn-special");
+                const Inputs = {
+                    Cedula: document.getElementById("cedula"),
+                    Nombre: document.getElementById("nombre"),
+                    Apellido: document.getElementById("apellido"),
+                    Correo: document.getElementById("correo"),
+                    Telf_1: document.getElementById("telefono1"),
+                    Telf_2: document.getElementById("telefono2"),
+                };
+            
+                const visible = () => {
+                    const isDisabled = Inputs.Cedula.disabled;
+                    Object.keys(Inputs).forEach(key => {
+                        Inputs[key].disabled = !isDisabled;
+                    });         
+                    btn_special.style.visibility = isDisabled ? "visible" : "hidden";
+                };
+
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+></script>
 
 
 {% endblock %}
