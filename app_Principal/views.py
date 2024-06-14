@@ -6,6 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages  # importacion para mensajes de error
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db import IntegrityError
+from django.contrib.auth import update_session_auth_hash
 
 # Create your views here.
 def index(request):
@@ -107,12 +109,44 @@ def crear_usuario(request):
 
 # ---------------------------------------------------------------
 
-def cuenta_usuario (request):
-    return render(request, 'datos_cuenta.html')
 
+@login_required(login_url='login')
+def cuenta_usuario(request):
+    usuario = request.user
 
+    if request.method == 'POST':
+        cedula_nueva = request.POST.get('cedula')
+        nombre_nuevo = request.POST.get('nombre')
+        apellido_nuevo = request.POST.get('apellido')
+        correo_nuevo = request.POST.get('correo')
+        password_nueva = request.POST.get('password')
 
+        # Verificar y actualizar los datos del usuario
+        '''if cedula_nueva:
+            if Usuario.objects.exclude(pk=usuario.pk).filter(cedula=cedula_nueva).exists():
+                messages.error(request, 'Esta cédula ya está en uso por otro usuario.')
+                return redirect('cuenta usuario')
+            else:
+                usuario.cedula = cedula_nueva'''
+        if nombre_nuevo:
+            usuario.nombre = nombre_nuevo
+        if apellido_nuevo:
+            usuario.apellido = apellido_nuevo
+        if correo_nuevo:
+            if Usuario.objects.exclude(pk=usuario.pk).filter(correo=correo_nuevo).exists():
+                messages.error(request, 'Este correo ya está en uso por otro usuario.')
+                return redirect('cuenta usuario')
+            else:
+                usuario.correo = correo_nuevo
+        if password_nueva:
+            usuario.set_password(password_nueva)
 
+        usuario.save()
+        messages.success(request, 'Datos actualizados correctamente.')
+        return redirect('cuenta usuario')
+    else:
+        # Pasar el usuario al contexto si no hay una solicitud POST
+        return render(request, 'datos_cuenta.html', {'usuario': usuario})
 
 
 

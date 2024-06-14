@@ -101,16 +101,16 @@ WSGI_APPLICATION = "MyR.wsgi.application"
 
 
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "railway",
-        "USER": "postgres",
-        "PASSWORD": "xsGtDYouRDKbmJPJexIEbpsyBtCjmXJZ",
-        "HOST": "monorail.proxy.rlwy.net",
-        "PORT": "21064",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "NAME": "railway",
+#         "USER": "postgres",
+#         "PASSWORD": "xsGtDYouRDKbmJPJexIEbpsyBtCjmXJZ",
+#         "HOST": "monorail.proxy.rlwy.net",
+#         "PORT": "21064",
+#     }
+# }
 
 
 # Password validation
