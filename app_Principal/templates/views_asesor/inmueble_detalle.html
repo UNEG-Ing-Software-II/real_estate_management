@@ -238,15 +238,18 @@ crossorigin=""></script>
                                 <label for="InputLongitud">Longitud</label>
                                 <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.00000000000001" required>
                             </div>
-                            
-                        </div>
-                        <div id="map"></div>
+
+                            <div id="map"></div>
                        
                             <script>
                                 var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
                                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
                                 L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map).bindPopup('Inmueble').openPopup();
                             </script>
+
+                            
+                        </div>
+                        
 
                         <div id="fourth-group" class="group mx-auto">
                             
