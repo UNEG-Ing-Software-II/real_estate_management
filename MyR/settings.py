@@ -100,7 +100,7 @@ DATABASES = {
 }
 
 
-# # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
+# [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql",
