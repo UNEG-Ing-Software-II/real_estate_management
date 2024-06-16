@@ -51,11 +51,7 @@ class Usuario(AbstractBaseUser):
         choices=ROL_CHOICES,
         default="Asesor",
     )
-    descripcion = models.CharField(
-        null=True,
-        default="",
-        max_length=200,
-        )
+    descripcion = models.CharField(null=True)
     is_admin = models.BooleanField(default=False)
     objects = UsuarioPersonalizado()
 
@@ -116,10 +112,7 @@ class Inmueble(models.Model):
         choices=PROPIEDAD_CHOICES,
         default="Otros",
     )
-    nombre = models.CharField(
-        default="",
-        max_length=30,
-        )
+    nombre = models.CharField(default="")
     precio = models.FloatField()
     niveles = models.IntegerField()
     metros_terreno = models.FloatField()
@@ -139,10 +132,7 @@ class Inmueble(models.Model):
         choices=ESTADO_CHOICES,
         default="En venta",
     )
-    direccion = models.CharField(
-        default="",
-        max_length=50,
-    )
+    direccion = models.CharField(default=" ")
     latitud = models.FloatField(default=0.0)
     longitud = models.FloatField(default=0.0)
 
