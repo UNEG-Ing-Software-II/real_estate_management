@@ -23,6 +23,11 @@
 <div
                 class="d-flex justify-content-center align-items-center mb-3"
             >
+            {% if messages %}
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+            {% endif %}
                 <div class="row container-count">
                     <div class="header text-white text-center">
                         <h2>Configuración de Datos de Usuario</h2>
@@ -65,7 +70,9 @@
 
                     <!-- Contenido de la derecha -->
                     <div class="col-8 bg-white count-cont">
-                        <form>
+                            <form action="{% url 'cuenta usuario' %}" method="post">
+                            {% csrf_token %}
+                            
                             <h2>Detalles Personales</h2>
                             <div class="group-count-grid">
                                 <div>
@@ -78,7 +85,7 @@
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="cedula" value="99.999.999"
+                                            id="cedula" name="cedula" value="{{ usuario.cedula }}"
                                         disabled />
                                     </div>
                                     <div class="mb-3">
@@ -89,7 +96,8 @@
                                             type="text"
                                             class="form-control"
                                             id="nombre"
-                                        disabled  value="Herobrine"/>
+                                        disabled name="nombre" value="{{ usuario.nombre }}
+                                        "/>
                                     </div>
                                     <div class="mb-3">
                                         <label for="apellido" class="form-label"
@@ -98,7 +106,8 @@
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="apellido" value="Steve"
+                                            id="apellido" value="{{ usuario.apellido }}"
+                                            name="apellido"
                                         disabled />
                                     </div>
                                 </div>
@@ -114,8 +123,8 @@
                                     <input
                                         type="tel"
                                         class="form-control"
-                                        id="telefono1"
-                                    disabled value="09090909090" />
+                                        id="telefono1" name="telefono1"
+                                    disabled value=""/>
                                     </div>
                                     <div class="mb-3">
                                     <label for="telefono2" class="form-label"
@@ -124,7 +133,7 @@
                                     <input
                                         type="tel"
                                         class="form-control"
-                                        id="telefono2" value="09090909090"
+                                        id="telefono2" value="" name="telefono2"
                                     disabled />
                                     </div>
                                     <div class="mb-3">
@@ -134,7 +143,7 @@
                                     <input
                                         type="email"
                                         class="form-control"
-                                        id="correo" value="herobrine-asesor@hotmail.com"
+                                        id="correo" name="correo" value="{{ usuario.correo }}"
                                     disabled />
                                     </div>
                             </div>
@@ -231,29 +240,4 @@
     crossorigin="anonymous"
 ></script>
 
-{% comment %} Estos cambios los hizo Jeinder, tienen que ver con la actulización de la data del usuario, Antes de eliminar, revisen {% endcomment %}
-
-{% block content %}
-    <h1>Modificar Datos de la Cuenta</h1>
-    {% if messages %}
-        {% for message in messages %}
-            <div>{{ message }}</div>
-        {% endfor %}
-    {% endif %}
-    <form action="{% url 'cuenta usuario' %}" method="post">
-        {% csrf_token %}
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="{{ usuario.nombre }}" required>
-    
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" value="{{ usuario.apellido }}" required>
-    
-        <label for="correo">Correo Electrónico:</label>
-        <input type="email" id="correo" name="correo" value="{{ usuario.correo }}" required>
-    
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password">
-    
-        <button type="submit">Guardar Cambios</button>
-    </form>
 {% endblock %}
