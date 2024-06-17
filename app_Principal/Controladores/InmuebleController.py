@@ -10,7 +10,7 @@ class InmuebleForm(forms.ModelForm):
     class Meta:
         model = Inmueble
         fields = [
-            'tipoPropiedad', 'precio', 'niveles', 'metros_terreno', 
+            'nombre', 'tipoPropiedad', 'precio', 'niveles', 'metros_terreno', 
             'metros_construccion', 'bathroom', 'cuarto_servicio', 
             'oficina', 'estacionamiento', 'half_bath', 'terraza', 
             'habitacion', 'maletero', 'estado', 'direccion',

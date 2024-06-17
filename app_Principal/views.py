@@ -64,7 +64,24 @@ def coordinador(request):
 @role_required('Asesor')
 def asesor(request):
     inmuebles = Inmueble.objects.all()
-    return render(request, "views_asesor/views_asesor.html", {'inmuebles': inmuebles})
+    inmuebles_data = []
+
+    for inmueble in inmuebles:
+        propietarios = InmueblePropietario.objects.filter(inmueble_id=inmueble.id).select_related('persona_id')
+        propietarios_data = [
+            {
+                'nombre': propietario.persona_id.nombre,
+                'apellido': propietario.persona_id.apellido
+            }
+            for propietario in propietarios
+        ]
+        inmuebles_data.append({
+            'inmueble': inmueble,
+            'propietarios': propietarios_data
+        })
+
+    return render(request, "views_asesor/views_asesor.html", {'inmuebles_data': inmuebles_data})
+
 
 @login_required(login_url='login')
 @role_required('Director General')
@@ -81,9 +98,11 @@ def cerrar_sesion(request):
 def detalles_inmueble(request, inmueble_id):
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
     imagenes_inmueble = Imagen_inmueble.objects.filter(inmueble=inmueble)
+    propietarios = InmueblePropietario.objects.filter(inmueble_id=inmueble.id)
     context = {
         'inmueble': inmueble,
         'imagenes_inmueble': imagenes_inmueble,
+        'propietarios' : propietarios
     }
     return render(request, 'views_asesor/inmueble_detalle.html', context)
 

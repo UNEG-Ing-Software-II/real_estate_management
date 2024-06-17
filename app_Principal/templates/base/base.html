@@ -108,7 +108,12 @@
             <div class="modal-body style-body-modal">
                 <form method="post" id="add-form" action="{% url 'registrar_inmueble' %}">
                     {% csrf_token %}
-                    <div class="row">
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputNombrePropiedad" class="form-label">Nombre de la propiedad</label>
+                            <input type="text" class="form-control" name="nombre" id="InputNombrePropiedad" required>
+                        </div>
                         <div class="col-md-6">
                             <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
                             <select class="form-select" name="tipoPropiedad" id="InputTipoDePropiedad" required>
@@ -123,6 +128,9 @@
                                 <option value="Otros">Otros</option>
                             </select>
                         </div>
+                    </div>
+                    
+                    <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="InputEstado" class="form-label">Estado</label>
                             <select class="form-select" name="estado" id="InputEstado" required>
@@ -132,24 +140,24 @@
                                 <option value="Finalizado">Finalizado</option>
                             </select>
                         </div>
-                    </div>
-                    
-                    <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="InputPrecio" class="form-label">Precio</label>
                             <input type="number" class="form-control" name="precio" id="InputPrecio"  min="0.001" step="0.001" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="InputNiveles" class="form-label">Niveles</label>
-                            <input type="number" class="form-control" name="niveles" id="InputNiveles"  min="1" step="1" required>
                         </div>
                     </div>
 
                     <div class="row mt-3">
                         <div class="col-md-6">
+                            <label for="InputNiveles" class="form-label">Niveles</label>
+                            <input type="number" class="form-control" name="niveles" id="InputNiveles"  min="1" step="1" required>
+                        </div>
+                        <div class="col-md-6">
                             <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
                             <input type="number" class="form-control" name="metros_terreno" id="InputMetrosTerreno" min="0.001" step="0.001" required>
                         </div>
+                    </div>
+
+                    <div class="row mt-3">
                         <div class="col-md-6">
                             <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
                             <input type="number" class="form-control" name="metros_construccion" id="InputMetrosConstruccion" min="0.001" step="0.001" required>
@@ -211,11 +219,12 @@
                         </div>
                     </div> 
                     -->
-                
-                    <label for="InputDirección" class="form-label mt-2">Dirección</label>
-                    <input type="text" class="form-control" name="direccion" id="InputDireccion" required>
-                    <br>
-
+                <div class="row mt-3">
+                    <div class="col align-self-center">
+                        <div class="pb-4">
+                            <label for="InputDirección" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="direccion" id="InputDireccion" required>
+                        </div>
                     <div id="map"></div>
 
                     <!-- Agregar coordenadas geográficas por mapa -->
@@ -224,7 +233,8 @@
 
                     <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
                     <input type="file" id="InputImagen" accept="image/*">-->
-
+                    </div>
+                </div>
                     <div class="modal-footer mt-3">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         <button type="submit" class="btn btn-primary">Guardar cambios</button>
