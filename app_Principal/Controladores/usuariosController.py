@@ -64,7 +64,6 @@ def guardar_propietario_inmueble(request):
         password = request.POST.get('password', None)
         method = request.POST.get('method')
 
-        
         if method == 'nuevo':
             # Crear un nuevo propietario
             propietario = Usuario.objects.create_user(

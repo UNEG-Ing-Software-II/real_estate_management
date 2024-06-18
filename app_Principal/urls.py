@@ -2,6 +2,7 @@ from django.urls import path
 from app_Principal.views import *
 from app_Principal.Controladores.InmuebleController import *
 from app_Principal.Controladores.usuariosController import *
+from app_Principal.Controladores.areasController import *
 
 
 urlpatterns = [
@@ -24,6 +25,11 @@ urlpatterns = [
     path('buscar_propietario/', buscar_propietario, name='buscar_propietario'),
     path('validar_propietario_nuevo', validar_propietario, name='validar_propietario'),
     path('guardar_propietario_inmueble/', guardar_propietario_inmueble, name='guardar_propietario'),
-    path('eliminar_propietarios',eliminar_propietarios, name='eliminar_propietarios')
-
+    path('eliminar_propietarios',eliminar_propietarios, name='eliminar_propietarios'),
+    #Areas
+    path('registrar_area',registrar_area, name='registrar_area'),
+    path('eliminar_area/<uuid:area_id>', eliminar_area, name="eliminar_area"),
+    path('modificar_area/<uuid:area_id>', modificar_area, name="modificar_area"),
+    #script de areas
+    path('scrip_llenado_caracteristicas',scrip_llenado_caracteristicas, name="scrip_llenado_caracteristicas")
 ]

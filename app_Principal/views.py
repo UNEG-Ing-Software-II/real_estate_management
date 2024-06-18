@@ -99,12 +99,24 @@ def detalles_inmueble(request, inmueble_id):
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
     imagenes_inmueble = Imagen_inmueble.objects.filter(inmueble=inmueble)
     propietarios = InmueblePropietario.objects.filter(inmueble_id=inmueble.id)
+    caracteristicas = Caracteristica.objects.all().order_by('tipo', 'nombre')
+
+    areas_cargadas = Area.objects.filter(inmueble=inmueble)
+
+    tipos_area_set = set(caracteristicas.values_list('tipo', flat=True))
+
     context = {
         'inmueble': inmueble,
         'imagenes_inmueble': imagenes_inmueble,
-        'propietarios' : propietarios
+        'propietarios' : propietarios,
+        'caracteristicas': caracteristicas,
+        'areas_cargadas': areas_cargadas,
+        'tipos_area_set': tipos_area_set,
     }
     return render(request, 'views_asesor/inmueble_detalle.html', context)
+
+
+
 
 # -------------------------------------------------------------------------------------#
 # Crear usuario (provisional)
