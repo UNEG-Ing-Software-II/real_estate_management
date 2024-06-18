@@ -111,7 +111,7 @@ crossorigin=""></script>
                                 <div class="mb-3 mt-3">
                                     <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
                                     <div class="d-flex mx-auto">
-                                        <input type="text" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
                                         <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@ crossorigin=""></script>
                             <form id="formRegistro">
                                 <div class="mt-4 mb-3">
                                     <label for="cedulaRegistrar" class="form-label">Número de Cédula</label>
-                                    <input type="text" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="nombre" class="form-label">Nombre</label>
@@ -142,6 +142,7 @@ crossorigin=""></script>
                                     <label for="password" class="form-label">Contraseña</label>
                                     <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña" required>
                                 </div>
+                                
                             </form>
                         </div>
 
@@ -506,8 +507,6 @@ crossorigin=""></script>
                 });
             });
 
-
-        
             buscarForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 const cedula = document.querySelector('#cedulaBuscar').value;
@@ -550,38 +549,49 @@ crossorigin=""></script>
             registrarForm.addEventListener('submit', function (event) {
                 event.preventDefault();
                 const cedula = document.querySelector('#cedulaRegistrar').value;
-                const nombre = document.querySelector('#nombre').value;
-                const apellido = document.querySelector('#apellido').value;
-                const correo = document.querySelector('#correo').value;
+                const nombre = document.querySelector('#nombre').value.trim();
+                const apellido = document.querySelector('#apellido').value.trim();
+                const correo = document.querySelector('#correo').value.trim();
                 const password = document.querySelector('#password').value;
 
-                const data = new FormData();
-                    data.append('cedula', cedula);
-                    data.append('correo', correo);
+                if (!validateForm()) {
+                    event.preventDefault();
+                    alert('Por favor, complete todos los campos correctamente, no deje campos de texto con solo espacios');
+                } else{
+                        const data = new FormData();
+                        data.append('cedula', cedula);
+                        data.append('correo', correo);
 
-                fetch("{% url 'validar_propietario' %}", {
-                    method: 'POST',
-                    body: data
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        alert(data.error);
-                    } else {
-                        // Actualizar los campos ocultos del formulario para enviar los datos al backend
-                        document.querySelector('#hiddenCedula').value = cedula;
-                        document.querySelector('#hiddenNombre').value = nombre;
-                        document.querySelector('#hiddenApellido').value = apellido;
-                        document.querySelector('#hiddenCorreo').value = correo;
-                        document.querySelector('#hiddenPassword').value = password;
-                        document.querySelector('#hiddenMethod').value = 'nuevo';
-                
-                        // Enviar el formulario oculto
-                        hiddenForm.submit();
+                        fetch("{% url 'validar_propietario' %}", {
+                            method: 'POST',
+                            body: data
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                // Actualizar los campos ocultos del formulario para enviar los datos al backend
+                                document.querySelector('#hiddenCedula').value = cedula;
+                                document.querySelector('#hiddenNombre').value = nombre;
+                                document.querySelector('#hiddenApellido').value = apellido;
+                                document.querySelector('#hiddenCorreo').value = correo;
+                                document.querySelector('#hiddenPassword').value = password;
+                                document.querySelector('#hiddenMethod').value = 'nuevo';
+                        
+                                // Enviar el formulario oculto
+                                hiddenForm.submit();
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
                     }
-                })
-                .catch(error => console.error('Error:', error));
             });
+
+            function validateForm() {
+                const nombreValido = nombre.value.trim().length > 0;
+                const apellidoValido = apellido.value.trim().length > 0;
+                return nombreValido && apellidoValido;
+            }
         });
     </script>
     <!--Actualizacion en el footer de modal para gestion de propietarios-->
