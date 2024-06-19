@@ -17,6 +17,8 @@ def index(request):
 def login_view(request):
     # Verificamos primero si en el computador  hay un usario logueado
     if request.user.is_authenticated:
+
+        #FIXME: @Pablish eliminar
         messages.error(
             request, "usted ya esta logueado.", extra_tags="access_denied"
         )
@@ -64,7 +66,24 @@ def coordinador(request):
 @role_required('Asesor')
 def asesor(request):
     inmuebles = Inmueble.objects.all()
-    return render(request, "views_asesor/views_asesor.html", {'inmuebles': inmuebles})
+    inmuebles_data = []
+
+    for inmueble in inmuebles:
+        propietarios = InmueblePropietario.objects.filter(inmueble_id=inmueble.id).select_related('persona_id')
+        propietarios_data = [
+            {
+                'nombre': propietario.persona_id.nombre,
+                'apellido': propietario.persona_id.apellido
+            }
+            for propietario in propietarios
+        ]
+        inmuebles_data.append({
+            'inmueble': inmueble,
+            'propietarios': propietarios_data
+        })
+
+    return render(request, "views_asesor/views_asesor.html", {'inmuebles_data': inmuebles_data})
+
 
 @login_required(login_url='login')
 @role_required('Director General')
@@ -84,14 +103,27 @@ def detalles_inmueble(request, inmueble_id):
     incidencia = Incidencia.objects.all()    
     incidenciaRelacion = Relacion_incidencia.objects.filter( inmueble=inmueble_id)
     asesor = Usuario.objects.filter(rol='Asesor')
+    propietarios = InmueblePropietario.objects.filter(inmueble_id=inmueble.id)
+    caracteristicas = Caracteristica.objects.all().order_by('tipo', 'nombre')
+    areas_cargadas = Area.objects.filter(inmueble=inmueble)
+    tipos_area_set = set(caracteristicas.values_list('tipo', flat=True))
+
     context = {
         'inmueble': inmueble,
         'imagenes_inmueble': imagenes_inmueble,
+        'propietarios' : propietarios,
+        'caracteristicas': caracteristicas,
+        'areas_cargadas': areas_cargadas,
+        'tipos_area_set': tipos_area_set,
         'incidencias': incidencia,
         'incidenciaRelacion':incidenciaRelacion,
         'asesores':asesor,
     }
+
     return render(request, 'views_asesor/inmueble_detalle.html', context)
+
+
+
 
 # -------------------------------------------------------------------------------------#
 # Crear usuario (provisional)

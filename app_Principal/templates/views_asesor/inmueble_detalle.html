@@ -78,20 +78,186 @@ crossorigin=""></script>
 
 {% block dynamic_button %}
 
-  <div class="gap">
-  <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
-  </div>
-
-    <div class="gap"> 
-      <button class=" btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#modalAgregarPropietario" >
+            <i class="bi bi-person-fill-add"></i>Gestionar Propietarios</button>
     </div>
 
-    <!-- Modal para Borrar -->
+    <div class="modal fade" id="modalAgregarPropietario" tabindex="-1" aria-labelledby="modalAgregarPropietarioLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{inmueble.nombre}}"</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Pestañas de navegación -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab" data-bs-target="#buscar" type="button" role="tab" aria-controls="buscar" aria-selected="true">Agregar por Cédula</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button" role="tab" aria-controls="registrar" aria-selected="false">Registrar Nuevo P.</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="eliminar-tab" data-bs-toggle="tab" data-bs-target="#eliminarPropietarios" type="button" role="tab" aria-controls="eliminarPropietarios" aria-selected="false">Eliminar P.</button>
+                        </li>
+                    </ul>
+    
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Formulario de búsqueda por cédula -->
+                        <div class="tab-pane fade show active" id="buscar" role="tabpanel" aria-labelledby="buscar-tab">
+                            <form id="formBuscar" class="d-flex align-items-center">
+                                <div class="mb-3 mt-3">
+                                    <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
+                                    <div class="d-flex mx-auto">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
+                                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="resumenPropietario" class="mt-3"></div>
+                        </div>
+    
+                        <!-- Formulario de registro completo -->
+                        <div class="tab-pane fade" id="registrar" role="tabpanel" aria-labelledby="registrar-tab">
+                            <form id="formRegistro">
+                                <div class="mt-4 mb-3">
+                                    <label for="cedulaRegistrar" class="form-label">Número de Cédula</label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="correo" placeholder="Ingrese un correo" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña" required>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                        <!-- Formulario para eliminar propietarios -->
+                        <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
+                            <form id="eliminarForm" action="{% url 'eliminar_propietarios' %}" method="post">
+                                {% csrf_token %}
+                                {% if propietarios%}
+                                    {% for propietario in propietarios %}
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="propietario{{ propietario.id }}" name="propietarios_seleccionados" value="{{ propietario.id }}">
+                                            <label class="form-check-label" for="propietario{{ propietario.id }}">
+                                                {{propietario.persona_id.cedula}} - {{ propietario.persona_id.nombre }} - {{ propietario.persona_id.apellido }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class=" mt-3 text-center"><b>No hay propietarios asignados para este inmueble</b></p>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarBtn" disabled>Agregar Propietario</button>
+                    <button type="button" class="btn btn-primary d-none" id="registrarBtn">Registrar</button>
+                    <button type="button" class="btn btn-danger d-none" id="eliminarBtn" disabled>Eliminar seleccionados</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario oculto -->
+    <form id="hiddenForm" action="{% url 'guardar_propietario' %}" method="POST" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" id="hiddenCedula" name="cedula">
+        <input type="hidden" id="hiddenNombre" name="nombre">
+        <input type="hidden" id="hiddenApellido" name="apellido">
+        <input type="hidden" id="hiddenCorreo" name="correo">
+        <input type="hidden" id="hiddenPassword" name="password">
+        <input type="hidden" id="hiddenMethod" name="method">
+        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+    </form>
+    
+
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroArea" ><i class="bi bi-building-add"></i>Agregar Area</button>
+    </div>
+
+    <!-- Modal Para el registro de areas-->
+    <div class="modal fade" id="ModalRegistroArea" tabindex="-1" aria-labelledby="ModalRegistroAreaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ModalRegistroAreaLabel">Agregar Area</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    {% if caracteristicas %}
+                    <form  id="formArea" action="{% url 'registrar_area' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                                <select id="select-area" name="tipo_area" class="form-select input-select">
+                                    <option value="" selected disabled>Selecciona un área</option>
+                                    {% for tipo_area in tipos_area_set %}
+                                        <option value="{{ tipo_area }}">{{ tipo_area }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div id="caracteristicas-container"></div>
+                                <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                            
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
+                        </div>
+                    </form>
+                    {%else%}
+                        <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                No hay registros de caracteristicas en la bd, por favor, ejecute el script de llenado
+                            </div>
+                            <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="resgistrarCaracteristicas" >Script de llenado</button>
+                            </div>
+                        </form>
+                    {%endif%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
+    </div>
+
+    <div class="gap"> 
+        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
+    </div>
+
+    <!-- Modal para Borrar Inmueble-->
     <div class="modal fade" id="modalBorrar{{ inmueble.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ inmueble.id }}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Eliminar inmueble {{ inmueble.id }}</h5>
+                    <div>
+                        <h5 class="modal-title">Eliminar inmueble "{{ inmueble.nombre }}"</h5>
+                        <h4 class="text-dark"> ID del inmueble: {{inmueble.id}}</h4> 
+                    </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form action="{% url 'eliminar_inmueble' inmueble.id %}" method="post">
@@ -151,6 +317,10 @@ crossorigin=""></script>
                         {% csrf_token %}
                         <div id="first-group" class="group active-group">
                             <div class="form-group">
+                                <label for="InputNombre">Nombre de la propiedad</label>
+                                <input type="text" disabled class="form-control input-control" name="nombre" id="InputNombre" value="{{ inmueble.nombre }}" required>
+                            </div>
+                            <div class="form-group">
                                 <label for="Tipo-Propiedad">Tipo de Propiedad</label>
                                 <select class="form-select input-select" name="tipoPropiedad" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
                                     <option selected disabled hidden></option>
@@ -193,7 +363,7 @@ crossorigin=""></script>
                         <div id="second-group" class="group">
                             <div class="form-group">
                                 <label for="InputBathroom" class="form-label">Baño</label>
-                                <input type="checkbox" disabled class="" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
@@ -382,12 +552,104 @@ crossorigin=""></script>
                     </div>
 
                     
-             
-                   
                 </div>
             </div>
+
+            
         </div>
+        
+        {% for area in areas_cargadas %}
+
+            <div class="block  d-block mb-4">
+                    <div class="row">
+                        <div class="col d-flex m-4 row justify-content-start">
+                            <span><b>Tipo de Área:</b> {{ area.tipo }}</span>
+                        </div>
+
+                        <div class="col d-flex m-4 justify-content-end">
+                            <div class="d-flex">
+                                <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modificarArea{{ area.id }}">Modificar</button>
+                                <button class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarArea{{ area.id }}">Borrar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col ms-4">
+                            <ul>
+                                {% for area_caracteristica in area.area_caracteristicas_set.all %}
+                                    <li>{{ area_caracteristica.caracteristica.nombre }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>    
+
+                <!-- Modal de eliminar area  -->
+                <div class="modal fade" id="eliminarArea{{ area.id }}" tabindex="-1" aria-labelledby="eliminarAreaLabel{{ area.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="eliminarAreaLabel{{ area.id }}">Borrar Area</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{% url 'eliminar_area' area.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    Seguro desea borrar esta area?: <b>{{area.tipo}}</b>
+                                </div>
+                                <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para modificar area -->
+                <div class="modal fade" id="modificarArea{{ area.id }}" tabindex="-1" aria-labelledby="modificarAreaLabel{{ area.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modificarAreaLabel{{ area.id }}">Modificar Área</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="modificarAreaForm{{ area.id }}" action="{% url 'modificar_area' area.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <p><b>Tipo de Área:</b> {{ area.tipo }}</p>
+                                        <ul>
+                                            {% for caracteristica in caracteristicas %}
+                                                {% if caracteristica.tipo == area.tipo %}
+                                                    <li>
+                                                        <input type="checkbox" name="caracteristicas"  class="form-check-input" value="{{ caracteristica.nombre }}"
+                                                            {% for area_caracteristica in area.area_caracteristicas_set.all %}
+                                                                {% if caracteristica.nombre == area_caracteristica.caracteristica.nombre %}
+                                                                    checked
+                                                                {% endif %}
+                                                            {% endfor %}>
+                                                        {{ caracteristica.nombre }}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                </div>
+                                <input type="hidden" name="inmueble_id" value="{{ inmueble.id }}">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitForm('{{ area.id }}')">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        
     </div>
+
     <script src="{% static 'js/pagination.js' %}"></script>
     
     <script>
@@ -438,10 +700,249 @@ crossorigin=""></script>
                 const deletedImagesInput = document.getElementById('deletedImagesInput');
                 const deletedImagesJSON = JSON.stringify(deletedImages);
                 deletedImagesInput.value = deletedImagesJSON;
-                console.log(deletedImagesInput);
+                //console.log(deletedImagesInput);
             }
         }
     
     </script>
+    <!--Control de formularios y envios de informacion-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {;
+
+            const buscarForm = document.getElementById('formBuscar');
+            const registrarForm = document.getElementById('formRegistro');
+            const eliminarForm = document.getElementById('eliminarForm');
+
+            const guardarBtn = document.getElementById('guardarBtn');
+            const registrarBtn = document.getElementById('registrarBtn');
+            const eliminarBtn = document.getElementById('eliminarBtn');
+
+            const resumenPropietario = document.querySelector('#resumenPropietario');
+            const hiddenForm = document.querySelector('#hiddenForm');
+
+            registrarBtn.addEventListener('click', function() {
+                registrarForm.requestSubmit();
+            });
+
+            guardarBtn.addEventListener('click', function () {
+                hiddenForm.submit();
+            });
+
+            eliminarBtn.addEventListener('click', function() {
+                eliminarForm.requestSubmit();
+            });
+
+            const checkboxes = eliminarForm.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    const algunSeleccionado = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                    eliminarBtn.disabled = !algunSeleccionado;
+                });
+            });
+
+            buscarForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const cedula = document.querySelector('#cedulaBuscar').value;
+        
+                fetch(`{% url 'buscar_propietario' %}?cedula=${cedula}&id_inmueble={{ inmueble.id }}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            // Mostrar el resumen de los datos del propietario en la pestaña de búsqueda
+                            resumenPropietario.innerHTML = `
+                                <p class="text-center"><b>Datos del usuario propietario</b></p>
+                                <span><b>Cédula:</b> ${data.cedula}</span><br>
+                                <span><b>Nombre:</b> ${data.nombre}</span><br>
+                                <span><b>Apellido:</b> ${data.apellido}</span><br>
+                                <span><b>Correo: </b>${data.correo}</span><br>
+                                ${data.msg ? `<b><p class="text-danger">${data.msg}</p></b>` : ''}
+                            `;
+
+                            if (data.valido === true) {
+                                guardarBtn.disabled = false;
+                            } else {
+                                guardarBtn.disabled = true;
+                            }
+        
+                            // Actualizar los campos ocultos del formulario para enviar los datos al backend
+                            document.querySelector('#hiddenCedula').value = data.cedula;
+                            document.querySelector('#hiddenNombre').value = data.nombre;
+                            document.querySelector('#hiddenApellido').value = data.apellido;
+                            document.querySelector('#hiddenCorreo').value = data.correo;
+                            document.querySelector('#hiddenMethod').value = 'existente';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+
+            
+        
+            registrarForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const cedula = document.querySelector('#cedulaRegistrar').value;
+                const nombre = document.querySelector('#nombre').value.trim();
+                const apellido = document.querySelector('#apellido').value.trim();
+                const correo = document.querySelector('#correo').value.trim();
+                const password = document.querySelector('#password').value;
+
+                if (!validateForm()) {
+                    event.preventDefault();
+                    alert('Por favor, complete todos los campos correctamente, no deje campos de texto con solo espacios');
+                } else{
+                        const data = new FormData();
+                        data.append('cedula', cedula);
+                        data.append('correo', correo);
+
+                        fetch("{% url 'validar_propietario' %}", {
+                            method: 'POST',
+                            body: data
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                // Actualizar los campos ocultos del formulario para enviar los datos al backend
+                                document.querySelector('#hiddenCedula').value = cedula;
+                                document.querySelector('#hiddenNombre').value = nombre;
+                                document.querySelector('#hiddenApellido').value = apellido;
+                                document.querySelector('#hiddenCorreo').value = correo;
+                                document.querySelector('#hiddenPassword').value = password;
+                                document.querySelector('#hiddenMethod').value = 'nuevo';
+                        
+                                // Enviar el formulario oculto
+                                hiddenForm.submit();
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+            });
+
+            function validateForm() {
+                const nombreValido = nombre.value.trim().length > 0;
+                const apellidoValido = apellido.value.trim().length > 0;
+                return nombreValido && apellidoValido;
+            }
+        });
+    </script>
+    <!--Actualizacion en el footer de modal para gestion de propietarios-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pestañas
+            const buscarTab = document.getElementById('buscar-tab');
+            const registrarTab = document.getElementById('registrar-tab');
+            const eliminarTab = document.getElementById('eliminar-tab')
+        
+            // Botones
+            const guardarBtn = document.getElementById('guardarBtn');
+            const registrarBtn = document.getElementById('registrarBtn');
+            const eliminarBtn = document.getElementById('eliminarBtn');
+            
+            // Funcion para el cambio de pestaña
+            function toggleButtons() {
+                if (buscarTab.classList.contains('active')) {
+                    guardarBtn.classList.remove('d-none');
+                    registrarBtn.classList.add('d-none');
+                    eliminarBtn.classList.add('d-none');
+                } else if (registrarTab.classList.contains('active')) {
+                    guardarBtn.classList.add('d-none');
+                    registrarBtn.classList.remove('d-none');
+                    eliminarBtn.classList.add('d-none');
+                } else if (eliminarTab.classList.contains('active')){
+                    guardarBtn.classList.add('d-none');
+                    registrarBtn.classList.add('d-none');
+                    eliminarBtn.classList.remove('d-none');
+                }
+            }
+            
+            toggleButtons();
+        
+            // Cambio de pestaña
+            buscarTab.addEventListener('click', toggleButtons);
+            registrarTab.addEventListener('click', toggleButtons);
+            eliminarTab.addEventListener('click', toggleButtons);
+        });
+    </script>
+
+    <script>
+        document.getElementById('select-area').addEventListener('change', function() {
+            var selectedArea = this.value;
+            var caracteristicasContainer = document.getElementById('caracteristicas-container');
+            caracteristicasContainer.innerHTML = ''; // Limpiar el contenido anterior
+    
+            // Filtrar y agrupar las características según el tipo de área seleccionada
+            var caracteristicasPorTipo = {};
+            {% for caracteristica in caracteristicas %}
+                if ("{{ caracteristica.tipo }}" === selectedArea) {
+                    if (!caracteristicasPorTipo["{{ caracteristica.tipo }}"]) {
+                        caracteristicasPorTipo["{{ caracteristica.tipo }}"] = [];
+                    }
+                    caracteristicasPorTipo["{{ caracteristica.tipo }}"].push("{{ caracteristica.nombre }}");
+                }
+            {% endfor %}
+    
+            // Mostrar las características agrupadas en el contenedor
+            for (var tipo in caracteristicasPorTipo) {
+                if (caracteristicasPorTipo.hasOwnProperty(tipo)) {
+                    var tipoLabel = document.createElement('h4');
+                    tipoLabel.innerHTML = tipo;
+                    caracteristicasContainer.appendChild(tipoLabel);
+                    var caracteristicasList = document.createElement('ul');
+                    caracteristicasPorTipo[tipo].forEach(function(caracteristica) {
+                        var listItem = document.createElement('li');
+                        var checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = 'caracteristicas';
+                        checkbox.value = caracteristica;
+                        checkbox.classList.add('caracteristica-checkbox');
+                        checkbox.classList.add('form-check-input');
+                        listItem.appendChild(checkbox);
+                        listItem.appendChild(document.createTextNode('  '+caracteristica));
+                        caracteristicasList.appendChild(listItem);
+                    });
+                    caracteristicasContainer.appendChild(caracteristicasList);
+                }
+            }
+
+
+    
+            // Agregar evento change a los nuevos checkboxes
+            var checkboxes = caracteristicasContainer.querySelectorAll('.caracteristica-checkbox');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    var botonEnviar = document.getElementById('registrarArea');
+                    var algunSeleccionado = Array.from(checkboxes).some(function(checkbox) {
+                        return checkbox.checked;
+                    });
+                    botonEnviar.disabled = !algunSeleccionado;
+                });
+            });
+        });
+    </script>
+
+    <script>
+        function submitForm(areaId) {
+            var checkboxes = document.querySelectorAll('#modificarAreaForm' + areaId + ' input[type="checkbox"]');
+            var isChecked = false;
+    
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    isChecked = true;
+                    break;
+                }
+            }
+            
+            if (!isChecked) {
+                alert('Debes marcar al menos una característica.');
+                return;
+            }
+            document.getElementById('modificarAreaForm' + areaId).submit();
+        }
+    </script>
+    
+    
+        
 </body>
 {% endblock %}

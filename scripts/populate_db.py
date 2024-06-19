@@ -13,7 +13,6 @@ django.setup()
 
 from app_Principal import models
 
-
 ARGS = [
     {
         "key": "incidencia",
