@@ -238,17 +238,15 @@ crossorigin=""></script>
                                 <label for="InputLongitud">Longitud</label>
                                 <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.00000000000001" required>
                             </div>
-
                             <div id="map"></div>
+                        </div>
+                            
                        
                             <script>
                                 var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
                                 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
                                 L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map).bindPopup('Inmueble').openPopup();
                             </script>
-
-                            
-                        </div>
                         
 
                         <div id="fourth-group" class="group mx-auto">
@@ -276,18 +274,111 @@ crossorigin=""></script>
                             
                         </div>
 
+
+
                         <div id="btn-special">
                             <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
                             <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
                         </div>
                     </form>
+                    
+
+                    <!-- formulario de incidencias-->
+                  
+                        <div id="fifth-group" class="group mx-auto">
+                            <div class="gap">
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#ModalIncidencia"></i>Agregar Incidencia de Captación
+                                </button>
+                            </div>   
+    
+                        </div>
+
+
+
+                        <div class="modal fade" id="ModalIncidencia" tabindex="-1" aria-labelledby="ModalLabelIncidencia" aria-hidden="true">
+                            <div class="modal-dialog"> <!-- Cambié modal-lg a modal-xl para más ancho -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="ModalLabelRegistroIncidencia">Registro de Incidencia</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body style-body-modal">
+                                        <form method="post" id="add-form" action="{% url 'registrar_inmueble' %}">
+                                            {% csrf_token %}
+                                            
+                                            <div class="row mt-3">
+                                                <div class="col-sm-6 col-4">
+                                                    <label for="tipo" class="form-label text-light">Incidencia</label>
+                                                    <select class="form-select input-select" name="tipo" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                        <option selected hidden></option>
+                                                        {% for incidencia in incidencias%}
+                                                        <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
+                                                            <option value= {{incidencia.nombre}} >{{incidencia.tipo}} // {{incidencia.nombre}} {{incidencia.porcentaje}}%</option>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-3">
+                                                <div class="col-sm-6 col-4">
+                                                    <label for="asesor" class="form-label text-light">Asesor</label>
+                                                        <select class="form-select input-select" name="asesor" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                            <option selected hidden></option>
+                                                            {% for asesor in asesores %}
+                                                            <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
+                                                                <option value= {{asesor.cedula}} >{{asesor.nombre}} {{asesor.apellido}} {{asesor.cedula}}</option>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </select>
+                                                </div>
+                        
+                                                <div class="row mt-3">
+                                                    <div class="col">
+                                                        <label for="InputRealizado" class="form-label text-light">Tarea Realizada</label>
+                                                        <input type="checkbox" class="form-check-input" name="realizado" id="InputRealizado" {% if incidencia.realizado %} checked {% endif %}>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
+                                            </div>
+                        
+                                            <div class="row mt-3">
+                                                
+                                            </div>
+
+                                        </form>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                
+
+
+
+                    
+
+
+
+
+                     
                
+
+
+
+
+
+
 
                     <div class="pagination">
                         <button class="btn-pag act-btn" onclick="form_change(this, 'first-group')">1</button>
                         <button class="btn-pag" onclick="form_change(this, 'second-group')">2</button>
                         <button class="btn-pag" onclick="form_change(this, 'third-group')">3</button>
                         <button class="btn-pag" onclick="form_change(this, 'fourth-group')">4</button>
+                        <button class="btn-pag" onclick="form_change(this, 'fifth-group')">5</button>
                     </div>
 
                     

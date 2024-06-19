@@ -17,6 +17,9 @@ class InmuebleForm(forms.ModelForm):
             'latitud', 'longitud'
         ]
 
+            
+    
+
 
 # views.py
 from django.shortcuts import render, redirect, get_object_or_404
@@ -27,6 +30,8 @@ def registrar_inmueble(request):
         form = InmuebleForm(request.POST)
         if form.is_valid():
             form.save()
+            
+
             return redirect('inicio Asesor')
     return redirect('inicio Asesor')
 

@@ -16,6 +16,11 @@ from app_Principal import models
 
 ARGS = [
     {
+        "key": "incidencia",
+        "file": "../app_Principal/data/incidencias.json",
+        "model": models.Incidencia,
+    },
+    {
         "key": "estate",
         "file": "inmuebles.json",
         "model": models.Inmueble,

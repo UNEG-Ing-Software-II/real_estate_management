@@ -81,9 +81,15 @@ def cerrar_sesion(request):
 def detalles_inmueble(request, inmueble_id):
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
     imagenes_inmueble = Imagen_inmueble.objects.filter(inmueble=inmueble)
+    incidenciaVentas = Incidencia.objects.filter(tipo='Venta')    
+    incidenciaRelacion = Relacion_incidencia.objects.filter( inmueble=inmueble_id)
+    asesor = Usuario.objects.filter(rol='Asesor')
     context = {
         'inmueble': inmueble,
         'imagenes_inmueble': imagenes_inmueble,
+        'incidencias': incidencia,
+        'incidenciaRelacion':incidenciaRelacion,
+        'asesores':asesor,
     }
     return render(request, 'views_asesor/inmueble_detalle.html', context)
 
@@ -149,18 +155,18 @@ def cuenta_usuario(request):
         return render(request, 'datos_cuenta.html', {'usuario': usuario})
 
 
-
-
+"""
 # ESTO BORRA TODAS LAS TABLAS DEL RAILWAY Y LOCAL, USAR CUANDO SE ACTUALICE LA BD
-# from django.db import connection
+from django.db import connection
 
-# def eliminar_todas_las_tablas():
-#     with connection.cursor() as cursor:
+def eliminar_todas_las_tablas():
+    with connection.cursor() as cursor:
 
-#         cursor.execute('SET session_replication_role = replica;')
-#         cursor.execute('DROP SCHEMA public CASCADE; CREATE SCHEMA public;')
-#         cursor.execute('SET session_replication_role = DEFAULT;')
+        cursor.execute('SET session_replication_role = replica;')
+        cursor.execute('DROP SCHEMA public CASCADE; CREATE SCHEMA public;')
+        cursor.execute('SET session_replication_role = DEFAULT;')
 
-#     print("Todas las tablas han sido eliminadas, incluyendo aquellas con restricciones de clave externa.")
+    print("Todas las tablas han sido eliminadas, incluyendo aquellas con restricciones de clave externa.")
 
-# eliminar_todas_las_tablas()
+eliminar_todas_las_tablas()
+"""

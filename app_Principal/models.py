@@ -266,25 +266,36 @@ class Incidencia(models.Model):
         ("Venta", "Venta"),
     ]
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    inmueble = models.ForeignKey(
-        Inmueble, on_delete=models.CASCADE
-    )  # FK la tabla Inmueble
-    asesor = models.ForeignKey(
-        Usuario, on_delete=models.CASCADE
-    )  # FK la tabla Usuario
     nombre = models.CharField(
-        max_length=50,
+        max_length=200,
         default="",
     )
     tipo = models.CharField(
         max_length=20,
         choices=TIPO_INCIDENCIA_CHOICES,
     )
-    realizado = models.BooleanField()
     porcentaje = models.FloatField()
 
     class Meta:
         db_table = "Incidencia"
+
+class Relacion_incidencia(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    inmueble = models.ForeignKey(
+        Inmueble, on_delete=models.CASCADE
+    )  # FK la tabla Inmueble
+    asesor = models.ForeignKey(
+        Usuario, on_delete=models.CASCADE
+    )  # FK la tabla Usuario
+    incidencia = models.ForeignKey(
+        Incidencia, on_delete=models.CASCADE
+    )  # FK la tabla Usuario
+    realizado = models.BooleanField()
+    
+    class Meta:
+        db_table = "relacion_incidencia"
+
+        
 
 def get_image_upload_path(instance, filename):
     # para guardar las imagenes de esta forma>> "inmueble_fotos/<inmueble_id>/<filename>"
@@ -308,3 +319,9 @@ class Imagen_area(models.Model):
 
     class Meta:
         db_table = "imagen_area"
+
+
+""" 
+
+    # 
+    # """

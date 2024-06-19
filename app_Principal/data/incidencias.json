@@ -1,0 +1,55 @@
+[
+{
+ "nombre": "Contacto con el propietario",
+ "porcentaje": 20,
+ "tipo":"Captacion"
+},
+{
+    "nombre": "preparacion de la documentacion del inmueble",
+    "porcentaje": 20,
+    "tipo":"Captacion"
+},
+{
+    "nombre": "firma de contrato de exclusividad o mandato de venta",
+    "porcentaje": 20,
+    "tipo":"Captacion"
+},
+{
+    "nombre": "generar la estimacion de valor",
+    "porcentaje": 20,
+    "tipo":"Captacion"
+},
+{
+    "nombre": "publicaciones y mercadeo del inmueble",
+    "porcentaje": 20,
+    "tipo":"Captacion"
+},
+
+
+{
+    "nombre": "Contacto con el optante comprador",
+    "porcentaje": 20,
+    "tipo":"Venta"
+},
+{
+    "nombre": "vista por parte del optante comprador al inmueble",
+    "porcentaje": 20,
+    "tipo":"Venta"
+},
+{
+    "nombre": "atencion al cliente / generacion de ofertas de compra / realizacion de reunion con el cliente",
+    "porcentaje": 20,
+    "tipo":"Venta"
+},
+{
+    "nombre": "Asisrencia en la fase de cierre de la venta",
+    "porcentaje": 20,
+    "tipo":"Venta"
+},
+{
+    "nombre": "preparacion de datos de optante comprador y de propietario del inmueble para la postventa",
+    "porcentaje": 20,
+    "tipo":"Venta"
+}
+
+]
