@@ -81,7 +81,7 @@ def cerrar_sesion(request):
 def detalles_inmueble(request, inmueble_id):
     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
     imagenes_inmueble = Imagen_inmueble.objects.filter(inmueble=inmueble)
-    incidenciaVentas = Incidencia.objects.filter(tipo='Venta')    
+    incidencia = Incidencia.objects.all()    
     incidenciaRelacion = Relacion_incidencia.objects.filter( inmueble=inmueble_id)
     asesor = Usuario.objects.filter(rol='Asesor')
     context = {
