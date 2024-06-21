@@ -12,17 +12,16 @@
     {% block extra_styles %}{% endblock %}
     <title>M&R Inversiones y Desarrollos</title>
 </head>
-<body>      
-    
+<body>
+
     <!-- nav -->
     <nav>
         <div id="navbar">
-            
+
 
             {% if request.user.is_authenticated %}
-             
-                {% with url_name='inicio '|add:request.user.rol %}
-                    <a  href="{% url url_name %}">
+
+                    <a  href="{% url 'home' %}">
                         <img
                             src="{% static 'img/logo-1.2.png' %}" width="60px" height="60px"
                             alt="M&R Logo"
@@ -30,17 +29,16 @@
                             
                         />
                     </a>
-                {% endwith %}
               
                 <button id="menu-responsive" onclick="abrir()"><i class='bx bx-menu'></i></button>
                 
                 
-                {% if request.user.rol == "Asesor" %}
+                {% if request.user.role == "consultant" %}
 
                 <div class="add-button " id="nav-group">
                 <button class="cerrar" onclick="cerrar()"><i class='bx bx-x'></i></button>
                 <div class="gap">
-                    <a href="{% url 'cuenta usuario' %}" class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-user-circle' ></i>Cuenta</a>
+                    <a href="{% url 'my_account' %}" class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-user-circle' ></i>Cuenta</a>
                 </div>
 
 
@@ -50,20 +48,20 @@
                     </button>
                 </div>
 
-                {% elif request.user.rol == "Coordinador" %}
+                {% elif request.user.role == "coordinator" %}
                     <!-- Agrega otros botones o enlaces específicos para Coordinador -->
                 
-                {% elif request.user.rol == "Propietario" %}
+                {% elif request.user.role == "owner" %}
                     <!-- Agrega otros botones o enlaces específicos para Propietario -->
                 
-                {% elif request.user.rol == "Director General" %}
+                {% elif request.user.rol == "manager" %}
                     <!-- Agrega otros botones o enlaces específicos para Director General" -->
                 
                 {% endif %}
                 
                 {% block dynamic_button %}{% endblock %}
                 <div class="gap">
-                    <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="{% url 'cerrar sesion' %}">
+                    <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="{% url 'sign_off' %}">
                     <i class='bx bx-log-out icn'></i>Cerrar sesión
                     </a>
                 </div>
@@ -81,7 +79,7 @@
             <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'login' %}">
                 <i class='bx bx-log-in'></i>Iniciar sesión
             </a>
-                <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'crear usuario' %}">
+                <a class="btn btn-secondary rounded-pill px-4 py-2 in" href="{% url 'sign_up' %}">
                     <i class='bx bx-log-in'></i>crear usuario
                 </a>
             {% endif %}
@@ -95,7 +93,7 @@
 
 
 <!-- MODAL PARA CARGAR INMUEBLE -->
-{% if request.user.rol == "Asesor" %}
+{% if request.user.rol == "consultant" %}
 
 
 <div class="modal fade" id="ModalRegistroInmueble" tabindex="-1" aria-labelledby="ModalLabelRegistroInmueble" aria-hidden="true">

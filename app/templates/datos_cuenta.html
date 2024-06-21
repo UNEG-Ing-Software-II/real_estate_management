@@ -69,7 +69,7 @@
 
                     <!-- Contenido de la derecha -->
                     <div class="col-8 bg-white count-cont">
-                            <form action="{% url 'cuenta usuario' %}" method="post">
+                            <form action="{% url 'my_account' %}" method="post">
                             {% csrf_token %}
                             
                             <h2>Detalles Personales</h2>
@@ -77,35 +77,35 @@
                                 <div>
                                     <div class="mb-3">
         
-                                        <label for="cedula" class="form-label"
+                                        <label for="document" class="form-label"
                                             >Cédula</label
                                         >
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="cedula" name="cedula" value="{{ usuario.cedula }}"
+                                            id="document" name="document" value="{{ user.document }}"
                                         disabled />
                                     </div>
                                     <div class="mb-3">
-                                        <label for="nombre" class="form-label"
+                                        <label for="name" class="form-label"
                                             >Nombre</label
                                         >
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="nombre"
-                                        disabled name="nombre" value="{{ usuario.nombre }}
+                                            id="name"
+                                        disabled name="name" value="{{ user.name }}
                                         "/>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="apellido" class="form-label"
+                                        <label for="last_name" class="form-label"
                                             >Apellido</label
                                             >
                                         <input
                                             type="text"
                                             class="form-control"
-                                            id="apellido" value="{{ usuario.apellido }}"
-                                            name="apellido"
+                                            id="last_name" value="{{ user.last_name }}"
+                                            name="last_name"
                                         disabled />
                                     </div>
                                     <div class="mb-3">
@@ -139,13 +139,13 @@
                                     disabled />
                                     </div>
                                     <div class="mb-3">
-                                    <label for="correo" class="form-label"
+                                    <label for="email" class="form-label"
                                         >Correo</label
                                     >
                                     <input
                                         type="email"
                                         class="form-control"
-                                        id="correo" name="correo" value="{{ usuario.correo }}"
+                                        id="email" name="email" value="{{ user.email }}"
                                     disabled />
                                     </div>
                                     
@@ -192,20 +192,20 @@
             <script>
                 const btn_special = document.getElementById("btn-special");
                 const Inputs = {
-                    Cedula: document.getElementById("cedula"),
-                    Nombre: document.getElementById("nombre"),
-                    Apellido: document.getElementById("apellido"),
-                    Correo: document.getElementById("correo"),
+                    document: document.getElementById("document"),
+                    name: document.getElementById("name"),
+                    last_name: document.getElementById("last_name"),
+                    email: document.getElementById("email"),
                     Telf_1: document.getElementById("telefono1"),
                     Telf_2: document.getElementById("telefono2"),
                     password: document.getElementById("password"),
                 };
-            
+
                 const visible = () => {
-                    const isDisabled = Inputs.Cedula.disabled;
+                    const isDisabled = Inputs.document.disabled;
                     Object.keys(Inputs).forEach(key => {
                         Inputs[key].disabled = !isDisabled;
-                    });         
+                    });
                     btn_special.style.visibility = isDisabled ? "visible" : "hidden";
                 };
 

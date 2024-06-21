@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "app_Principal",
+    "app",
 ]
 
-AUTH_USER_MODEL = "app_Principal.Usuario"
+AUTH_USER_MODEL = "app.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -66,8 +66,8 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            "app_Principal/templates",
-            "app_Principal/templates/views_asesor",
+            "app/templates",
+            "app/templates/views_asesor",
         ],
         "APP_DIRS": True,
         "OPTIONS": {

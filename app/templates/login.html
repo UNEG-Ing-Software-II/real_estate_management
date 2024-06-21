@@ -33,10 +33,11 @@
                     <h2>ACCEDE A TU CUENTA</h2>
                     <form method="POST" class="card-log">
                         {% csrf_token %}
-                        <input type="email" class="log" placeholder="Email" id="usuario" name="correo">
+                        <input type="email" class="log" placeholder="Email" id="usuario" name="username">
                         <input type="password" class="log" placeholder="Contraseña" id="password" name="password" >
                         <button type="submit" class="btn btn-primary ">ACCEDER</button>
                     </form>
+                    <a href="{% url 'sign_up' %}">Crear usuario</a>
             </div>
         </div>
     

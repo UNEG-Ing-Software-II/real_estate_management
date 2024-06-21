@@ -1,5 +1,5 @@
 from django import forms
-from app_Principal.models import *
+from app.models import *
 from django.contrib.auth.decorators import login_required
 from MyR.backend import role_required     
 from django.shortcuts import render, redirect, get_object_or_404

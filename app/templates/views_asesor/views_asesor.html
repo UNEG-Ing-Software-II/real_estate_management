@@ -26,7 +26,7 @@
 {% block content %}
 <body id="Fondo">
     <div class="block-name">
-        <h2 class="name-asesor">Bienvenido {{ request.user.rol }} {{ request.user.nombre }}</h2>
+        <h2 class="name-asesor">Bienvenido {{ request.user.name }}</h2>
     </div>
 
     <div class="d-fluid">
@@ -42,24 +42,24 @@
     </div>
 
     <h1 class="mt-5 text-center text-light">Inmuebles:</h1>
-    {% if inmuebles_data %}
+    {% if estates %}
         <div class="cards">
             <div class="row">
-                {% for data in inmuebles_data %}
+                {% for data in estates %}
                     <div class="col-12 col-sm-6 col-lg-4 mb-4 rule">
                         <div class="card bg-white">
-                            <a href="{% url 'inmueble_detalles' data.inmueble.id %}">
+                            <a href="{% url 'estate' data.estate.id %}">
                                 <img src="{% static 'img/Inmueble1.jpeg' %}" alt="Exterior View" class="card-img-top" />
                                 <div class="card-body">
-                                    <h3 class="card-title">{{ data.inmueble.nombre }}</h3>
+                                    <h3 class="card-title">{{ data.estate.name }}</h3>
                                     <h4>Propietarios:
-                                        {% for propietario in data.propietarios %}
-                                            {{ propietario.nombre }} {{ propietario.apellido }} {% if not forloop.last %}, {% else %}.{% endif %}
+                                        {% for p in data.owners %}
+                                            {{ p.name }} {{ p.last_name }} {% if not forloop.last %}, {% else %}.{% endif %}
                                         {% empty %}
                                             No hay propietarios asociados.
                                         {% endfor %}
                                     </h4>
-                                    <h4 class="text-dark">ID propiedad: {{ data.inmueble.id }}</h4>
+                                    <h4 class="text-dark">ID propiedad: {{ data.estate.id }}</h4>
                                 </div>
                             </a>
                         </div>

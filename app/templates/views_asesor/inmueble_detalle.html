@@ -10,6 +10,8 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
+
+{% comment %} Mover a un archivo .css en static/ {% endcomment %}
 <style>
 
     #map {
@@ -148,12 +150,12 @@ crossorigin=""></script>
 
                         <!-- Formulario para eliminar propietarios -->
                         <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
-                            <form id="eliminarForm" action="{% url 'eliminar_propietarios' %}" method="post">
+                            <form id="eliminarForm" action="{% url 'unlink_owner' %}" method="post">
                                 {% csrf_token %}
                                 {% if propietarios%}
                                     {% for propietario in propietarios %}
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="propietario{{ propietario.id }}" name="propietarios_seleccionados" value="{{ propietario.id }}">
+                                            <input class="form-check-input" type="checkbox" id="propietario{{ propietario.id }}" name="selected_property" value="{{ propietario.id }}">
                                             <label class="form-check-label" for="propietario{{ propietario.id }}">
                                                 {{propietario.persona_id.cedula}} - {{ propietario.persona_id.nombre }} - {{ propietario.persona_id.apellido }}
                                             </label>
@@ -178,7 +180,7 @@ crossorigin=""></script>
     </div>
 
     <!-- Formulario oculto -->
-    <form id="hiddenForm" action="{% url 'guardar_propietario' %}" method="POST" style="display:none;">
+    <form id="hiddenForm" action="{% url 'save_owner' %}" method="POST" style="display:none;">
         {% csrf_token %}
         <input type="hidden" id="hiddenCedula" name="cedula">
         <input type="hidden" id="hiddenNombre" name="nombre">
@@ -222,7 +224,7 @@ crossorigin=""></script>
                             <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
                         </div>
                     </form>
-                    {%else%}
+                    {% comment %} {%else%}
                         <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
                             {% csrf_token %}
                             <div class="modal-body">
@@ -233,7 +235,7 @@ crossorigin=""></script>
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-primary" id="resgistrarCaracteristicas" >Script de llenado</button>
                             </div>
-                        </form>
+                        </form> {% endcomment %}
                     {%endif%}
 
                 </div>
@@ -260,9 +262,11 @@ crossorigin=""></script>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{% url 'eliminar_inmueble' inmueble.id %}" method="post">
+                {% comment %} El valor a eliminar, se debe enviar por el POST, agregar un input oculto que lo pase {% endcomment %}
+                <form action="{% url 'estate_delete' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
+                        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
                         <p>¿Estás seguro que deseas eliminar este inmueble?</p>
                     </div>
                     <div class="modal-footer">
@@ -313,8 +317,9 @@ crossorigin=""></script>
                 <div class="info">
                     <h1 id="details-title">DETALLES DEL INMUEBLE</h1>
                     <hr>
-                    <form class="form-container d-flex" id="form" action="{% url 'modificar_inmueble' inmueble.id %}" enctype="multipart/form-data" method="post">
+                    <form class="form-container d-flex" id="form" action="{% url 'estate_update'%}" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
+                        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
                         <div id="first-group" class="group active-group">
                             <div class="form-group">
                                 <label for="InputNombre">Nombre de la propiedad</label>
@@ -473,7 +478,7 @@ crossorigin=""></script>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body style-body-modal">
-                                        <form method="post" id="add-form" action="{% url 'registrar_inmueble' %}">
+                                        <form method="post" id="add-form" action="{% url 'estate_create' %}">
                                             {% csrf_token %}
                                             
                                             <div class="row mt-3">
@@ -652,6 +657,7 @@ crossorigin=""></script>
 
     <script src="{% static 'js/pagination.js' %}"></script>
     
+    {% comment %} Mover a 'static' :( {% endcomment %}
     <script>
         const btn_special = document.getElementById("btn-special");
         const Inputs = {
@@ -744,7 +750,7 @@ crossorigin=""></script>
                 event.preventDefault();
                 const cedula = document.querySelector('#cedulaBuscar').value;
         
-                fetch(`{% url 'buscar_propietario' %}?cedula=${cedula}&id_inmueble={{ inmueble.id }}`)
+                fetch(`{% url 'search_owner' %}?cedula=${cedula}&id_inmueble={{ inmueble.id }}`)
                     .then(response => response.json())
                     .then(data => {
                         if (data.error) {
@@ -771,7 +777,7 @@ crossorigin=""></script>
                             document.querySelector('#hiddenNombre').value = data.nombre;
                             document.querySelector('#hiddenApellido').value = data.apellido;
                             document.querySelector('#hiddenCorreo').value = data.correo;
-                            document.querySelector('#hiddenMethod').value = 'existente';
+                            document.querySelector('#hiddenMethod').value = 'existing';
                         }
                     })
                     .catch(error => console.error('Error:', error));
@@ -795,7 +801,7 @@ crossorigin=""></script>
                         data.append('cedula', cedula);
                         data.append('correo', correo);
 
-                        fetch("{% url 'validar_propietario' %}", {
+                        fetch("{% url 'validate_owner' %}", {
                             method: 'POST',
                             body: data
                         })
@@ -810,7 +816,7 @@ crossorigin=""></script>
                                 document.querySelector('#hiddenApellido').value = apellido;
                                 document.querySelector('#hiddenCorreo').value = correo;
                                 document.querySelector('#hiddenPassword').value = password;
-                                document.querySelector('#hiddenMethod').value = 'nuevo';
+                                document.querySelector('#hiddenMethod').value = 'new';
                         
                                 // Enviar el formulario oculto
                                 hiddenForm.submit();

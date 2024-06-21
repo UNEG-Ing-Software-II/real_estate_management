@@ -1,24 +1,15 @@
 # forms.py
 import shutil
 from django import forms
-from app_Principal.models import *
+from app.models import *
 from django.contrib.auth.decorators import login_required
 from MyR.backend import role_required     
 import json
 
-class InmuebleForm(forms.ModelForm):
+class EstateForm(forms.ModelForm):
     class Meta:
-        model = Inmueble
-        fields = [
-            'nombre', 'tipoPropiedad', 'precio', 'niveles', 'metros_terreno', 
-            'metros_construccion', 'bathroom', 'cuarto_servicio', 
-            'oficina', 'estacionamiento', 'half_bath', 'terraza', 
-            'habitacion', 'maletero', 'estado', 'direccion',
-            'latitud', 'longitud'
-        ]
-
-            
-    
+        model = Estate
+        fields = "__all__"
 
 
 # views.py
@@ -87,9 +78,16 @@ def eliminar_inmueble(request, inmueble_id):
     return redirect('inicio Asesor')
 
 
-def inmuebles_registrados(request):
-    inmuebles = Inmueble.objects.all()
-    return render(request, 'inmuebles_registrados.html', {'inmuebles': inmuebles})
+class EstateController:
+
+    def create(request):
+        return redirect("home")
+
+    def delete(request):
+        return redirect("home")
+
+    def update(request):
+        return redirect("estate", estate_id=request.POST["id"])
 
 
 

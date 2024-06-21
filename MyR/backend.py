@@ -1,6 +1,6 @@
-from app_Principal.models import *
+from app.models import *
 from django.shortcuts import redirect, render
-from app_Principal.models import *
+from app.models import *
 from django.http import request
 from functools import wraps
 from django.http import HttpResponseForbidden
