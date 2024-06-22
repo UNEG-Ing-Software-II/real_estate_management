@@ -13,6 +13,7 @@ class EstateForm(forms.ModelForm):
         model = Estate
         fields = "__all__"
 
+
 class EstateController:
 
     @login_required(login_url="login")
@@ -45,38 +46,37 @@ class EstateController:
 
 
     @login_required(login_url="login")
-    def update(request, estate_id):
+    def update(request):
 
-        estate = get_object_or_404(Estate, id=estate_id)
+        estate = get_object_or_404(Estate, id=request.POST.get("estate_id"))
 
         if request.method != "POST":
             return redirect("home")
 
-        form = EstateForm(request.POST, instance=estate_id)
+        form = EstateForm(request.POST, instance=estate)
 
-        if not form.is_valid():
-            return redirect("home")
+        if form.is_valid():
+            form.save()
 
-        form.save()
+            for image in request.FILES.getlist("images"):
+                ImageEstate.objects.create(estate_id=estate, image=image)
 
-        for image in request.FILES.getlist("images"):
-            ImageEstate.objects.create(estate_id=estate, image=image)
+            if request.POST.get("deletedImages"):
+                for image_id in json.loads(request.POST.get("deletedImages")):
+                    try:
+                        image_estate = ImageEstate.objects.get(id=image_id)
 
-        for image_id in json.loads(request.POST.get("deletedImages")):
-            try:
-                image_estate = ImageEstate.objects.get(id=image_id)
+                        if image_estate.image and os.path.isfile(image_estate.image.path):
+                            os.remove(image_estate.image.path)
 
-                if image_estate.image and os.path.isfile(image_estate.image.path):
-                    os.remove(image_estate.image.path)
-
-                image_estate.delete()
-            except ImageEstate.DoesNotExist:
-                continue
-        return redirect("home")
+                        image_estate.delete()
+                    except ImageEstate.DoesNotExist:
+                        continue
+        return redirect("estate", estate_id=estate.id)
 
 
     def delete(request):
-        estate = get_object_or_404(Estate, id=request.POST["id"])
+        estate = get_object_or_404(Estate, id=request.POST["estate_id"])
 
         if request.method != "POST":
             return redirect("home")
@@ -147,36 +147,36 @@ class EstateController:
 #     return redirect('inicio Asesor')
 
 
-# @login_required(login_url='login')
-# @role_required('Asesor')
-# def modificar_inmueble(request, inmueble_id):
-#     # Obtener el inmueble por su ID
-#     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
-#     if request.method == 'POST':
-#         form = InmuebleForm(request.POST, instance=inmueble)
-#         if form.is_valid():
-#             form.save()
-#             #Nuevas Imagenes
-#             fotos = request.FILES.getlist('fotos')
-#             for foto in fotos:
-#                 imagen_inmueble = Imagen_inmueble()
-#                 imagen_inmueble.inmueble = inmueble
-#                 imagen_inmueble.foto = foto
-#                 imagen_inmueble.save()
+@login_required(login_url='login')
+@role_required('Asesor')
+def modificar_inmueble(request, inmueble_id):
+    # Obtener el inmueble por su ID
+    inmueble = get_object_or_404(Inmueble, id=inmueble_id)
+    if request.method == 'POST':
+        form = InmuebleForm(request.POST, instance=inmueble)
+        if form.is_valid():
+            form.save()
+            #Nuevas Imagenes
+            fotos = request.FILES.getlist('fotos')
+            for foto in fotos:
+                imagen_inmueble = Imagen_inmueble()
+                imagen_inmueble.inmueble = inmueble
+                imagen_inmueble.foto = foto
+                imagen_inmueble.save()
             
-#             #Imágenes eliminadas
-#             deleted_images = request.POST.get('deletedImages')
-#             if deleted_images:
-#                 deleted_images = json.loads(deleted_images)
-#                 for image_id in deleted_images:
-#                     try:
-#                         image = Imagen_inmueble.objects.get(id=image_id)
+            #Imágenes eliminadas
+            deleted_images = request.POST.get('deletedImages')
+            if deleted_images:
+                deleted_images = json.loads(deleted_images)
+                for image_id in deleted_images:
+                    try:
+                        image = Imagen_inmueble.objects.get(id=image_id)
                         
-#                         if image.foto and os.path.isfile(image.foto.path):
-#                             os.remove(image.foto.path)
+                        if image.foto and os.path.isfile(image.foto.path):
+                            os.remove(image.foto.path)
                         
-#                         image.delete()
-#                     except Imagen_inmueble.DoesNotExist:
-#                         continue
-#             return redirect('inicio Asesor')
-#     return redirect('inicio Asesor')
+                        image.delete()
+                    except Imagen_inmueble.DoesNotExist:
+                        continue
+            return redirect('inicio Asesor')
+    return redirect('inicio Asesor')

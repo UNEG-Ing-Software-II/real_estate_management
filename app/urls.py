@@ -2,7 +2,7 @@ from django.urls import path
 from app import views
 from app.controllers.UserController import UserController
 from app.controllers.EstateController import EstateController
-# from app.controllers.areasController import *
+from app.controllers.AreaController import AreaController
 
 
 urlpatterns = [
@@ -22,7 +22,10 @@ urlpatterns = [
     path("save_owner", UserController.save_owner, name="save_owner"),
     path("unlink_owner", UserController.unlink_owner, name="unlink_owner"),
     path("search_owner", UserController.search_owner, name="search_owner"),
-    path("validate_owner", UserController.validate_owner, name="validate_owner")
+    path("validate_owner", UserController.validate_owner, name="validate_owner"),
+
+    #Area
+    path("area/create", AreaController.create, name="area_create")
 
     # path('inmuebles-registrados/', inmuebles_registrados, name='inmuebles registrados'), #Leer
     # path('registrar-inmueble/', registrar_inmueble, name='registrar_inmueble'), #Crear

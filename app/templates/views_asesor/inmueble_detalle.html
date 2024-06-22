@@ -205,7 +205,7 @@ crossorigin=""></script>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                     {% if features %}
-                    <form  id="formArea" action="{% url 'registrar_area' %}" method="POST">
+                    <form  id="formArea" action="{% url 'area_create' %}" method="POST">
                         {% csrf_token %}
                         <div class="modal-body">
                                 <select id="select-area" name="area_type" class="form-select input-select">
@@ -293,7 +293,7 @@ crossorigin=""></script>
                             <div class="carousel-inner ">
                                 {% for img in estate_images %}
                                     <div class="carousel-item {% if forloop.first %} active {% endif %} ">
-                                        <img src="{{ img.foto.url }}" class="d-block carousel-image" alt="">
+                                        <img src="{{ img.image.url }}" class="d-block carousel-image" alt="">
                                     </div>
                                 {% endfor %}
 
@@ -648,6 +648,7 @@ crossorigin=""></script>
     <script>
         const btn_special = document.getElementById("btn-special");
         const Inputs = {
+            Nombre: document.getElementById("InputNombre"),
             Propiedad: document.getElementById("Tipo-Propiedad"),
             Estado: document.getElementById("InputEstado"),
             Precio: document.getElementById("InputPrecio"),
