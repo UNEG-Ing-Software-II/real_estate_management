@@ -22,7 +22,7 @@ ARGS = [
     {
         "key": "features",
         "file": BASE_DIR + "\\app\\data\\features.json",
-        "model": models.Task,
+        "model": models.Feature,
     },
     {
         "key": "estate",
