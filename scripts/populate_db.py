@@ -3,32 +3,37 @@ import sys
 import django
 import json
 
-# Configurar la ruta base del proyecto (un directorio hacia atrás)
+# Configure the base route of the project (a backward directory)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(BASE_DIR)
 
-# Configurar el entorno de Django
+# Configure Django's environment
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "MyR.settings")
 django.setup()
 
-from app_Principal import models
+from app import models
 
 ARGS = [
     {
-        "key": "incidencia",
-        "file": "../app_Principal/data/incidencias.json",
-        "model": models.Incidencia,
+        "key": "tasks",
+        "file": BASE_DIR + "\\app\\data\\tasks.json",
+        "model": models.Task,
+    },
+    {
+        "key": "features",
+        "file": BASE_DIR + "\\app\\data\\features.json",
+        "model": models.Feature,
     },
     {
         "key": "estate",
-        "file": "inmuebles.json",
-        "model": models.Inmueble,
+        "file": BASE_DIR + "\\scripts\\estates.json",
+        "model": models.Estate,
     },
     {
         "key": "users",
-        "file": "usuarios.json",
-        "model": models.Usuario,
-        "function": models.Usuario.objects.create_user,
+        "file": BASE_DIR + "\\scripts\\users.json",
+        "model": models.User,
+        "function": models.User.objects.create_user,
     },
 ]
 
@@ -46,7 +51,7 @@ for item in ARGS:
             )
             print(
                 "%s (%s) Created satisfactorily"
-                % (model.nombre, item["key"].upper())
+                % (model.__str__(), item["key"].upper())
             )
-        except:
-            pass
+        except Exception as e:
+            print(str(e))

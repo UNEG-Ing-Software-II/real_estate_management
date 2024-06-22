@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.1.37"]
 
-#para las imagenes: 
+#For images:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -44,10 +44,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "app_Principal",
+    "app",
 ]
 
-AUTH_USER_MODEL = "app_Principal.Usuario"
+AUTH_USER_MODEL = "app.User"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -66,8 +66,9 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            "app_Principal/templates",
-            "app_Principal/templates/views_asesor",
+            "app/templates",
+            "app/templates/consultant",
+            "app/templates/user",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -97,7 +98,7 @@ DATABASES = {
         "HOST": "localhost",
         "DATABASE_PORT": "5432",
     }
- }
+}
 
 
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]

@@ -1,0 +1,773 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+
+{% block extra_styles %}
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <link rel="stylesheet" href="{% static 'styles/state_form.css' %}">
+
+{% endblock %}
+
+{% block dynamic_button %}
+
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#modalAgregarPropietario" >
+            <i class="bi bi-person-fill-add"></i>Gestionar Propietarios</button>
+    </div>
+
+    <div class="modal fade" id="modalAgregarPropietario" tabindex="-1" aria-labelledby="modalAgregarPropietarioLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{state.name}}"</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Pestañas de navegación -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab" data-bs-target="#buscar" type="button" role="tab" aria-controls="buscar" aria-selected="true">Agregar por Cédula</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button" role="tab" aria-controls="registrar" aria-selected="false">Registrar Nuevo P.</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="eliminar-tab" data-bs-toggle="tab" data-bs-target="#eliminarPropietarios" type="button" role="tab" aria-controls="eliminarPropietarios" aria-selected="false">Eliminar P.</button>
+                        </li>
+                    </ul>
+    
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Formulario de búsqueda por cédula -->
+                        <div class="tab-pane fade show active" id="buscar" role="tabpanel" aria-labelledby="buscar-tab">
+                            <form id="formBuscar" class="d-flex align-items-center">
+                                <div class="mb-3 mt-3">
+                                    <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
+                                    <div class="d-flex mx-auto">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
+                                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="resumenPropietario" class="mt-3"></div>
+                        </div>
+    
+                        <!-- Formulario de registro completo -->
+                        <div class="tab-pane fade" id="registrar" role="tabpanel" aria-labelledby="registrar-tab">
+                            <form id="formRegistro">
+                                <div class="mt-4 mb-3">
+                                    <label for="cedulaRegistrar" class="form-label">Número de Cédula</label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="correo" placeholder="Ingrese un correo" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña" required>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                        <!-- Formulario para eliminar propietarios -->
+                        <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
+                            <form id="eliminarForm" action="{% url 'unlink_owner' %}" method="post">
+                                {% csrf_token %}
+                                {% if owners%}
+                                    {% for owner in owners %}
+                                        <div class="form-check">
+                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_owners" value="{{ owner.id }}">
+                                            <label class="form-check-label" for="owner{{ owner.id }}">
+                                                {{owner.owner_id.document}} - {{ owner.owner_id.name }} - {{ owner.owner_id.last_name }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class=" mt-3 text-center"><b>No hay propietarios asignados para este inmueble</b></p>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarBtn" disabled>Agregar Propietario</button>
+                    <button type="button" class="btn btn-primary d-none" id="registrarBtn">Registrar</button>
+                    <button type="button" class="btn btn-danger d-none" id="eliminarBtn" disabled>Eliminar seleccionados</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario oculto -->
+    <form id="hiddenForm" action="{% url 'save_owner' %}" method="POST" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" id="hiddenDocument" name="document">
+        <input type="hidden" id="hiddenName" name="name">
+        <input type="hidden" id="hiddenLastName" name="lastName">
+        <input type="hidden" id="hiddenEmail" name="email">
+        <input type="hidden" id="hiddenPassword" name="password">
+        <input type="hidden" id="hiddenMethod" name="method">
+        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+    </form>
+    
+
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroArea" ><i class="bi bi-building-add"></i>Agregar Area</button>
+    </div>
+
+    <!-- Modal Para el registro de areas-->
+    <div class="modal fade" id="ModalRegistroArea" tabindex="-1" aria-labelledby="ModalRegistroAreaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ModalRegistroAreaLabel">Agregar Area</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    {% if features %}
+                    <form  id="formArea" action="{% url 'area_create' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                                <select id="select-area" name="area_type" class="form-select input-select">
+                                    <option value="" selected disabled>Selecciona un área</option>
+                                    {% for key, value in area_types_set.items %}
+                                        <option value="{{ key }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div id="caracteristicas-container"></div>
+                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                            
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
+                        </div>
+                    <!--</form>-->
+                    {% comment %} {%else%}
+                        <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                No hay registros de caracteristicas en la bd, por favor, ejecute el script de llenado
+                            </div>
+                            <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="resgistrarCaracteristicas" >Script de llenado</button>
+                            </div>
+                        </form> {% endcomment %}
+                    {%endif%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="gap">
+        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
+    </div>
+
+    <div class="gap"> 
+        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ estate.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
+    </div>
+
+    <!-- Modal para Borrar Inmueble-->
+    <div class="modal fade" id="modalBorrar{{ estate.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ estate.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">Eliminar inmueble "{{ estate.name }}"</h5>
+                        <h4 class="text-dark"> ID del inmueble: {{estate.id}}</h4> 
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% comment %} El valor a eliminar, se debe enviar por el POST, agregar un input oculto que lo pase {% endcomment %}
+                <form action="{% url 'estate_delete' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                        <p>¿Estás seguro que deseas eliminar este inmueble?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block content %}
+<body id="Fondo">
+    <div class="container-center">
+        <div class="center">
+            <div class="block">
+
+
+                <div class="carousel align-self-center">
+                    {% if estate_images %}
+                        <div id="carousel_imagenes" class="carousel slide m-0 p-0">
+                            <div class="carousel-inner ">
+                                {% for img in estate_images %}
+                                    <div class="carousel-item {% if forloop.first %} active {% endif %} ">
+                                        <img src="{{ img.image.url }}" class="d-block carousel-image" alt="">
+                                    </div>
+                                {% endfor %}
+
+                                <button class="carousel-control-prev" type="button" data-bs-target="#carousel_imagenes" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#carousel_imagenes" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
+                        </div>
+
+                    {% else %}
+                        <img src="{% static 'img/Inmueble1.jpeg' %}" class="inmueble" alt="">
+                    {% endif %}
+                </div>
+
+
+                <div class="info">
+                    <h1 id="details-title">DETALLES DEL INMUEBLE</h1>
+                    <hr>
+                    <form class="form-container d-flex" id="form" action="{% url 'estate_update'%}" enctype="multipart/form-data" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                        <div id="first-group" class="group active-group">
+                            <div class="form-group">
+                                <label for="InputNombre">Nombre de la propiedad</label>
+                                <input type="text" disabled class="form-control input-control" name="name" id="InputNombre" value="{{ estate.name }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="Tipo-Propiedad">Tipo de Propiedad</label>
+                                <select class="form-select input-select" name="type" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
+                                    <option selected disabled hidden></option>
+                                    <option value="apartment" {% if estate.type == 'apartment' %} selected {% endif %}>Apartamento</option>
+                                    <option value="town_house" {% if estate.type == 'town_house' %} selected {% endif %}>Town house</option>
+                                    <option value="country_house" {% if estate.type == 'country_house' %} selected {% endif %}>Quinta</option>
+                                    <option value="house" {% if estate.type == 'house' %} selected {% endif %}>Casa</option>
+                                    <option value="shed" {% if estate.type == 'shed' %} selected {% endif %}>Galpon</option>
+                                    <option value="office" {% if estate.type == 'office' %} selected {% endif %}>Oficina</option>
+                                    <option value="f_trade" {% if estate.type == 'F comercio' %} selected {% endif %}>F comercio</option>
+                                    <option value="others" {% if estate.type == 'others' %} selected {% endif %}>Otros</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputEstado">Estado</label>
+                                <select class="form-select input-select" aria-label="Default select example" required id="InputEstado" name="state" disabled>
+                                    <option selected disabled hidden></option>
+                                    <option value="sale" {% if estate.state == 'sale' %} selected {% endif %}>En venta</option>
+                                    <option value="rent" {% if estate.state == 'rent' %} selected {% endif %}>En alquiler</option>
+                                    <option value="finished" {% if estate.state == 'finished' %} selected {% endif %}>Finalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputPrecio">Precio</label>
+                                <input type="number" class="form-control input-control" id="InputPrecio" name="price" value="{{ estate.price }}" min="0.001" step="0.001" disabled required>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputNiveles">Niveles</label>
+                                <input type="number" disabled class="form-control input-control" id="InputNiveles" name="levels" value="{{ estate.levels }}" min="1" step="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputMetrosTerreno">Metros² del terreno</label>
+                                <input type="number" disabled class="form-control input-control" id="InputMetrosTerreno" name="land_meters" value="{{ estate.land_meters }}" min="0.001" step="0.001" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputMetrosConstrucción">Metros² de construcción</label>
+                                <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="construction_meters" value="{{ estate.construction_meters }}" min="0.001" step="0.001" required>
+                            </div>
+                        </div>
+                        <div id="second-group" class="group">
+                            <div class="form-group">
+                                <label for="InputBathroom" class="form-label">Baño</label>
+                                <input type="checkbox" disabled class="form-check-input" name="bathroom" id="InputBathroom" {% if estate.bathroom %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
+                                <input type="checkbox" disabled class="form-check-input" name="service_room" id="InputCuartoServicio" {% if estate.service_room %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputOficina" class="form-label">Oficina</label>
+                                <input type="checkbox" disabled class="form-check-input" name="office" id="InputOficina" {% if estate.office %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
+                                <input type="checkbox" disabled class="form-check-input" name="parking" id="InputEstacionamiento" {% if estate.parking %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputHalfBath" class="form-label">Medio baño</label>
+                                <input type="checkbox" disabled class="form-check-input" name="half_bath" id="InputHalfBath" {% if estate.half_bath %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputTerraza" class="form-label">Terraza</label>
+                                <input type="checkbox" disabled class="form-check-input" name="terrace" id="InputTerraza" {% if estate.terrace %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputHabitacion" class="form-label">Habitación</label>
+                                <input type="checkbox" disabled class="form-check-input" name="room" id="InputHabitacion" {% if estate.room %} checked {% endif %}>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputMaletero" class="form-label">Maletero</label>
+                                <input type="checkbox" disabled class="form-check-input" name="trunk" id="InputMaletero" {% if estate.trunk %} checked {% endif %}>
+                            </div>
+                        </div>
+
+                        <div id="third-group" class="group">
+                            <div class="form-group">
+                                <label for="InputDireccion" class="form-label">Dirección</label>
+                                <input type="text" disabled class="form-control input-control" name="address" id="InputDireccion" value="{{ estate.address }}" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputLatitud">Latitud</label>
+                                <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitude" value="{{ estate.latitude }}" min="-90" max="90" step="0.00000000000001" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="InputLongitud">Longitud</label>
+                                <input type="number" disabled class="form-control input-control" id="InputLongitud" name="altitude" value="{{ estate.altitude }}" min="-180" max="180" step="0.00000000000001" required>
+                            </div>
+                            <div id="map"></div>
+                        </div>
+                            
+                       
+                            <script>
+                                var map = L.map('map').setView([{{ inmueble.latitud }}, {{ inmueble.longitud }}], 16);
+                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                                L.marker([{{ inmueble.latitud }}, {{ inmueble.longitud }}]).addTo(map).bindPopup('Inmueble').openPopup();
+                            </script>
+                        
+
+                        <div id="fourth-group" class="group mx-auto">
+                            
+                                <div class="form-group">
+                                    <label for="InputFotos" class="form-label">Cargar Fotos</label>
+                                    <input type="file" disabled multiple class="form-control input-control"  name="images" id="InputFotos" accept="image/*" >
+                                </div>
+                            
+                                {% if estate_images %}
+                                    <div class="form-group">
+                                    <input type="hidden" id="deletedImagesInput" name="deletedImages">
+                                    
+                                    <label class="form-label">Fotos Cargadas</label>
+                                        <div class="existing-images">
+                                            {% for img in estate_images %}
+                                                <div class="image-container" id="image-{{ img.id }}">
+                                                    <img src="{{ img.image.url }}" class="existing-image" alt="Imagen del Inmueble">
+                                                    <button type="button" hidden class="btn btn-img btn-danger btn-sm" onclick="deleteImage('{{ img.id }}')" >Eliminar</button>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            
+                        </div>
+
+
+
+                        <div id="btn-special">
+                            <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
+                            <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
+                        </div>
+                    </form>
+                    
+
+                    <!-- formulario de incidencias-->
+                  
+                        <div id="fifth-group" class="group mx-auto">
+                            <div class="gap">
+                                <button type="button"  data-bs-toggle="modal" data-bs-target="#ModalIncidencia"></i>Agregar Incidencia de Captación
+                                </button>
+                            </div>   
+    
+                        </div>
+
+
+
+                        <div class="modal fade" id="ModalIncidencia" tabindex="-1" aria-labelledby="ModalLabelIncidencia" aria-hidden="true">
+                            <div class="modal-dialog"> <!-- Cambié modal-lg a modal-xl para más ancho -->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="ModalLabelRegistroIncidencia">Registro de Incidencia</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body style-body-modal">
+                                        <form method="post" id="add-form" action="{% url 'task_create' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                            <div class="row mt-3">
+                                                <div class="col-sm-6 col-4">
+                                                    <label for="tipo" class="form-label text-light">Incidencia</label>
+                                                    <select class="form-select input-select" name="task_id" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                        <option selected hidden></option>
+                                                        {% for task in tasks%}
+                                                        <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
+                                                            <option value= {{task.id}} >{{task.type}} // {{task.name}} {{task.percentage}}%</option>
+                                                        </div>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row mt-3">
+                                                <div class="col-sm-6 col-4">
+                                                    <label for="asesor" class="form-label text-light">Asesor</label>
+                                                        <select class="form-select input-select" name="consultant_id" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                            <option selected hidden></option>
+                                                            {% for consultant in consultants %}
+                                                            <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
+                                                                <option value= {{consultant.id}} >{{consultant.name}} {{consultant.last_name}} {{consultant.document}}</option>
+                                                            </div>
+                                                            {% endfor %}
+                                                        </select>
+                                                </div>
+                        
+                                                <div class="row mt-3">
+                                                    <div class="col">
+                                                        <label for="InputRealizado" class="form-label text-light">Tarea Realizada</label>
+                                                        <input type="checkbox" class="form-check-input" name="done" id="InputRealizado"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
+                                            </div>
+                        
+                                            <div class="row mt-3">
+                                                
+                                            </div>
+
+                                        </form>
+                                    </div>        
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                
+
+
+
+
+                    <div class="pagination">
+                        <button class="btn-pag act-btn" onclick="form_change(this, 'first-group')">1</button>
+                        <button class="btn-pag" onclick="form_change(this, 'second-group')">2</button>
+                        <button class="btn-pag" onclick="form_change(this, 'third-group')">3</button>
+                        <button class="btn-pag" onclick="form_change(this, 'fourth-group')">4</button>
+                        <button class="btn-pag" onclick="form_change(this, 'fifth-group')">5</button>
+                    </div>
+
+                    
+                </div>
+            </div>
+
+            
+        </div>
+        
+        {% for area in areas %}
+
+            <div class="block  d-block mb-4">
+                    <div class="row">
+                        <div class="col d-flex m-4 row justify-content-start">
+                            <span><b>Tipo de Área:</b> {{ area.get_type_display }}</span>
+                        </div>
+
+                        <div class="col d-flex m-4 justify-content-end">
+                            <div class="d-flex">
+                                <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modificarArea{{ area.id }}">Modificar</button>
+                                <button class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarArea{{ area.id }}">Borrar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col ms-4">
+                            <ul>
+                                {% for area_feature in area.areafeature_set.all %}
+                                    <li>{{ area_feature.feature_id.description }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>    
+
+                <!-- Modal de eliminar area  -->
+                <div class="modal fade" id="eliminarArea{{ area.id }}" tabindex="-1" aria-labelledby="eliminarAreaLabel{{ area.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="eliminarAreaLabel{{ area.id }}">Borrar Area</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{% url 'area_delete' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
+                                <div class="modal-body">
+                                    Seguro desea borrar esta area?: <b>{{area.get_type_display}}</b>
+                                </div>
+                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para modificar area -->
+                <div class="modal fade" id="modificarArea{{ area.id }}" tabindex="-1" aria-labelledby="modificarAreaLabel{{ area.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modificarAreaLabel{{ area.id }}">Modificar Área</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form id="modificarAreaForm{{ area.id }}" action="{% url 'area_update'%}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
+                                <div class="modal-body">
+                                    <p><b>Tipo de Área:</b> {{ area.get_type_display }}</p>
+                                        <ul>
+                                            {% for feature in features %}
+                                                {% if feature.type == area.type %}
+                                                    <li>
+                                                        <input type="checkbox" name="features"  class="form-check-input" value="{{ feature.description }}"
+                                                            {% for area_feature in area.areafeature_set.all %}
+                                                                {% if feature.description == area_feature.feature_id.description %}
+                                                                    checked
+                                                                {% endif %}
+                                                            {% endfor %}>
+                                                        {{ feature.description }}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                </div>
+                                <input type="hidden" name="estate_id" value="{{ estate.id }}">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="button" class="btn btn-primary" onclick="submitForm('{{ area.id }}')">Guardar Cambios</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
+        
+    </div>
+
+    <script src="{% static 'js/pagination.js' %}"></script>
+    
+    
+    <script src="{% static 'js/state_form/edicion_inputs.js' %}"></script>
+
+    <script src="{% static 'js/state_form/footer_propietarios.js' %}"> </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const buscarForm = document.getElementById('formBuscar');
+            const registrarForm = document.getElementById('formRegistro');
+            const eliminarForm = document.getElementById('eliminarForm');
+
+            const guardarBtn = document.getElementById('guardarBtn');
+            const registrarBtn = document.getElementById('registrarBtn');
+            const eliminarBtn = document.getElementById('eliminarBtn');
+
+            const resumenPropietario = document.querySelector('#resumenPropietario');
+            const hiddenForm = document.querySelector('#hiddenForm');
+
+            registrarBtn.addEventListener('click', function() {
+                registrarForm.requestSubmit();
+            });
+
+            guardarBtn.addEventListener('click', function () {
+                hiddenForm.submit();
+            });
+
+            eliminarBtn.addEventListener('click', function() {
+                eliminarForm.requestSubmit();
+            });
+
+            const checkboxes = eliminarForm.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function () {
+                    const algunSeleccionado = Array.from(checkboxes).some(checkbox => checkbox.checked);
+                    eliminarBtn.disabled = !algunSeleccionado;
+                });
+            });
+
+            buscarForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const idDocument = document.querySelector('#cedulaBuscar').value;
+        
+                fetch(`{% url 'search_owner' %}?idDocument=${idDocument}&estate_id={{ estate.id }}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            // Mostrar el resumen de los datos del propietario en la pestaña de búsqueda
+                            resumenPropietario.innerHTML = `
+                                <p class="text-center"><b>Datos del usuario propietario</b></p>
+                                <span><b>Cédula:</b> ${data.id_document}</span><br>
+                                <span><b>Nombre:</b> ${data.name}</span><br>
+                                <span><b>Apellido:</b> ${data.last_name}</span><br>
+                                <span><b>Correo: </b>${data.email}</span><br>
+                                ${data.msg ? `<b><p class="text-danger">${data.msg}</p></b>` : ''}
+                            `;
+
+                            if (data.valid === true) {
+                                guardarBtn.disabled = false;
+                            } else {
+                                guardarBtn.disabled = true;
+                            }
+        
+                            // Actualizar los campos ocultos del formulario para enviar los datos al backend
+                            document.querySelector('#hiddenDocument').value = data.id_document;
+                            document.querySelector('#hiddenName').value = data.name;
+                            document.querySelector('#hiddenLastName').value = data.last_name;
+                            document.querySelector('#hiddenEmail').value = data.email;
+                            document.querySelector('#hiddenMethod').value = 'existing';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+
+            
+        
+            registrarForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const cedula = document.querySelector('#cedulaRegistrar').value;
+                const nombre = document.querySelector('#nombre').value.trim();
+                const apellido = document.querySelector('#apellido').value.trim();
+                const correo = document.querySelector('#correo').value.trim();
+                const password = document.querySelector('#password').value;
+
+                if (!validateForm()) {
+                    event.preventDefault();
+                    alert('Por favor, complete todos los campos correctamente, no deje campos de texto con solo espacios');
+                } else{
+                        const data = new FormData();
+                        data.append('document', cedula);
+                        data.append('email', correo);
+
+                        fetch("{% url 'validate_owner' %}", {
+                            method: 'POST',
+                            body: data
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.error) {
+                                alert(data.error);
+                            } else {
+                                // Actualizar los campos ocultos del formulario para enviar los datos al backend
+                                document.querySelector('#hiddenDocument').value = cedula;
+                                document.querySelector('#hiddenName').value = nombre;
+                                document.querySelector('#hiddenLastName').value = apellido;
+                                document.querySelector('#hiddenEmail').value = correo;
+                                document.querySelector('#hiddenPassword').value = password;
+                                document.querySelector('#hiddenMethod').value = 'new';
+
+                                // Enviar el formulario oculto
+                                hiddenForm.submit();
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }
+            });
+
+            function validateForm() {
+                const nombreValido = nombre.value.trim().length > 0;
+                const apellidoValido = apellido.value.trim().length > 0;
+                return nombreValido && apellidoValido;
+            }
+        });
+    </script>
+
+<script > 
+    document.getElementById('select-area').addEventListener('change', function() {
+        var selectedArea = this.value;
+        var caracteristicasContainer = document.getElementById('caracteristicas-container');
+        caracteristicasContainer.innerHTML = ''; // Limpiar el contenido anterior
+
+        // Filtrar y agrupar las características según el tipo de área seleccionada
+        var caracteristicasPorTipo = {};
+        {% for feature in features %}
+            if ("{{ feature.type }}" === selectedArea) {
+                if (!caracteristicasPorTipo["{{ feature.type }}"]) {
+                    caracteristicasPorTipo["{{ feature.type }}"] = [];
+                }
+                caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.description }}");
+            }
+        {% endfor %}
+
+        // Mostrar las características agrupadas en el contenedor
+        for (var tipo in caracteristicasPorTipo) {
+            if (caracteristicasPorTipo.hasOwnProperty(tipo)) {
+                var tipoLabel = document.createElement('h4');
+                tipoLabel.innerHTML = tipo;
+                caracteristicasContainer.appendChild(tipoLabel);
+                var caracteristicasList = document.createElement('ul');
+                caracteristicasPorTipo[tipo].forEach(function(caracteristica) {
+                    var listItem = document.createElement('li');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'features';
+                    checkbox.value = caracteristica;
+                    checkbox.classList.add('caracteristica-checkbox');
+                    checkbox.classList.add('form-check-input');
+                    listItem.appendChild(checkbox);
+                    listItem.appendChild(document.createTextNode('  '+caracteristica));
+                    caracteristicasList.appendChild(listItem);
+                });
+                caracteristicasContainer.appendChild(caracteristicasList);
+            }
+        }
+
+        // Agregar evento change a los nuevos checkboxes
+        var checkboxes = caracteristicasContainer.querySelectorAll('.caracteristica-checkbox');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var botonEnviar = document.getElementById('registrarArea');
+                var algunSeleccionado = Array.from(checkboxes).some(function(checkbox) {
+                    return checkbox.checked;
+                });
+                botonEnviar.disabled = !algunSeleccionado;
+            });
+        });
+    });
+    </script>
+
+    <script src="{% static 'js/state_form/submit_area.js' %}"> </script>
+        
+</body>
+{% endblock %}
