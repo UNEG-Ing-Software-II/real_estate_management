@@ -43,7 +43,7 @@ class UserController:
 
         return redirect("estate", estate_id=request.POST.get("estate_id"))
 
-
+    @csrf_exempt
     def search_owner(request):
         owner = User.objects.filter(document=request.GET.get("idDocument"), role="owner").first()
         estate = Estate.objects.get(id=request.GET.get("estate_id"))

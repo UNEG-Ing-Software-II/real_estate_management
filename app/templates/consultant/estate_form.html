@@ -3,78 +3,15 @@
 {% load static %}
 
 {% block extra_styles %}
-<link rel="stylesheet" href="{% static 'styles/style.css' %}">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-crossorigin=""></script>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
-{% comment %} Mover a un archivo .css en static/ {% endcomment %}
-<style>
-
-    #map {
-        height: 169px;
-        width: 350px;
-        margin: 10px 20px;
-    }
-
-    @media (max-width: 555px) {
-        #map {
-            width: 70%;
-            margin: 10px 20px;
-        }
-    }
-
-    .carousel-item {
-        width: 100%;
-        height: 100%;
-    }
-
-    .carousel-image{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .carousel-item img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .carousel-item.active {
-        margin: 0;
-        padding: 0;
-    }
-
-    .existing-images {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .image-container {
-        position: relative;
-        display: inline-block;
-    }
-
-    .existing-image {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-        border: 1px solid #ccc;
-    }
-
-    .btn-img{
-        position: absolute;
-        top: 5px;
-        right: 5px;
-    }
-
-
-</style>
+    <link rel="stylesheet" href="{% static 'styles/state_form.css' %}">
 
 {% endblock %}
 
@@ -114,6 +51,7 @@ crossorigin=""></script>
                                     <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
                                     <div class="d-flex mx-auto">
                                         <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
+                                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                                         <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
                                     </div>
                                 </div>
@@ -621,8 +559,8 @@ crossorigin=""></script>
                                                 {% if feature.type == area.type %}
                                                     <li>
                                                         <input type="checkbox" name="features"  class="form-check-input" value="{{ feature.description }}"
-                                                            {% for area_feature in area.area_features_set.all %}
-                                                                {% if feature.description == area_feature.feature.description %}
+                                                            {% for area_feature in area.areafeature_set.all %}
+                                                                {% if feature.description == area_feature.feature_id.description %}
                                                                     checked
                                                                 {% endif %}
                                                             {% endfor %}>
@@ -647,64 +585,13 @@ crossorigin=""></script>
 
     <script src="{% static 'js/pagination.js' %}"></script>
     
-    {% comment %} Mover a 'static' :( {% endcomment %}
-    <script>
-        const btn_special = document.getElementById("btn-special");
-        const Inputs = {
-            Nombre: document.getElementById("InputNombre"),
-            Propiedad: document.getElementById("Tipo-Propiedad"),
-            Estado: document.getElementById("InputEstado"),
-            Precio: document.getElementById("InputPrecio"),
-            Niveles: document.getElementById("InputNiveles"),
-            M_Terrenos: document.getElementById("InputMetrosTerreno"),
-            M_Construccion: document.getElementById("InputMetrosConstrucción"),
-            Bathroom: document.getElementById("InputBathroom"),
-            CuartoServicio: document.getElementById("InputCuartoServicio"),
-            Oficina: document.getElementById("InputOficina"),
-            Estacionamiento: document.getElementById("InputEstacionamiento"),
-            HalfBath: document.getElementById("InputHalfBath"),
-            Terraza: document.getElementById("InputTerraza"),
-            Habitacion: document.getElementById("InputHabitacion"),
-            Maletero: document.getElementById("InputMaletero"),
-            Direccion: document.getElementById("InputDireccion"),
-            Latitud: document.getElementById("InputLatitud"),
-            Longitud: document.getElementById("InputLongitud"),
-            Fotos: document.getElementById("InputFotos"), 
-            deleteButtons: document.querySelectorAll('.btn-img')
-        };
     
-        const visible = () => {
-            const isDisabled = Inputs.Propiedad.disabled;
-            Object.keys(Inputs).forEach(key => {
-                Inputs[key].disabled = !isDisabled;
-            });
-    
-            Inputs.deleteButtons.forEach(button => {
-                button.hidden = !isDisabled;
-            });
-                
-            btn_special.style.visibility = isDisabled ? "visible" : "hidden";
-        };
-        
-        const deletedImages = [];
+    <script src="{% static 'js/state_form/edicion_inputs.js' %}"></script>
 
-        function deleteImage(imageId) {
-            const imageContainer = document.getElementById(`image-${imageId}`);
-            if (imageContainer) {
-                imageContainer.remove();
-                deletedImages.push(imageId);
-                console.log(deletedImages);
-                const deletedImagesInput = document.getElementById('deletedImagesInput');
-                const deletedImagesJSON = JSON.stringify(deletedImages);
-                deletedImagesInput.value = deletedImagesJSON;
-                //console.log(deletedImagesInput);
-            }
-        }
-    
-    </script>
-    <!--Control de formularios y envios de informacion-->
+    <script src="{% static 'js/state_form/footer_propietarios.js' %}"> </script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {;
+        document.addEventListener('DOMContentLoaded', function () {
 
             const buscarForm = document.getElementById('formBuscar');
             const registrarForm = document.getElementById('formRegistro');
@@ -825,122 +712,62 @@ crossorigin=""></script>
             }
         });
     </script>
-    <!--Actualizacion en el footer de modal para gestion de propietarios-->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Pestañas
-            const buscarTab = document.getElementById('buscar-tab');
-            const registrarTab = document.getElementById('registrar-tab');
-            const eliminarTab = document.getElementById('eliminar-tab')
-        
-            // Botones
-            const guardarBtn = document.getElementById('guardarBtn');
-            const registrarBtn = document.getElementById('registrarBtn');
-            const eliminarBtn = document.getElementById('eliminarBtn');
-            
-            // Funcion para el cambio de pestaña
-            function toggleButtons() {
-                if (buscarTab.classList.contains('active')) {
-                    guardarBtn.classList.remove('d-none');
-                    registrarBtn.classList.add('d-none');
-                    eliminarBtn.classList.add('d-none');
-                } else if (registrarTab.classList.contains('active')) {
-                    guardarBtn.classList.add('d-none');
-                    registrarBtn.classList.remove('d-none');
-                    eliminarBtn.classList.add('d-none');
-                } else if (eliminarTab.classList.contains('active')){
-                    guardarBtn.classList.add('d-none');
-                    registrarBtn.classList.add('d-none');
-                    eliminarBtn.classList.remove('d-none');
+
+<script > 
+    document.getElementById('select-area').addEventListener('change', function() {
+        var selectedArea = this.value;
+        var caracteristicasContainer = document.getElementById('caracteristicas-container');
+        caracteristicasContainer.innerHTML = ''; // Limpiar el contenido anterior
+
+        // Filtrar y agrupar las características según el tipo de área seleccionada
+        var caracteristicasPorTipo = {};
+        {% for feature in features %}
+            if ("{{ feature.type }}" === selectedArea) {
+                if (!caracteristicasPorTipo["{{ feature.type }}"]) {
+                    caracteristicasPorTipo["{{ feature.type }}"] = [];
                 }
+                caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.description }}");
             }
-            
-            toggleButtons();
-        
-            // Cambio de pestaña
-            buscarTab.addEventListener('click', toggleButtons);
-            registrarTab.addEventListener('click', toggleButtons);
-            eliminarTab.addEventListener('click', toggleButtons);
-        });
-    </script>
+        {% endfor %}
 
-    <script>
-        document.getElementById('select-area').addEventListener('change', function() {
-            var selectedArea = this.value;
-            var caracteristicasContainer = document.getElementById('caracteristicas-container');
-            caracteristicasContainer.innerHTML = ''; // Limpiar el contenido anterior
-    
-            // Filtrar y agrupar las características según el tipo de área seleccionada
-            var caracteristicasPorTipo = {};
-            {% for feature in features %}
-                if ("{{ feature.type }}" === selectedArea) {
-                    if (!caracteristicasPorTipo["{{ feature.type }}"]) {
-                        caracteristicasPorTipo["{{ feature.type }}"] = [];
-                    }
-                    caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.description }}");
-                }
-            {% endfor %}
-    
-            // Mostrar las características agrupadas en el contenedor
-            for (var tipo in caracteristicasPorTipo) {
-                if (caracteristicasPorTipo.hasOwnProperty(tipo)) {
-                    var tipoLabel = document.createElement('h4');
-                    tipoLabel.innerHTML = tipo;
-                    caracteristicasContainer.appendChild(tipoLabel);
-                    var caracteristicasList = document.createElement('ul');
-                    caracteristicasPorTipo[tipo].forEach(function(caracteristica) {
-                        var listItem = document.createElement('li');
-                        var checkbox = document.createElement('input');
-                        checkbox.type = 'checkbox';
-                        checkbox.name = 'features';
-                        checkbox.value = caracteristica;
-                        checkbox.classList.add('caracteristica-checkbox');
-                        checkbox.classList.add('form-check-input');
-                        listItem.appendChild(checkbox);
-                        listItem.appendChild(document.createTextNode('  '+caracteristica));
-                        caracteristicasList.appendChild(listItem);
-                    });
-                    caracteristicasContainer.appendChild(caracteristicasList);
-                }
-            }
-
-
-    
-            // Agregar evento change a los nuevos checkboxes
-            var checkboxes = caracteristicasContainer.querySelectorAll('.caracteristica-checkbox');
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    var botonEnviar = document.getElementById('registrarArea');
-                    var algunSeleccionado = Array.from(checkboxes).some(function(checkbox) {
-                        return checkbox.checked;
-                    });
-                    botonEnviar.disabled = !algunSeleccionado;
+        // Mostrar las características agrupadas en el contenedor
+        for (var tipo in caracteristicasPorTipo) {
+            if (caracteristicasPorTipo.hasOwnProperty(tipo)) {
+                var tipoLabel = document.createElement('h4');
+                tipoLabel.innerHTML = tipo;
+                caracteristicasContainer.appendChild(tipoLabel);
+                var caracteristicasList = document.createElement('ul');
+                caracteristicasPorTipo[tipo].forEach(function(caracteristica) {
+                    var listItem = document.createElement('li');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.name = 'features';
+                    checkbox.value = caracteristica;
+                    checkbox.classList.add('caracteristica-checkbox');
+                    checkbox.classList.add('form-check-input');
+                    listItem.appendChild(checkbox);
+                    listItem.appendChild(document.createTextNode('  '+caracteristica));
+                    caracteristicasList.appendChild(listItem);
                 });
+                caracteristicasContainer.appendChild(caracteristicasList);
+            }
+        }
+
+        // Agregar evento change a los nuevos checkboxes
+        var checkboxes = caracteristicasContainer.querySelectorAll('.caracteristica-checkbox');
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                var botonEnviar = document.getElementById('registrarArea');
+                var algunSeleccionado = Array.from(checkboxes).some(function(checkbox) {
+                    return checkbox.checked;
+                });
+                botonEnviar.disabled = !algunSeleccionado;
             });
         });
+    });
     </script>
 
-    <script>
-        function submitForm(areaId) {
-            var checkboxes = document.querySelectorAll('#modificarAreaForm' + areaId + ' input[type="checkbox"]');
-            var isChecked = false;
-    
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    isChecked = true;
-                    break;
-                }
-            }
-            
-            if (!isChecked) {
-                alert('Debes marcar al menos una característica.');
-                return;
-            }
-            document.getElementById('modificarAreaForm' + areaId).submit();
-        }
-    </script>
-    
-    
+    <script src="{% static 'js/state_form/submit_area.js' %}"> </script>
         
 </body>
 {% endblock %}

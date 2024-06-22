@@ -67,7 +67,8 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             "app/templates",
-            "app/templates/views_asesor",
+            "app/templates/consultant",
+            "app/templates/user",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -93,11 +94,11 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "MyR",
         "USER": "postgres",
-        "PASSWORD": "password",
+        "PASSWORD": "diaz3214",
         "HOST": "localhost",
         "DATABASE_PORT": "5432",
     }
- }
+}
 
 
 # [ESTA ES LA CONEXIÓN PARA LA BASE DE DATOS EN RAILWAY]
