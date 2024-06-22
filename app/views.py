@@ -131,10 +131,10 @@ def estate(request, estate_id):
         "tasks": Task.objects.all(),
         "estate_tasks": EstateTask.objects.filter(estate_id=estate_id),
         "consultant": User.objects.filter(role="consultant"),
-        "owner": EstateOwner.objects.filter(estate_id=estate_id),
-        "feature": Feature.objects.all().order_by("type", "description"),
+        "owners": EstateOwner.objects.filter(estate_id=estate_id),
+        "features": Feature.objects.all().order_by("type", "description"),
         "area": Area.objects.filter(estate_id=estate_id),
-        "area_types": set(Area.objects.filter(estate_id=estate_id).values_list("type", flat=True))
+        "area_types_set": set(Area.objects.filter(estate_id=estate_id).values_list("type", flat=True))
     }
 
     return render(request, **res)
