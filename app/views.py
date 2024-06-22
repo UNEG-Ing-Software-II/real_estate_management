@@ -120,25 +120,6 @@ def sign_up(request):
     return render(request, "index.html")
 
 
-login_required(login_url="login")
-def estate(request, estate_id):
-    res = defaultdict()
-    estate = get_object_or_404(Estate, id=estate_id)
-    res["template_name"] = "views_asesor/inmueble_detalle.html"
-    res["context"] = {
-        "estate": estate,
-        "estate_images": ImageEstate.objects.filter(estate_id=estate_id),
-        "tasks": Task.objects.all(),
-        "estate_tasks": EstateTask.objects.filter(estate_id=estate_id),
-        "consultant": User.objects.filter(role="consultant"),
-        "owner": EstateOwner.objects.filter(estate_id=estate_id),
-        "feature": Feature.objects.all().order_by("type", "description"),
-        "area": Area.objects.filter(estate_id=estate_id),
-        "area_types": set(Area.objects.filter(estate_id=estate_id).values_list("type", flat=True))
-    }
-
-    return render(request, **res)
-
 
 # # ESTO BORRA TODAS LAS TABLAS DEL RAILWAY Y LOCAL, USAR CUANDO SE ACTUALICE LA BD
 # from django.db import connection

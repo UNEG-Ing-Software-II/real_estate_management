@@ -13,7 +13,7 @@ urlpatterns = [
     path('my_account',views.my_account, name='my_account'),
 
     # #Estate
-    path("estate/<int:estate_id>/", views.estate, name="estate"), #URL view to modify/eliminate property
+    path("estate/<int:estate_id>/", EstateController.read, name="estate"), #URL view to modify/eliminate property
     path("estate/create", EstateController.create, name="estate_create"),
     path("estate/update", EstateController.update, name="estate_update"),
     path("estate/delete", EstateController.delete, name="estate_delete"),

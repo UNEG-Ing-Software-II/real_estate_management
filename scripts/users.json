@@ -1,6 +1,6 @@
 [
   {
-    "identification_document": "12345678",
+    "document": "12345678",
     "name": "Juan",
     "last_name": "Perez",
     "email": "juan.perez@gmail.com",
@@ -8,7 +8,7 @@
     "password": "123"
   },
   {
-    "identification_document": "87654321",
+    "document": "87654321",
     "name": "Maria",
     "last_name": "Gonzalez",
     "email": "maria.gonzalez@gmail.com",
@@ -16,7 +16,7 @@
     "password": "123"
   },
   {
-    "identification_document": "99988877",
+    "document": "99988877",
     "name": "Pedro",
     "last_name": "Rodriguez",
     "email": "pedro.rodriguez@gmail.com",
@@ -24,7 +24,7 @@
     "password": "123"
   },
   {
-    "identification_document": "11223344",
+    "document": "11223344",
     "name": "Ana",
     "last_name": "Lopez",
     "email": "ana.lopez@gmail.com",
@@ -32,7 +32,7 @@
     "password": "123"
   },
   {
-    "identification_document": "55667788",
+    "document": "55667788",
     "name": "Carlos",
     "last_name": "Sanchez",
     "email": "carlos.sanchez@gmail.com",
@@ -40,7 +40,7 @@
     "password": "123"
   },
   {
-    "identification_document": "33445566",
+    "document": "33445566",
     "name": "Sofia",
     "last_name": "Diaz",
     "email": "sofia.diaz@gmail.com",
@@ -48,7 +48,7 @@
     "password": "123"
   },
   {
-    "identification_document": "77889900",
+    "document": "77889900",
     "name": "David",
     "last_name": "Fernandez",
     "email": "david.fernandez@gmail.com",
@@ -56,7 +56,7 @@
     "password": "123"
   },
   {
-    "identification_document": "00112233",
+    "document": "00112233",
     "name": "Isabella",
     "last_name": "Garcia",
     "email": "isabella.garcia@gmail.com",
@@ -64,7 +64,7 @@
     "password": "123"
   },
   {
-    "identification_document": "22334455",
+    "document": "22334455",
     "name": "Miguel",
     "last_name": "Torres",
     "email": "miguel.torres@gmail.com",
@@ -72,7 +72,7 @@
     "password": "123"
   },
   {
-    "identification_document": "66778899",
+    "document": "66778899",
     "name": "Laura",
     "last_name": "Mendoza",
     "email": "laura.mendoza@gmail.com",

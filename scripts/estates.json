@@ -1,7 +1,7 @@
 [
     {
-        "name": "Apartamento en Caracas",
-        "type": "Apartamento",
+        "name": "apartment en Caracas",
+        "type": "apartment",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -20,8 +20,8 @@
         "altitude": -66.8791
     },
     {
-        "name": "Apartamento en Maracay",
-        "type": "Apartamento",
+        "name": "apartment en Maracay",
+        "type": "apartment",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -41,7 +41,7 @@
     },
     {
         "name": "house en Valencia",
-        "type": "Town house",
+        "type": "town_house",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -60,8 +60,8 @@
         "altitude": -68.0076
     },
     {
-        "name": "Casa en Maracaibo",
-        "type": "Casa",
+        "name": "house en Maracaibo",
+        "type": "house",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -80,8 +80,8 @@
         "altitude": -71.6124
     },
     {
-        "name": "Apartamento en Barquisimeto",
-        "type": "Apartamento",
+        "name": "apartment en Barquisimeto",
+        "type": "apartment",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -100,8 +100,8 @@
         "altitude": -69.3570
     },
     {
-        "name": "Apartamento en Ciudad",
-        "type": "Apartamento",
+        "name": "apartment en Ciudad",
+        "type": "apartment",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -120,8 +120,8 @@
         "altitude": -62.6410
     },
     {
-        "name": "Casa en Barcelona",
-        "type": "Casa",
+        "name": "house en Barcelona",
+        "type": "house",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -140,8 +140,8 @@
         "altitude": -64.6861
     },
     {
-        "name": "Apartamento en Puerto",
-        "type": "Apartamento",
+        "name": "apartment en Puerto",
+        "type": "apartment",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -160,8 +160,8 @@
         "altitude": -64.6328
     },
     {
-        "name": "Oficina en Petare",
-        "type": "Oficina",
+        "name": "office en Petare",
+        "type": "office",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
@@ -181,7 +181,7 @@
     },
     {
         "name": "comercio en Barinas",
-        "type": "F comercio",
+        "type": "f_trade",
         "price": 75000.0,
         "levels": 2,
         "land_meters": 120.0,
