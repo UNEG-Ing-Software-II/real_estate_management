@@ -223,7 +223,7 @@ crossorigin=""></script>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
                         </div>
-                    </form>
+                    <!--</form>-->
                     {% comment %} {%else%}
                         <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
                             {% csrf_token %}
@@ -550,12 +550,12 @@ crossorigin=""></script>
             
         </div>
         
-        {% for area in areas_cargadas %}
+        {% for area in areas %}
 
             <div class="block  d-block mb-4">
                     <div class="row">
                         <div class="col d-flex m-4 row justify-content-start">
-                            <span><b>Tipo de Área:</b> {{ area.tipo }}</span>
+                            <span><b>Tipo de Área:</b> {{ area.type }}</span>
                         </div>
 
                         <div class="col d-flex m-4 justify-content-end">
@@ -569,8 +569,8 @@ crossorigin=""></script>
                     <div class="row">
                         <div class="col ms-4">
                             <ul>
-                                {% for area_caracteristica in area.area_caracteristicas_set.all %}
-                                    <li>{{ area_caracteristica.caracteristica.nombre }}</li>
+                                {% for area_feature in area.area_features_set.all %}
+                                    <li>{{ area_feature.feature.description }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -589,7 +589,7 @@ crossorigin=""></script>
                             <form action="{% url 'eliminar_area' area.id %}" method="post">
                                 {% csrf_token %}
                                 <div class="modal-body">
-                                    Seguro desea borrar esta area?: <b>{{area.tipo}}</b>
+                                    Seguro desea borrar esta area?: <b>{{area.type}}</b>
                                 </div>
                                 <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                                 <div class="modal-footer">
@@ -612,24 +612,24 @@ crossorigin=""></script>
                             <form id="modificarAreaForm{{ area.id }}" action="{% url 'modificar_area' area.id %}" method="post">
                                 {% csrf_token %}
                                 <div class="modal-body">
-                                    <p><b>Tipo de Área:</b> {{ area.tipo }}</p>
+                                    <p><b>Tipo de Área:</b> {{ area.type }}</p>
                                         <ul>
-                                            {% for caracteristica in caracteristicas %}
-                                                {% if caracteristica.tipo == area.tipo %}
+                                            {% for feature in features %}
+                                                {% if feature.type == area.type %}
                                                     <li>
-                                                        <input type="checkbox" name="caracteristicas"  class="form-check-input" value="{{ caracteristica.nombre }}"
-                                                            {% for area_caracteristica in area.area_caracteristicas_set.all %}
-                                                                {% if caracteristica.nombre == area_caracteristica.caracteristica.nombre %}
+                                                        <input type="checkbox" name="features"  class="form-check-input" value="{{ feature.description }}"
+                                                            {% for area_feature in area.area_features_set.all %}
+                                                                {% if feature.description == area_feature.feature.description %}
                                                                     checked
                                                                 {% endif %}
                                                             {% endfor %}>
-                                                        {{ caracteristica.nombre }}
+                                                        {{ feature.description }}
                                                     </li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                 </div>
-                                <input type="hidden" name="inmueble_id" value="{{ inmueble.id }}">
+                                <input type="hidden" name="estate_id" value="{{ estate.id }}">
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="button" class="btn btn-primary" onclick="submitForm('{{ area.id }}')">Guardar Cambios</button>
@@ -873,7 +873,7 @@ crossorigin=""></script>
                     if (!caracteristicasPorTipo["{{ feature.type }}"]) {
                         caracteristicasPorTipo["{{ feature.type }}"] = [];
                     }
-                    caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.name }}");
+                    caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.description }}");
                 }
             {% endfor %}
     

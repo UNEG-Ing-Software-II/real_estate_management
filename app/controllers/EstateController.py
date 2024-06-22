@@ -38,8 +38,8 @@ class EstateController:
             "consultants": User.objects.filter(role="consultant"),
             "owners": EstateOwner.objects.filter(estate_id=estate_id),
             "features": Feature.objects.all().order_by("type", "description"),
-            "area": Area.objects.filter(estate_id=estate_id),
-            "area_types_set": set(Area.objects.filter(estate_id=estate_id).values_list("type", flat=True))
+            "areas": Area.objects.filter(estate_id=estate_id),
+            "area_types_set": set(Feature.objects.values_list("type", flat=True))
         }
 
         return render(request, **res)
