@@ -51,7 +51,7 @@ for item in ARGS:
             )
             print(
                 "%s (%s) Created satisfactorily"
-                % (model.name, item["key"].upper())
+                % (model.__str__, item["key"].upper())
             )
         except Exception as e:
             print(str(e))
