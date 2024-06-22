@@ -179,7 +179,7 @@ class Task(models.Model):
 class EstateTask(models.Model):
     estate_id = models.ForeignKey(Estate, on_delete=models.CASCADE)
     consultant_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    Task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
     done = models.BooleanField()
 
 

@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#para las imagenes: 
+#For images:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -94,7 +94,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "MyR",
         "USER": "postgres",
-        "PASSWORD": "diaz3214",
+        "PASSWORD": "password",
         "HOST": "localhost",
         "DATABASE_PORT": "5432",
     }

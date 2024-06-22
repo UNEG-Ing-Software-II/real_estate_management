@@ -417,17 +417,17 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body style-body-modal">
-                                        <form method="post" id="add-form" action="{% url 'estate_create' %}">
+                                        <form method="post" id="add-form" action="{% url 'task_create' %}">
                                             {% csrf_token %}
-                                            
+                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                                             <div class="row mt-3">
                                                 <div class="col-sm-6 col-4">
                                                     <label for="tipo" class="form-label text-light">Incidencia</label>
-                                                    <select class="form-select input-select" name="type" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                    <select class="form-select input-select" name="task_id" id="Tipo-incidencia" aria-label="Default select example" required>
                                                         <option selected hidden></option>
                                                         {% for task in tasks%}
                                                         <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                                                            <option value= {{task.name}} >{{task.type}} // {{task.name}} {{task.percentage}}%</option>
+                                                            <option value= {{task.id}} >{{task.type}} // {{task.name}} {{task.percentage}}%</option>
                                                         </div>
                                                         {% endfor %}
                                                     </select>
@@ -437,11 +437,11 @@
                                             <div class="row mt-3">
                                                 <div class="col-sm-6 col-4">
                                                     <label for="asesor" class="form-label text-light">Asesor</label>
-                                                        <select class="form-select input-select" name="asesor" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                        <select class="form-select input-select" name="consultant_id" id="Tipo-incidencia" aria-label="Default select example" required>
                                                             <option selected hidden></option>
                                                             {% for consultant in consultants %}
                                                             <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                                                                <option value= {{consultant.document}} >{{consultant.name}} {{consultant.last_name}} {{consultant.document}}</option>
+                                                                <option value= {{consultant.id}} >{{consultant.name}} {{consultant.last_name}} {{consultant.document}}</option>
                                                             </div>
                                                             {% endfor %}
                                                         </select>
@@ -450,7 +450,7 @@
                                                 <div class="row mt-3">
                                                     <div class="col">
                                                         <label for="InputRealizado" class="form-label text-light">Tarea Realizada</label>
-                                                        <input type="checkbox" class="form-check-input" name="done" id="InputRealizado" {% if task.done %} checked {% endif %}>
+                                                        <input type="checkbox" class="form-check-input" name="done" id="InputRealizado"/>
                                                     </div>
                                                 </div>
                                             </div>

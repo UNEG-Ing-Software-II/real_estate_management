@@ -3,6 +3,7 @@ from app.views.UserLogController import UserLogController
 from app.views.UserController import UserController
 from app.views.EstateController import EstateController
 from app.views.AreaController import AreaController
+from app.views.TaskController import TaskController
 
 
 urlpatterns = [
@@ -14,8 +15,8 @@ urlpatterns = [
     path('sign_off', UserLogController.sign_off, name='sign_off'),
     path('my_account',UserLogController.my_account, name='my_account'),
 
-    # #Estate
-    path("estate/<int:estate_id>/", EstateController.read, name="estate"), #URL view to modify/eliminate property
+    #Estate
+    path("estate/<int:estate_id>/", EstateController.read, name="estate"),
     path("estate/create", EstateController.create, name="estate_create"),
     path("estate/update", EstateController.update, name="estate_update"),
     path("estate/delete", EstateController.delete, name="estate_delete"),
@@ -30,4 +31,8 @@ urlpatterns = [
     path("area/create", AreaController.create, name="area_create"),
     path("area/delete", AreaController.delete, name="area_delete"),
     path("area/update", AreaController.update, name="area_update"),
+
+    #Task
+    path("task/create", TaskController.create, name="task_create"),
+    
 ]
