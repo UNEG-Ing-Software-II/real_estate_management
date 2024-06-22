@@ -89,7 +89,7 @@ crossorigin=""></script>
         <div class="modal-dialog ">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{inmueble.nombre}}"</h1>
+                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{state.name}}"</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -152,12 +152,12 @@ crossorigin=""></script>
                         <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
                             <form id="eliminarForm" action="{% url 'unlink_owner' %}" method="post">
                                 {% csrf_token %}
-                                {% if propietarios%}
-                                    {% for propietario in propietarios %}
+                                {% if owners%}
+                                    {% for owner in owners %}
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="propietario{{ propietario.id }}" name="selected_property" value="{{ propietario.id }}">
-                                            <label class="form-check-label" for="propietario{{ propietario.id }}">
-                                                {{propietario.persona_id.cedula}} - {{ propietario.persona_id.nombre }} - {{ propietario.persona_id.apellido }}
+                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_property" value="{{ owner.id }}">
+                                            <label class="form-check-label" for="owner{{ owner.id }}">
+                                                {{owner.owner_id.document}} - {{ owner.owner_id.name }} - {{ owner.owner_id.last_name }}
                                             </label>
                                         </div>
                                     {% endfor %}
@@ -182,13 +182,13 @@ crossorigin=""></script>
     <!-- Formulario oculto -->
     <form id="hiddenForm" action="{% url 'save_owner' %}" method="POST" style="display:none;">
         {% csrf_token %}
-        <input type="hidden" id="hiddenCedula" name="cedula">
-        <input type="hidden" id="hiddenNombre" name="nombre">
-        <input type="hidden" id="hiddenApellido" name="apellido">
-        <input type="hidden" id="hiddenCorreo" name="correo">
+        <input type="hidden" id="hiddenDocument" name="document">
+        <input type="hidden" id="hiddenName" name="name">
+        <input type="hidden" id="hiddenLastName" name="LastName">
+        <input type="hidden" id="hiddenEmail" name="Email">
         <input type="hidden" id="hiddenPassword" name="password">
         <input type="hidden" id="hiddenMethod" name="method">
-        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+        <input type="hidden" id="hiddenEstateID" name="state_id" value="{{state.id}}">
     </form>
     
 
@@ -204,18 +204,18 @@ crossorigin=""></script>
                     <h1 class="modal-title fs-5" id="ModalRegistroAreaLabel">Agregar Area</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                    {% if caracteristicas %}
+                    {% if features %}
                     <form  id="formArea" action="{% url 'registrar_area' %}" method="POST">
                         {% csrf_token %}
                         <div class="modal-body">
-                                <select id="select-area" name="tipo_area" class="form-select input-select">
+                                <select id="select-area" name="area_type" class="form-select input-select">
                                     <option value="" selected disabled>Selecciona un área</option>
-                                    {% for tipo_area in tipos_area_set %}
-                                        <option value="{{ tipo_area }}">{{ tipo_area }}</option>
+                                    {% for area_type in area_types_set %}
+                                        <option value="{{ area_type }}">{{ area_type }}</option>
                                     {% endfor %}
                                 </select>
                                 <div id="caracteristicas-container"></div>
-                                <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                             
                         </div>
 
@@ -248,17 +248,17 @@ crossorigin=""></script>
     </div>
 
     <div class="gap"> 
-        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ inmueble.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
+        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ estate.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
     </div>
 
     <!-- Modal para Borrar Inmueble-->
-    <div class="modal fade" id="modalBorrar{{ inmueble.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ inmueble.id }}" aria-hidden="true">
+    <div class="modal fade" id="modalBorrar{{ estate.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ estate.id }}" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <div>
-                        <h5 class="modal-title">Eliminar inmueble "{{ inmueble.nombre }}"</h5>
-                        <h4 class="text-dark"> ID del inmueble: {{inmueble.id}}</h4> 
+                        <h5 class="modal-title">Eliminar inmueble "{{ estate.name }}"</h5>
+                        <h4 class="text-dark"> ID del inmueble: {{estate.id}}</h4> 
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -266,7 +266,7 @@ crossorigin=""></script>
                 <form action="{% url 'estate_delete' %}" method="post">
                     {% csrf_token %}
                     <div class="modal-body">
-                        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                         <p>¿Estás seguro que deseas eliminar este inmueble?</p>
                     </div>
                     <div class="modal-footer">
@@ -288,10 +288,10 @@ crossorigin=""></script>
 
 
                 <div class="carousel align-self-center">
-                    {% if imagenes_inmueble %}
+                    {% if estate_images %}
                         <div id="carousel_imagenes" class="carousel slide m-0 p-0">
                             <div class="carousel-inner ">
-                                {% for img in imagenes_inmueble %}
+                                {% for img in estate_images %}
                                     <div class="carousel-item {% if forloop.first %} active {% endif %} ">
                                         <img src="{{ img.foto.url }}" class="d-block carousel-image" alt="">
                                     </div>
@@ -319,99 +319,99 @@ crossorigin=""></script>
                     <hr>
                     <form class="form-container d-flex" id="form" action="{% url 'estate_update'%}" enctype="multipart/form-data" method="post">
                         {% csrf_token %}
-                        <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                         <div id="first-group" class="group active-group">
                             <div class="form-group">
                                 <label for="InputNombre">Nombre de la propiedad</label>
-                                <input type="text" disabled class="form-control input-control" name="nombre" id="InputNombre" value="{{ inmueble.nombre }}" required>
+                                <input type="text" disabled class="form-control input-control" name="name" id="InputNombre" value="{{ estate.name }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="Tipo-Propiedad">Tipo de Propiedad</label>
-                                <select class="form-select input-select" name="tipoPropiedad" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
+                                <select class="form-select input-select" name="type" id="Tipo-Propiedad" aria-label="Default select example" required disabled>
                                     <option selected disabled hidden></option>
-                                    <option value="Apartamento" {% if inmueble.tipoPropiedad == 'Apartamento' %} selected {% endif %}>Apartamento</option>
-                                    <option value="Town house" {% if inmueble.tipoPropiedad == 'Town house' %} selected {% endif %}>Town house</option>
-                                    <option value="Quinta" {% if inmueble.tipoPropiedad == 'Quinta' %} selected {% endif %}>Quinta</option>
-                                    <option value="Casa" {% if inmueble.tipoPropiedad == 'Casa' %} selected {% endif %}>Casa</option>
-                                    <option value="Galpon" {% if inmueble.tipoPropiedad == 'Galpon' %} selected {% endif %}>Galpon</option>
-                                    <option value="Oficina" {% if inmueble.tipoPropiedad == 'Oficina' %} selected {% endif %}>Oficina</option>
-                                    <option value="F comercio" {% if inmueble.tipoPropiedad == 'F comercio' %} selected {% endif %}>F comercio</option>
-                                    <option value="Otros" {% if inmueble.tipoPropiedad == 'Otros' %} selected {% endif %}>Otros</option>
+                                    <option value="apartment" {% if estate.type == 'apartment' %} selected {% endif %}>Apartamento</option>
+                                    <option value="town_house" {% if estate.type == 'town_house' %} selected {% endif %}>Town house</option>
+                                    <option value="country_house" {% if estate.type == 'country_house' %} selected {% endif %}>Quinta</option>
+                                    <option value="house" {% if estate.type == 'house' %} selected {% endif %}>Casa</option>
+                                    <option value="shed" {% if estate.type == 'shed' %} selected {% endif %}>Galpon</option>
+                                    <option value="office" {% if estate.type == 'office' %} selected {% endif %}>Oficina</option>
+                                    <option value="f_trade" {% if estate.type == 'F comercio' %} selected {% endif %}>F comercio</option>
+                                    <option value="others" {% if estate.type == 'others' %} selected {% endif %}>Otros</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="InputEstado">Estado</label>
-                                <select class="form-select input-select" aria-label="Default select example" required id="InputEstado" name="estado" disabled>
+                                <select class="form-select input-select" aria-label="Default select example" required id="InputEstado" name="state" disabled>
                                     <option selected disabled hidden></option>
-                                    <option value="En venta" {% if inmueble.estado == 'En venta' %} selected {% endif %}>En venta</option>
-                                    <option value="En alquiler" {% if inmueble.estado == 'En alquiler' %} selected {% endif %}>En alquiler</option>
-                                    <option value="Finalizado" {% if inmueble.estado == 'Finalizado' %} selected {% endif %}>Finalizado</option>
+                                    <option value="sale" {% if estate.state == 'sale' %} selected {% endif %}>En venta</option>
+                                    <option value="rent" {% if estate.state == 'rent' %} selected {% endif %}>En alquiler</option>
+                                    <option value="finished" {% if estate.state == 'finished' %} selected {% endif %}>Finalizado</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="InputPrecio">Precio</label>
-                                <input type="number" class="form-control input-control" id="InputPrecio" name="precio" value="{{ inmueble.precio }}" min="0.001" step="0.001" disabled required>
+                                <input type="number" class="form-control input-control" id="InputPrecio" name="price" value="{{ estate.price }}" min="0.001" step="0.001" disabled required>
                             </div>
                             <div class="form-group">
                                 <label for="InputNiveles">Niveles</label>
-                                <input type="number" disabled class="form-control input-control" id="InputNiveles" name="niveles" value="{{ inmueble.niveles }}" min="1" step="1" required>
+                                <input type="number" disabled class="form-control input-control" id="InputNiveles" name="levels" value="{{ estate.levels }}" min="1" step="1" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputMetrosTerreno">Metros² del terreno</label>
-                                <input type="number" disabled class="form-control input-control" id="InputMetrosTerreno" name="metros_terreno" value="{{ inmueble.metros_terreno }}" min="0.001" step="0.001" required>
+                                <input type="number" disabled class="form-control input-control" id="InputMetrosTerreno" name="land_meters" value="{{ estate.land_meters }}" min="0.001" step="0.001" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputMetrosConstrucción">Metros² de construcción</label>
-                                <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="metros_construccion" value="{{ inmueble.metros_construccion }}" min="0.001" step="0.001" required>
+                                <input type="number" disabled class="form-control input-control" id="InputMetrosConstrucción" name="construction_meters" value="{{ estate.construction_meters }}" min="0.001" step="0.001" required>
                             </div>
                         </div>
                         <div id="second-group" class="group">
                             <div class="form-group">
                                 <label for="InputBathroom" class="form-label">Baño</label>
-                                <input type="checkbox" disabled class="form-check-input" name="bathroom" id="InputBathroom" {% if inmueble.bathroom %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="bathroom" id="InputBathroom" {% if estate.bathroom %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputCuartoServicio" class="form-label">Cuarto de servicio</label>
-                                <input type="checkbox" disabled class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio" {% if inmueble.cuarto_servicio %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="service_room" id="InputCuartoServicio" {% if estate.service_room %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputOficina" class="form-label">Oficina</label>
-                                <input type="checkbox" disabled class="form-check-input" name="oficina" id="InputOficina" {% if inmueble.oficina %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="office" id="InputOficina" {% if estate.office %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputEstacionamiento" class="form-label">Estacionamiento</label>
-                                <input type="checkbox" disabled class="form-check-input" name="estacionamiento" id="InputEstacionamiento" {% if inmueble.estacionamiento %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="parking" id="InputEstacionamiento" {% if estate.parking %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputHalfBath" class="form-label">Medio baño</label>
-                                <input type="checkbox" disabled class="form-check-input" name="half_bath" id="InputHalfBath" {% if inmueble.half_bath %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="half_bath" id="InputHalfBath" {% if estate.half_bath %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputTerraza" class="form-label">Terraza</label>
-                                <input type="checkbox" disabled class="form-check-input" name="terraza" id="InputTerraza" {% if inmueble.terraza %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="terrace" id="InputTerraza" {% if estate.terrace %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputHabitacion" class="form-label">Habitación</label>
-                                <input type="checkbox" disabled class="form-check-input" name="habitacion" id="InputHabitacion" {% if inmueble.habitacion %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="room" id="InputHabitacion" {% if estate.room %} checked {% endif %}>
                             </div>
                             <div class="form-group">
                                 <label for="InputMaletero" class="form-label">Maletero</label>
-                                <input type="checkbox" disabled class="form-check-input" name="maletero" id="InputMaletero" {% if inmueble.maletero %} checked {% endif %}>
+                                <input type="checkbox" disabled class="form-check-input" name="trunk" id="InputMaletero" {% if estate.trunk %} checked {% endif %}>
                             </div>
                         </div>
 
                         <div id="third-group" class="group">
                             <div class="form-group">
                                 <label for="InputDireccion" class="form-label">Dirección</label>
-                                <input type="text" disabled class="form-control input-control" name="direccion" id="InputDireccion" value="{{ inmueble.direccion }}" required>
+                                <input type="text" disabled class="form-control input-control" name="address" id="InputDireccion" value="{{ estate.address }}" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputLatitud">Latitud</label>
-                                <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitud" value="{{ inmueble.latitud }}" min="-90" max="90" step="0.00000000000001" required>
+                                <input type="number" disabled class="form-control input-control" id="InputLatitud" name="latitude" value="{{ estate.latitude }}" min="-90" max="90" step="0.00000000000001" required>
                             </div>
                             <div class="form-group">
                                 <label for="InputLongitud">Longitud</label>
-                                <input type="number" disabled class="form-control input-control" id="InputLongitud" name="longitud" value="{{ inmueble.longitud }}" min="-180" max="180" step="0.00000000000001" required>
+                                <input type="number" disabled class="form-control input-control" id="InputLongitud" name="altitude" value="{{ estate.altitude }}" min="-180" max="180" step="0.00000000000001" required>
                             </div>
                             <div id="map"></div>
                         </div>
@@ -428,18 +428,18 @@ crossorigin=""></script>
                             
                                 <div class="form-group">
                                     <label for="InputFotos" class="form-label">Cargar Fotos</label>
-                                    <input type="file" disabled multiple class="form-control input-control"  name="fotos" id="InputFotos" accept="image/*" >
+                                    <input type="file" disabled multiple class="form-control input-control"  name="images" id="InputFotos" accept="image/*" >
                                 </div>
                             
-                                {% if imagenes_inmueble %}
+                                {% if estate_images %}
                                     <div class="form-group">
                                     <input type="hidden" id="deletedImagesInput" name="deletedImages">
                                     
                                     <label class="form-label">Fotos Cargadas</label>
                                         <div class="existing-images">
-                                            {% for img in imagenes_inmueble %}
+                                            {% for img in estate_images %}
                                                 <div class="image-container" id="image-{{ img.id }}">
-                                                    <img src="{{ img.foto.url }}" class="existing-image" alt="Imagen del Inmueble">
+                                                    <img src="{{ img.image.url }}" class="existing-image" alt="Imagen del Inmueble">
                                                     <button type="button" hidden class="btn btn-img btn-danger btn-sm" onclick="deleteImage('{{ img.id }}')" >Eliminar</button>
                                                 </div>
                                             {% endfor %}
@@ -484,11 +484,11 @@ crossorigin=""></script>
                                             <div class="row mt-3">
                                                 <div class="col-sm-6 col-4">
                                                     <label for="tipo" class="form-label text-light">Incidencia</label>
-                                                    <select class="form-select input-select" name="tipo" id="Tipo-incidencia" aria-label="Default select example" required>
+                                                    <select class="form-select input-select" name="type" id="Tipo-incidencia" aria-label="Default select example" required>
                                                         <option selected hidden></option>
-                                                        {% for incidencia in incidencias%}
+                                                        {% for task in tasks%}
                                                         <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                                                            <option value= {{incidencia.nombre}} >{{incidencia.tipo}} // {{incidencia.nombre}} {{incidencia.porcentaje}}%</option>
+                                                            <option value= {{task.name}} >{{task.type}} // {{task.name}} {{task.percentage}}%</option>
                                                         </div>
                                                         {% endfor %}
                                                     </select>
@@ -500,9 +500,9 @@ crossorigin=""></script>
                                                     <label for="asesor" class="form-label text-light">Asesor</label>
                                                         <select class="form-select input-select" name="asesor" id="Tipo-incidencia" aria-label="Default select example" required>
                                                             <option selected hidden></option>
-                                                            {% for asesor in asesores %}
+                                                            {% for consultant in consultants %}
                                                             <div class="col-12 col-sm-6 col-lg-4 mb-4   rule">
-                                                                <option value= {{asesor.cedula}} >{{asesor.nombre}} {{asesor.apellido}} {{asesor.cedula}}</option>
+                                                                <option value= {{consultant.document}} >{{consultant.name}} {{consultant.last_name}} {{consultant.document}}</option>
                                                             </div>
                                                             {% endfor %}
                                                         </select>
@@ -511,7 +511,7 @@ crossorigin=""></script>
                                                 <div class="row mt-3">
                                                     <div class="col">
                                                         <label for="InputRealizado" class="form-label text-light">Tarea Realizada</label>
-                                                        <input type="checkbox" class="form-check-input" name="realizado" id="InputRealizado" {% if incidencia.realizado %} checked {% endif %}>
+                                                        <input type="checkbox" class="form-check-input" name="done" id="InputRealizado" {% if task.done %} checked {% endif %}>
                                                     </div>
                                                 </div>
                                             </div>
@@ -531,19 +531,6 @@ crossorigin=""></script>
                         
                         
                 
-
-
-
-                    
-
-
-
-
-                     
-               
-
-
-
 
 
 
@@ -604,7 +591,7 @@ crossorigin=""></script>
                                 <div class="modal-body">
                                     Seguro desea borrar esta area?: <b>{{area.tipo}}</b>
                                 </div>
-                                <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="submit" class="btn btn-danger">Eliminar</button>
@@ -880,12 +867,12 @@ crossorigin=""></script>
     
             // Filtrar y agrupar las características según el tipo de área seleccionada
             var caracteristicasPorTipo = {};
-            {% for caracteristica in caracteristicas %}
-                if ("{{ caracteristica.tipo }}" === selectedArea) {
-                    if (!caracteristicasPorTipo["{{ caracteristica.tipo }}"]) {
-                        caracteristicasPorTipo["{{ caracteristica.tipo }}"] = [];
+            {% for feature in features %}
+                if ("{{ feature.type }}" === selectedArea) {
+                    if (!caracteristicasPorTipo["{{ feature.type }}"]) {
+                        caracteristicasPorTipo["{{ feature.type }}"] = [];
                     }
-                    caracteristicasPorTipo["{{ caracteristica.tipo }}"].push("{{ caracteristica.nombre }}");
+                    caracteristicasPorTipo["{{ feature.type }}"].push("{{ feature.name }}");
                 }
             {% endfor %}
     
