@@ -17,7 +17,7 @@ class UserController:
         owner_data = {
             "document": request.POST.get('document'),
             "name": request.POST.get('name'),
-            "last_name": request.POST.get('last_name'),
+            "last_name": request.POST.get('lastName'),
             "email": request.POST.get('email'),
             "password": request.POST.get('password', None),
             "role": "owner"
@@ -31,7 +31,7 @@ class UserController:
 
         estate = get_object_or_404(Estate, id=request.POST.get('estate_id'))
         EstateOwner.objects.create(owner_id=owner, estate_id=estate)
-        return redirect("home")
+        return redirect("estate", estate_id=request.POST.get("estate_id"))
 
 
     def unlink_owner(request):
@@ -41,14 +41,14 @@ class UserController:
         for relation in request.POST.getlist("selected_owners"):
             EstateOwner.objects.filter(id=relation).delete()
 
-        return redirect("home")
+        return redirect("estate", estate_id=request.POST.get("estate_id"))
 
 
     def search_owner(request):
-        owner = User.objects.filter(document=request.GET.get("document", role="owner").first())
-        estate = Estate.objects.filter(id=request.GET.get("estate_id"))
+        owner = User.objects.filter(document=request.GET.get("idDocument"), role="owner").first()
+        estate = Estate.objects.get(id=request.GET.get("estate_id"))
 
-        if request != "GET":
+        if request.method != "GET":
             return JsonResponse({"error": "Not proportionate card"}, status=400)
 
         if not owner:
@@ -56,19 +56,21 @@ class UserController:
 
         owner_data = {
             "name": owner.name,
-            "document": owner.document,
+            "id_document": owner.document,
             "last_name": owner.last_name,
             "email": owner.email,
-            "msg": "This owner already has this property ",
-            "valid": False
+            "valid": True
         }
 
-        if  not EstateOwner.objects.filter(owner_id=owner, estate=estate).exists():
-            owner_data.update({"valid": False})
+        if EstateOwner.objects.filter(owner_id=owner, estate_id=estate).exists():
+            owner_data.update({
+                "valid": False,
+                "msg": "This owner already has this property "
+            })
 
-        return JsonResponse(owner_data, 200)
+        return JsonResponse(owner_data, status=200)
 
-
+    @csrf_exempt
     def validate_owner(request):
         if request.method != "POST":
             return JsonResponse({"error": "Method not allowed."}, status=405)

@@ -29,7 +29,7 @@ class EstateController:
     def read(request, estate_id):
         res = defaultdict()
         estate = get_object_or_404(Estate, id=estate_id)
-        res["template_name"] = "views_asesor/inmueble_detalle.html"
+        res["template_name"] = "estate_form.html"
         res["context"] = {
             "estate": estate,
             "estate_images": ImageEstate.objects.filter(estate_id=estate_id),
@@ -39,7 +39,8 @@ class EstateController:
             "owners": EstateOwner.objects.filter(estate_id=estate_id),
             "features": Feature.objects.all().order_by("type", "description"),
             "areas": Area.objects.filter(estate_id=estate_id),
-            "area_types_set": set(Feature.objects.values_list("type", flat=True))
+            "area_types_set": {item[0]: item[1] for item in AREA_TYPES}
+            # "area_types_set": set(Feature.objects.values_list("type", flat=True))
         }
 
         return render(request, **res)
@@ -147,36 +148,36 @@ class EstateController:
 #     return redirect('inicio Asesor')
 
 
-@login_required(login_url='login')
-@role_required('Asesor')
-def modificar_inmueble(request, inmueble_id):
-    # Obtener el inmueble por su ID
-    inmueble = get_object_or_404(Inmueble, id=inmueble_id)
-    if request.method == 'POST':
-        form = InmuebleForm(request.POST, instance=inmueble)
-        if form.is_valid():
-            form.save()
-            #Nuevas Imagenes
-            fotos = request.FILES.getlist('fotos')
-            for foto in fotos:
-                imagen_inmueble = Imagen_inmueble()
-                imagen_inmueble.inmueble = inmueble
-                imagen_inmueble.foto = foto
-                imagen_inmueble.save()
+# @login_required(login_url='login')
+# @role_required('Asesor')
+# def modificar_inmueble(request, inmueble_id):
+#     # Obtener el inmueble por su ID
+#     inmueble = get_object_or_404(Inmueble, id=inmueble_id)
+#     if request.method == 'POST':
+#         form = InmuebleForm(request.POST, instance=inmueble)
+#         if form.is_valid():
+#             form.save()
+#             #Nuevas Imagenes
+#             fotos = request.FILES.getlist('fotos')
+#             for foto in fotos:
+#                 imagen_inmueble = Imagen_inmueble()
+#                 imagen_inmueble.inmueble = inmueble
+#                 imagen_inmueble.foto = foto
+#                 imagen_inmueble.save()
             
-            #Imágenes eliminadas
-            deleted_images = request.POST.get('deletedImages')
-            if deleted_images:
-                deleted_images = json.loads(deleted_images)
-                for image_id in deleted_images:
-                    try:
-                        image = Imagen_inmueble.objects.get(id=image_id)
+#             #Imágenes eliminadas
+#             deleted_images = request.POST.get('deletedImages')
+#             if deleted_images:
+#                 deleted_images = json.loads(deleted_images)
+#                 for image_id in deleted_images:
+#                     try:
+#                         image = Imagen_inmueble.objects.get(id=image_id)
                         
-                        if image.foto and os.path.isfile(image.foto.path):
-                            os.remove(image.foto.path)
+#                         if image.foto and os.path.isfile(image.foto.path):
+#                             os.remove(image.foto.path)
                         
-                        image.delete()
-                    except Imagen_inmueble.DoesNotExist:
-                        continue
-            return redirect('inicio Asesor')
-    return redirect('inicio Asesor')
+#                         image.delete()
+#                     except Imagen_inmueble.DoesNotExist:
+#                         continue
+#             return redirect('inicio Asesor')
+#     return redirect('inicio Asesor')

@@ -40,13 +40,215 @@
                 <div class="gap">
                     <a href="{% url 'my_account' %}" class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-user-circle' ></i>Cuenta</a>
                 </div>
-
-
-                    
                 <div class="gap">
                     <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroInmueble"><i class='bx bx-building-house icn'></i>Agregar Inmueble
                     </button>
                 </div>
+
+                <div class="modal fade" id="ModalRegistroInmueble" tabindex="-1" aria-labelledby="ModalLabelRegistroInmueble" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-scrollable modal-xl"> <!-- Cambié modal-lg a modal-xl para más ancho -->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5">Agregar inmueble</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body style-body-modal">
+                                <form method="post" id="add-form" action="{% url 'estate_create' %}">
+                                    {% csrf_token %}
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="InputNombrePropiedad" class="form-label">Nombre de la propiedad</label>
+                                            <input type="text" class="form-control" name="name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
+                                            <select class="form-select" name="type" required>
+                                                <option selected disabled hidden>Seleccione un tipo de propiedad</option>
+                                                <option value="apartment">Apartamento</option>
+                                                <option value="town_house">Town house</option>
+                                                <option value="country_house">Quinta</option>
+                                                <option value="house">Casa</option>
+                                                <option value="shed">Galpon</option>
+                                                <option value="office">Oficina</option>
+                                                <option value="f_trade">F comercio</option>
+                                                <option value="others">Otros</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="InputEstado" class="form-label">Estado</label>
+                                            <select class="form-select" name="state" required>
+                                                <option selected disabled hidden>Seleccione un tipo de estado</option>
+                                                <option value="sale">En venta</option>
+                                                <option value="rent">En alquiler</option>
+                                                <option value="finished">Finalizado</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="InputPrecio" class="form-label">Precio</label>
+                                            <input type="number" class="form-control" name="price"  min="0.001" step="0.001" required>
+                                        </div>
+                                    </div>
+                
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="InputNiveles" class="form-label">Niveles</label>
+                                            <input type="number" class="form-control" name="levels"  min="1" step="1" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
+                                            <input type="number" class="form-control" name="land_meters" min="0.001" step="0.001" required>
+                                        </div>
+                                    </div>
+                
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
+                                            <input type="number" class="form-control" name="construction_meters" min="0.001" step="0.001" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="bathroom">
+                                                <label for="InputBathroom" class="form-check-label">Baño</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="service_room">
+                                                <label for="InputCuartoServicio" class="form-check-label">Cuarto de servicio</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="office">
+                                                <label for="InputOficina" class="form-check-label">Oficina</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="parking">
+                                                <label for="InputEstacionamiento" class="form-check-label">Estacionamiento</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="half_bath">
+                                                <label for="InputHalfBath" class="form-check-label">Medio baño</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="terrace">
+                                                <label for="InputTerraza" class="form-check-label">Terraza</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="room">
+                                                <label for="InputHabitacion" class="form-check-label">Habitación</label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" name="trunk">
+                                                <label for="InputMaletero" class="form-check-label">Maletero</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                   <!-- Agregar coordenadas geograficas por escrito
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <label for="InputLatitud" class="form-label mt-2">Latitud</label>
+                                            <input type="number" class="form-control" name="latitud" min="-90" max="90" step="0.00000000000001" required>
+                                         
+                                        </div>
+                
+                                        <div class="col-md-6">
+                                            
+                                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
+                                    <input type="number" class="form-control" name="longitud" min="-180" max="180" step="0.00000000000001" required>
+                                
+                                        </div>
+                                    </div> 
+                                    -->
+                                <div class="row mt-3">
+                                    <div class="col align-self-center">
+                                        <div class="pb-4">
+                                            <label for="InputDirección" class="form-label">Dirección</label>
+                                            <input type="text" class="form-control" name="address" required>
+                                        </div>
+                                    <div id="CreateMap"></div>
+                
+                                    <!-- Agregar coordenadas geográficas por mapa -->
+                                    <input type="hidden" name="latitude" id="CreateLatitude"value="">
+                                    <input type="hidden" name="altitude" id="CreateAltitude"value="">
+                
+                                    <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
+                                    <input type="file" accept="image/*">-->
+                                    </div>
+                                </div>
+                                    <div class="modal-footer mt-3">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                                    </div>
+                                </form>
+                                <script>
+                                    var map;
+                                    var currentMarker = null;
+                                
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        // Evento para mostrar el modal
+                                        var myModal = document.getElementById('ModalRegistroInmueble');
+                                        myModal.addEventListener('shown.bs.modal', function () {
+                                            if (!map) {
+                                                // Inicializa el mapa cuando se muestra el modal
+                                                map = L.map('map').setView([51.505, -0.09], 13);
+                                
+                                                // Añade el tile layer desde OpenStreetMap
+                                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                                }).addTo(map);
+                                
+                                                // Añade el geocodificador
+                                                var geocoder = L.Control.geocoder({
+                                                    defaultMarkGeocode: false
+                                                }).on('markgeocode', function(e) {
+                                                    var bbox = e.geocode.bbox;
+                                                    map.fitBounds([
+                                                        [bbox.getSouthWest().lat, bbox.getSouthWest().lng],
+                                                        [bbox.getNorthEast().lat, bbox.getNorthEast().lng]
+                                                    ]);
+                                                    var latlng = e.geocode.center;
+                                
+                                                    // Evento de clic en el mapa
+                                                    map.on('click', function(e) {
+                                                        // Elimina el marcador actual si existe
+                                                        if (currentMarker) {
+                                                            map.removeLayer(currentMarker);
+                                                        }
+                                
+                                                        // Agrega un nuevo marcador
+                                                        currentMarker = L.marker(e.latlng).addTo(map)
+                                                            .bindPopup(e.latlng.toString())
+                                                            .openPopup();
+                                
+                                                        // Muestra las coordenadas en la consola
+                                                        console.log('Latitud: ' + e.latlng.lat + ', Longitud: ' + e.latlng.lng);
+                
+                                                        // Actualiza los valores del formulario
+                                                        document.getElementById('CreateLatitude').value = e.latlng.lat;
+                                                        document.getElementById('CreateAltitude').value = e.latlng.lng;
+                                                    });
+                                                }).addTo(map);
+                                            } else {
+                                                // Si el mapa ya fue inicializado, simplemente ajusta su tamaño
+                                                map.invalidateSize();
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
 
                 {% elif request.user.role == "coordinator" %}
                     <!-- Agrega otros botones o enlaces específicos para Coordinador -->
@@ -87,221 +289,6 @@
     </nav>
 
 {%block content%} <!--NO PONER NADA (CONTENIDO DE LA VISTA HIJA)-->{%endblock%}
-
-
-
-
-
-<!-- MODAL PARA CARGAR INMUEBLE -->
-{% if request.user.rol == "consultant" %}
-
-
-<div class="modal fade" id="ModalRegistroInmueble" tabindex="-1" aria-labelledby="ModalLabelRegistroInmueble" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-xl"> <!-- Cambié modal-lg a modal-xl para más ancho -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="ModalLabelRegistroInmueble">Agregar inmueble</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body style-body-modal">
-                <form method="post" id="add-form" action="{% url 'registrar_inmueble' %}">
-                    {% csrf_token %}
-                    
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="InputNombrePropiedad" class="form-label">Nombre de la propiedad</label>
-                            <input type="text" class="form-control" name="nombre" id="InputNombrePropiedad" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
-                            <select class="form-select" name="tipoPropiedad" id="InputTipoDePropiedad" required>
-                                <option selected disabled hidden>Seleccione un tipo de propiedad</option>
-                                <option value="Apartamento">Apartamento</option>
-                                <option value="Town house">Town house</option>
-                                <option value="Quinta">Quinta</option>
-                                <option value="Casa">Casa</option>
-                                <option value="Galpon">Galpon</option>
-                                <option value="Oficina">Oficina</option>
-                                <option value="F comercio">F comercio</option>
-                                <option value="Otros">Otros</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="InputEstado" class="form-label">Estado</label>
-                            <select class="form-select" name="estado" id="InputEstado" required>
-                                <option selected disabled hidden>Seleccione un tipo de estado</option>
-                                <option value="En venta">En venta</option>
-                                <option value="En alquiler">En alquiler</option>
-                                <option value="Finalizado">Finalizado</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="InputPrecio" class="form-label">Precio</label>
-                            <input type="number" class="form-control" name="precio" id="InputPrecio"  min="0.001" step="0.001" required>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="InputNiveles" class="form-label">Niveles</label>
-                            <input type="number" class="form-control" name="niveles" id="InputNiveles"  min="1" step="1" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
-                            <input type="number" class="form-control" name="metros_terreno" id="InputMetrosTerreno" min="0.001" step="0.001" required>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
-                            <input type="number" class="form-control" name="metros_construccion" id="InputMetrosConstruccion" min="0.001" step="0.001" required>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="bathroom" id="InputBathroom">
-                                <label for="InputBathroom" class="form-check-label">Baño</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="cuarto_servicio" id="InputCuartoServicio">
-                                <label for="InputCuartoServicio" class="form-check-label">Cuarto de servicio</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="oficina" id="InputOficina">
-                                <label for="InputOficina" class="form-check-label">Oficina</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="estacionamiento" id="InputEstacionamiento">
-                                <label for="InputEstacionamiento" class="form-check-label">Estacionamiento</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="half_bath" id="InputHalfBath">
-                                <label for="InputHalfBath" class="form-check-label">Medio baño</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="terraza" id="InputTerraza">
-                                <label for="InputTerraza" class="form-check-label">Terraza</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="habitacion" id="InputHabitacion">
-                                <label for="InputHabitacion" class="form-check-label">Habitación</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="maletero" id="InputMaletero">
-                                <label for="InputMaletero" class="form-check-label">Maletero</label>
-                            </div>
-                        </div>
-                    </div>
-
-                   <!-- Agregar coordenadas geograficas por escrito
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <label for="InputLatitud" class="form-label mt-2">Latitud</label>
-                            <input type="number" class="form-control" name="latitud" id="InputLatitud" min="-90" max="90" step="0.00000000000001" required>
-                         
-                        </div>
-
-                        <div class="col-md-6">
-                            
-                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
-                    <input type="number" class="form-control" name="longitud" id="InputLongitud" min="-180" max="180" step="0.00000000000001" required>
-                
-                        </div>
-                    </div> 
-                    -->
-                <div class="row mt-3">
-                    <div class="col align-self-center">
-                        <div class="pb-4">
-                            <label for="InputDirección" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" name="direccion" id="InputDireccion" required>
-                        </div>
-                    <div id="map"></div>
-
-                    <!-- Agregar coordenadas geográficas por mapa -->
-                    <input type="hidden" id="InputLatitud" name="latitud" value="">
-                    <input type="hidden" id="InputLongitud" name="longitud" value="">
-
-                    <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
-                    <input type="file" id="InputImagen" accept="image/*">-->
-                    </div>
-                </div>
-                    <div class="modal-footer mt-3">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                    </div>
-                </form>
-                <script>
-                    var map;
-                    var currentMarker = null;
-                
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Evento para mostrar el modal
-                        var myModal = document.getElementById('ModalRegistroInmueble');
-                        myModal.addEventListener('shown.bs.modal', function () {
-                            if (!map) {
-                                // Inicializa el mapa cuando se muestra el modal
-                                map = L.map('map').setView([51.505, -0.09], 13);
-                
-                                // Añade el tile layer desde OpenStreetMap
-                                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                                }).addTo(map);
-                
-                                // Añade el geocodificador
-                                var geocoder = L.Control.geocoder({
-                                    defaultMarkGeocode: false
-                                }).on('markgeocode', function(e) {
-                                    var bbox = e.geocode.bbox;
-                                    map.fitBounds([
-                                        [bbox.getSouthWest().lat, bbox.getSouthWest().lng],
-                                        [bbox.getNorthEast().lat, bbox.getNorthEast().lng]
-                                    ]);
-                                    var latlng = e.geocode.center;
-                
-                                    // Evento de clic en el mapa
-                                    map.on('click', function(e) {
-                                        // Elimina el marcador actual si existe
-                                        if (currentMarker) {
-                                            map.removeLayer(currentMarker);
-                                        }
-                
-                                        // Agrega un nuevo marcador
-                                        currentMarker = L.marker(e.latlng).addTo(map)
-                                            .bindPopup(e.latlng.toString())
-                                            .openPopup();
-                
-                                        // Muestra las coordenadas en la consola
-                                        console.log('Latitud: ' + e.latlng.lat + ', Longitud: ' + e.latlng.lng);
-
-                                        // Actualiza los valores del formulario
-                                        document.getElementById('InputLatitud').value = e.latlng.lat;
-                                        document.getElementById('InputLongitud').value = e.latlng.lng;
-                                    });
-                                }).addTo(map);
-                            } else {
-                                // Si el mapa ya fue inicializado, simplemente ajusta su tamaño
-                                map.invalidateSize();
-                            }
-                        });
-                    });
-                </script>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-{% endif %}
-
-
 
 
 <script src="{% static 'js/menu-responsive.js' %}"></script>

@@ -1,16 +1,18 @@
 from django.urls import path
-from app import views
-from app.controllers.UserController import UserController
-from app.controllers.EstateController import EstateController
-from app.controllers.AreaController import AreaController
+from app.views.UserLogController import UserLogController
+from app.views.UserController import UserController
+from app.views.EstateController import EstateController
+from app.views.AreaController import AreaController
 
 
 urlpatterns = [
-    path('',views.home,name='home'),
-    path('login', views.sign_in, name = 'login'),
-    path('sign_up', views.sign_up, name='sign_up'),
-    path('sign_off', views.sign_off, name='sign_off'),
-    path('my_account',views.my_account, name='my_account'),
+
+    # UserLogController
+    path('',UserLogController.home,name='home'),
+    path('login', UserLogController.sign_in, name = 'login'),
+    path('sign_up', UserLogController.sign_up, name='sign_up'),
+    path('sign_off', UserLogController.sign_off, name='sign_off'),
+    path('my_account',UserLogController.my_account, name='my_account'),
 
     # #Estate
     path("estate/<int:estate_id>/", EstateController.read, name="estate"), #URL view to modify/eliminate property
@@ -25,21 +27,7 @@ urlpatterns = [
     path("validate_owner", UserController.validate_owner, name="validate_owner"),
 
     #Area
-    path("area/create", AreaController.create, name="area_create")
-
-    # path('inmuebles-registrados/', inmuebles_registrados, name='inmuebles registrados'), #Leer
-    # path('registrar-inmueble/', registrar_inmueble, name='registrar_inmueble'), #Crear
-    # path('modificar_inmueble/<uuid:inmueble_id>/', modificar_inmueble, name='modificar_inmueble'),
-    # path('eliminar_inmueble/<uuid:inmueble_id>/', eliminar_inmueble, name='eliminar_inmueble'),
-    # #Procesos con los usuarios propietarios
-    # path('buscar_propietario/', buscar_propietario, name='buscar_propietario'),
-    # path('validar_propietario_nuevo', validar_propietario, name='validar_propietario'),
-    # path('guardar_propietario_inmueble/', guardar_propietario_inmueble, name='guardar_propietario'),
-    # path('eliminar_propietarios',eliminar_propietarios, name='eliminar_propietarios'),
-    # #Areas
-    # path('registrar_area',registrar_area, name='registrar_area'),
-    # path('eliminar_area/<uuid:area_id>', eliminar_area, name="eliminar_area"),
-    # path('modificar_area/<uuid:area_id>', modificar_area, name="modificar_area"),
-    # #script de areas
-    # path('scrip_llenado_caracteristicas',scrip_llenado_caracteristicas, name="scrip_llenado_caracteristicas")
+    path("area/create", AreaController.create, name="area_create"),
+    path("area/delete", AreaController.delete, name="area_delete"),
+    path("area/update", AreaController.update, name="area_update"),
 ]

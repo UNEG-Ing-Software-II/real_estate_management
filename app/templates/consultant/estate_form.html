@@ -155,7 +155,8 @@ crossorigin=""></script>
                                 {% if owners%}
                                     {% for owner in owners %}
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_property" value="{{ owner.id }}">
+                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_owners" value="{{ owner.id }}">
                                             <label class="form-check-label" for="owner{{ owner.id }}">
                                                 {{owner.owner_id.document}} - {{ owner.owner_id.name }} - {{ owner.owner_id.last_name }}
                                             </label>
@@ -184,11 +185,11 @@ crossorigin=""></script>
         {% csrf_token %}
         <input type="hidden" id="hiddenDocument" name="document">
         <input type="hidden" id="hiddenName" name="name">
-        <input type="hidden" id="hiddenLastName" name="LastName">
-        <input type="hidden" id="hiddenEmail" name="Email">
+        <input type="hidden" id="hiddenLastName" name="lastName">
+        <input type="hidden" id="hiddenEmail" name="email">
         <input type="hidden" id="hiddenPassword" name="password">
         <input type="hidden" id="hiddenMethod" name="method">
-        <input type="hidden" id="hiddenEstateID" name="state_id" value="{{state.id}}">
+        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
     </form>
     
 
@@ -210,8 +211,8 @@ crossorigin=""></script>
                         <div class="modal-body">
                                 <select id="select-area" name="area_type" class="form-select input-select">
                                     <option value="" selected disabled>Selecciona un área</option>
-                                    {% for area_type in area_types_set %}
-                                        <option value="{{ area_type }}">{{ area_type }}</option>
+                                    {% for key, value in area_types_set.items %}
+                                        <option value="{{ key }}">{{ value }}</option>
                                     {% endfor %}
                                 </select>
                                 <div id="caracteristicas-container"></div>
@@ -555,7 +556,7 @@ crossorigin=""></script>
             <div class="block  d-block mb-4">
                     <div class="row">
                         <div class="col d-flex m-4 row justify-content-start">
-                            <span><b>Tipo de Área:</b> {{ area.type }}</span>
+                            <span><b>Tipo de Área:</b> {{ area.get_type_display }}</span>
                         </div>
 
                         <div class="col d-flex m-4 justify-content-end">
@@ -569,8 +570,8 @@ crossorigin=""></script>
                     <div class="row">
                         <div class="col ms-4">
                             <ul>
-                                {% for area_feature in area.area_features_set.all %}
-                                    <li>{{ area_feature.feature.description }}</li>
+                                {% for area_feature in area.areafeature_set.all %}
+                                    <li>{{ area_feature.feature_id.description }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
@@ -586,10 +587,11 @@ crossorigin=""></script>
                                 <h1 class="modal-title fs-5" id="eliminarAreaLabel{{ area.id }}">Borrar Area</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="{% url 'eliminar_area' area.id %}" method="post">
+                            <form action="{% url 'area_delete' %}" method="post">
                                 {% csrf_token %}
+                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
                                 <div class="modal-body">
-                                    Seguro desea borrar esta area?: <b>{{area.type}}</b>
+                                    Seguro desea borrar esta area?: <b>{{area.get_type_display}}</b>
                                 </div>
                                 <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
                                 <div class="modal-footer">
@@ -609,10 +611,11 @@ crossorigin=""></script>
                                 <h1 class="modal-title fs-5" id="modificarAreaLabel{{ area.id }}">Modificar Área</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form id="modificarAreaForm{{ area.id }}" action="{% url 'modificar_area' area.id %}" method="post">
+                            <form id="modificarAreaForm{{ area.id }}" action="{% url 'area_update'%}" method="post">
                                 {% csrf_token %}
+                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
                                 <div class="modal-body">
-                                    <p><b>Tipo de Área:</b> {{ area.type }}</p>
+                                    <p><b>Tipo de Área:</b> {{ area.get_type_display }}</p>
                                         <ul>
                                             {% for feature in features %}
                                                 {% if feature.type == area.type %}
@@ -736,35 +739,36 @@ crossorigin=""></script>
 
             buscarForm.addEventListener('submit', function (event) {
                 event.preventDefault();
-                const cedula = document.querySelector('#cedulaBuscar').value;
+                const idDocument = document.querySelector('#cedulaBuscar').value;
         
-                fetch(`{% url 'search_owner' %}?cedula=${cedula}&id_inmueble={{ inmueble.id }}`)
+                fetch(`{% url 'search_owner' %}?idDocument=${idDocument}&estate_id={{ estate.id }}`)
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data)
                         if (data.error) {
                             alert(data.error);
                         } else {
                             // Mostrar el resumen de los datos del propietario en la pestaña de búsqueda
                             resumenPropietario.innerHTML = `
                                 <p class="text-center"><b>Datos del usuario propietario</b></p>
-                                <span><b>Cédula:</b> ${data.cedula}</span><br>
-                                <span><b>Nombre:</b> ${data.nombre}</span><br>
-                                <span><b>Apellido:</b> ${data.apellido}</span><br>
-                                <span><b>Correo: </b>${data.correo}</span><br>
+                                <span><b>Cédula:</b> ${data.id_document}</span><br>
+                                <span><b>Nombre:</b> ${data.name}</span><br>
+                                <span><b>Apellido:</b> ${data.last_name}</span><br>
+                                <span><b>Correo: </b>${data.email}</span><br>
                                 ${data.msg ? `<b><p class="text-danger">${data.msg}</p></b>` : ''}
                             `;
 
-                            if (data.valido === true) {
+                            if (data.valid === true) {
                                 guardarBtn.disabled = false;
                             } else {
                                 guardarBtn.disabled = true;
                             }
         
                             // Actualizar los campos ocultos del formulario para enviar los datos al backend
-                            document.querySelector('#hiddenCedula').value = data.cedula;
-                            document.querySelector('#hiddenNombre').value = data.nombre;
-                            document.querySelector('#hiddenApellido').value = data.apellido;
-                            document.querySelector('#hiddenCorreo').value = data.correo;
+                            document.querySelector('#hiddenDocument').value = data.id_document;
+                            document.querySelector('#hiddenName').value = data.name;
+                            document.querySelector('#hiddenLastName').value = data.last_name;
+                            document.querySelector('#hiddenEmail').value = data.email;
                             document.querySelector('#hiddenMethod').value = 'existing';
                         }
                     })
@@ -786,8 +790,8 @@ crossorigin=""></script>
                     alert('Por favor, complete todos los campos correctamente, no deje campos de texto con solo espacios');
                 } else{
                         const data = new FormData();
-                        data.append('cedula', cedula);
-                        data.append('correo', correo);
+                        data.append('document', cedula);
+                        data.append('email', correo);
 
                         fetch("{% url 'validate_owner' %}", {
                             method: 'POST',
@@ -799,13 +803,13 @@ crossorigin=""></script>
                                 alert(data.error);
                             } else {
                                 // Actualizar los campos ocultos del formulario para enviar los datos al backend
-                                document.querySelector('#hiddenCedula').value = cedula;
-                                document.querySelector('#hiddenNombre').value = nombre;
-                                document.querySelector('#hiddenApellido').value = apellido;
-                                document.querySelector('#hiddenCorreo').value = correo;
+                                document.querySelector('#hiddenDocument').value = cedula;
+                                document.querySelector('#hiddenName').value = nombre;
+                                document.querySelector('#hiddenLastName').value = apellido;
+                                document.querySelector('#hiddenEmail').value = correo;
                                 document.querySelector('#hiddenPassword').value = password;
                                 document.querySelector('#hiddenMethod').value = 'new';
-                        
+
                                 // Enviar el formulario oculto
                                 hiddenForm.submit();
                             }
@@ -888,7 +892,7 @@ crossorigin=""></script>
                         var listItem = document.createElement('li');
                         var checkbox = document.createElement('input');
                         checkbox.type = 'checkbox';
-                        checkbox.name = 'caracteristicas';
+                        checkbox.name = 'features';
                         checkbox.value = caracteristica;
                         checkbox.classList.add('caracteristica-checkbox');
                         checkbox.classList.add('form-check-input');

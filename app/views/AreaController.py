@@ -6,18 +6,47 @@ import json
 
 class AreaController:
 
+
     def create(request):
         if request.method != "POST":
             return redirect("home")
 
-        type = request.POST.get("type")
+        type = request.POST.get("area_type")
         features = request.POST.getlist("features")
         estate = Estate.objects.get(id=request.POST.get("estate_id"))
         area = Area.objects.create(type=type, estate_id=estate)
 
         for feature in request.POST.getlist("features"):
             feature = Feature.objects.get(description=feature, type=type)
-            AreaFeature.objects.create(area=area, feature=feature)
+            AreaFeature.objects.create(area_id=area, feature_id =feature)
+
+        return redirect("estate", estate_id=request.POST.get("estate_id"))
+
+    def update(request):
+        if request.method != 'POST':
+            return redirect("home")
+
+        area = get_object_or_404(Area, id=request.POST.get("area_id"))
+
+        # Clean current features
+        area.areafeature_set.all().delete()
+
+        # Associate the new features selected to the area
+        for feature in request.POST.getlist('features'):
+            feature = Feature.objects.get(description=feature, type=area.type )
+            AreaFeature.objects.create(area_id=area, feature_id=feature).save()
+
+        # Save the area in the database
+        area.save()
+
+        return redirect('estate', estate_id=request.POST.get('estate_id'))
+
+
+    def delete(request):
+        if request.method != "POST":
+            return redirect("home")
+        area = get_object_or_404(Area, id=request.POST.get("area_id"))
+        area.delete()
 
         return redirect("estate", estate_id=request.POST.get("estate_id"))
 

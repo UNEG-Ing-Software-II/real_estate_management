@@ -54,7 +54,7 @@
                                     <h3 class="card-title">{{ data.estate.name }}</h3>
                                     <h4>Propietarios:
                                         {% for p in data.owners %}
-                                            {{ p.name }} {{ p.last_name }} {% if not forloop.last %}, {% else %}.{% endif %}
+                                            {{ p.owner_id.name }} {{ p.owner_id.last_name }} {% if not forloop.last %}, {% else %}.{% endif %}
                                         {% empty %}
                                             No hay propietarios asociados.
                                         {% endfor %}
