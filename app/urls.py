@@ -9,11 +9,11 @@ from app.views.TaskController import TaskController
 urlpatterns = [
 
     # UserLogController
-    path('',UserLogController.home,name='home'),
-    path('login', UserLogController.sign_in, name ='login'),
-    path('sign_up', UserLogController.sign_up, name='sign_up'),
-    path('sign_off', UserLogController.sign_off, name='sign_off'),
-    path('my_account',UserLogController.my_account, name='my_account'),
+    path("",UserLogController.home, name="home"),
+    path("login", UserLogController.sign_in, name ="login"),
+    path("sign_up", UserLogController.sign_up, name="sign_up"),
+    path("sign_off", UserLogController.sign_off, name="sign_off"),
+    path("my_account",UserLogController.my_account, name="my_account"),
 
     #Estate
     path("estate/<int:estate_id>/", EstateController.read, name="estate"),
@@ -34,5 +34,5 @@ urlpatterns = [
 
     #Task
     path("task/create", TaskController.create, name="task_create"),
-    
+
 ]

@@ -22,6 +22,7 @@ class AreaController:
 
         return redirect("estate", estate_id=request.POST.get("estate_id"))
 
+
     def update(request):
         if request.method != 'POST':
             return redirect("home")
