@@ -18,6 +18,7 @@ urlpatterns = [
     #Estate
     path("estate/<int:estate_id>/", EstateController.read, name="estate"),
     path("estate/create", EstateController.create, name="estate_create"),
+    path("estate/search", EstateController.search, name="estate_search"),
     path("estate/update", EstateController.update, name="estate_update"),
     path("estate/delete", EstateController.delete, name="estate_delete"),
 

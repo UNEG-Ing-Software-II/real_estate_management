@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-<body id="Fondo">
+<body>
     <div class="block-name">
         <h2 class="name-asesor">Bienvenido {{ request.user.name }}</h2>
     </div>
@@ -43,21 +43,14 @@
     {% if estates %}
         <div class="cards">
             <div class="row">
-                {% for data in estates %}
+                {% for estate in estates %}
                     <div class="col-12 col-sm-6 col-lg-4 mb-4 rule">
                         <div class="card bg-white">
-                            <a href="{% url 'estate' data.estate.id %}">
+                            <a href="{% url 'estate' estate.id %}">
                                 <img src="{% static 'img/Inmueble1.jpeg' %}" alt="Exterior View" class="card-img-top" />
                                 <div class="card-body">
-                                    <h3 class="card-title">{{ data.estate.name }}</h3>
-                                    <h4>Propietarios:
-                                        {% for p in data.owners %}
-                                            {{ p.owner_id.name }} {{ p.owner_id.last_name }} {% if not forloop.last %}, {% else %}.{% endif %}
-                                        {% empty %}
-                                            No hay propietarios asociados.
-                                        {% endfor %}
-                                    </h4>
-                                    <h4 class="text-dark">ID propiedad: {{ data.estate.id }}</h4>
+                                    <h3 class="card-title">{{ estate.name }}</h3>
+                                    <h4 class="text-dark">ID propiedad: {{ estate.id }}</h4>
                                 </div>
                             </a>
                         </div>
@@ -66,7 +59,7 @@
             </div>
         </div>
     {% else %}
-        <h2 class="text-center text-light">No hay inmuebles registrados (BD).</h2>
+        <h1 class="mt-5 text-center text-light">No se encontraron inmuebles con ese nombre.</h1>
     {% endif %}
 </body>
 {% endblock %}
