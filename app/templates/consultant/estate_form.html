@@ -347,13 +347,9 @@
                             </div>
                             
                         </div>
-                        <div id="mapestate"></div>
-                       
-                            <script>
-                                var mapestate = L.map('mapestate').setView([{{ estate.latitude }}, {{ estate.altitude }}], 16);
-                                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapestate);
-                                L.marker([{{ estate.latitude }}, {{ estate.altitude }}]).addTo(mapestate).bindPopup('Inmueble').openPopup();
-                            </script>
+
+                        <div id="mapestate" data-latitude="{{ estate.latitude }}" data-altitude="{{ estate.altitude }}"></div>
+                        <script src="{% static 'js/maps/mapread.js' %}"></script>
                         
                         <div id="fourth-group" class="group mx-auto">
                             
