@@ -44,6 +44,13 @@ class EstateController:
         }
 
         return render(request, **res)
+    
+    
+    @login_required(login_url="login")
+    def search(request):
+        query = request.GET.get('q')
+        results = Estate.objects.filter(name__icontains=query) if query else None
+        return render(request, 'estate_search.html', {'estates': results, 'query': query})
 
 
     @login_required(login_url="login")
