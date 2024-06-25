@@ -5,13 +5,7 @@
 {% block extra_styles %}
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
     <link rel="stylesheet" href="{% static 'styles/state_form.css' %}">
-
-    <style>
-        #mapestate {
-            height: 400px;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'styles/mapestate.css' %}">
 {% endblock %}
 
 {% block dynamic_button %}
@@ -377,7 +371,35 @@
                                 <label for="InputLongitud">Longitud</label>
                                 <input type="number" disabled class="form-control input-control" id="InputLongitud" name="altitude" value="{{ estate.altitude }}" min="-180" max="180" step="0.00000000000001" required>
                             </div>
-                            <div id="mapestate"></div>
+                            
+                        </div>
+
+                        <div id="mapestate" data-latitude="{{ estate.latitude }}" data-altitude="{{ estate.altitude }}"></div>
+                        <script src="{% static 'js/maps/mapread.js' %}"></script>
+                        
+                        <div id="fourth-group" class="group mx-auto">
+                            
+                                <div class="form-group">
+                                    <label for="InputFotos" class="form-label">Cargar Fotos</label>
+                                    <input type="file" disabled multiple class="form-control input-control"  name="images" id="InputFotos" accept="image/*" >
+                                </div>
+                            
+                                {% if estate_images %}
+                                    <div class="form-group">
+                                    <input type="hidden" id="deletedImagesInput" name="deletedImages">
+                                    
+                                    <label class="form-label">Fotos Cargadas</label>
+                                        <div class="existing-images">
+                                            {% for img in estate_images %}
+                                                <div class="image-container" id="image-{{ img.id }}">
+                                                    <img src="{{ img.image.url }}" class="existing-image" alt="Imagen del Inmueble">
+                                                    <button type="button" hidden class="btn btn-img btn-danger btn-sm" onclick="deleteImage('{{ img.id }}')" >Eliminar</button>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            
                         </div>
 
                         <!--imagenes-->
