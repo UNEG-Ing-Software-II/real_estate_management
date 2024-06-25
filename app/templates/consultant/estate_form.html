@@ -9,206 +9,23 @@
 {% endblock %}
 
 {% block dynamic_button %}
-
-    <div class="gap">
-        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#modalAgregarPropietario" >
-            <i class="bi bi-person-fill-add"></i>Gestionar Propietarios</button>
-    </div>
-
-    <div class="modal fade" id="modalAgregarPropietario" tabindex="-1" aria-labelledby="modalAgregarPropietarioLabel" aria-hidden="true">
-        <div class="modal-dialog ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{state.name}}"</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Pestañas de navegación -->
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab" data-bs-target="#buscar" type="button" role="tab" aria-controls="buscar" aria-selected="true">Agregar por Cédula</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button" role="tab" aria-controls="registrar" aria-selected="false">Registrar Nuevo P.</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="eliminar-tab" data-bs-toggle="tab" data-bs-target="#eliminarPropietarios" type="button" role="tab" aria-controls="eliminarPropietarios" aria-selected="false">Eliminar P.</button>
-                        </li>
-                    </ul>
-    
-                    <div class="tab-content" id="myTabContent">
-                        <!-- Formulario de búsqueda por cédula -->
-                        <div class="tab-pane fade show active" id="buscar" role="tabpanel" aria-labelledby="buscar-tab">
-                            <form id="formBuscar" class="d-flex align-items-center">
-                                <div class="mb-3 mt-3">
-                                    <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
-                                    <div class="d-flex mx-auto">
-                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
-                                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-                                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
-                                    </div>
-                                </div>
-                            </form>
-                            <div id="resumenPropietario" class="mt-3"></div>
-                        </div>
-    
-                        <!-- Formulario de registro completo -->
-                        <div class="tab-pane fade" id="registrar" role="tabpanel" aria-labelledby="registrar-tab">
-                            <form id="formRegistro">
-                                <div class="mt-4 mb-3">
-                                    <label for="cedulaRegistrar" class="form-label">Número de Cédula</label>
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="nombre" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="apellido" class="form-label">Apellido</label>
-                                    <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="correo" class="form-label">Correo</label>
-                                    <input type="email" class="form-control" id="correo" placeholder="Ingrese un correo" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña" required>
-                                </div>
-                                
-                            </form>
-                        </div>
-
-                        <!-- Formulario para eliminar propietarios -->
-                        <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
-                            <form id="eliminarForm" action="{% url 'unlink_owner' %}" method="post">
-                                {% csrf_token %}
-                                {% if owners%}
-                                    {% for owner in owners %}
-                                        <div class="form-check">
-                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_owners" value="{{ owner.id }}">
-                                            <label class="form-check-label" for="owner{{ owner.id }}">
-                                                {{owner.owner_id.document}} - {{ owner.owner_id.name }} - {{ owner.owner_id.last_name }}
-                                            </label>
-                                        </div>
-                                    {% endfor %}
-                                {% else %}
-                                    <p class=" mt-3 text-center"><b>No hay propietarios asignados para este inmueble</b></p>
-                                {% endif %}
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardarBtn" disabled>Agregar Propietario</button>
-                    <button type="button" class="btn btn-primary d-none" id="registrarBtn">Registrar</button>
-                    <button type="button" class="btn btn-danger d-none" id="eliminarBtn" disabled>Eliminar seleccionados</button>
-                </div>
-            </div>
+    <div class="group-buttons-aux">
+        <div class="btn-deskt">
+            <div class="gap">
+            <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroArea" ><i class="bi bi-building-add"></i>Agregar Area</button>
+        </div>
+        
+        <div class="gap">
+            <button type="button" class="btn btn-secondary rounded-pill in" data-bs-toggle="modal" data-bs-target="#modalAgregarPropietario" >
+                <i class="bi bi-person-fill-add"></i>Gestionar Propietarios</button>
+        </div>
+        
+        <div class="gap"> 
+            <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ estate.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
         </div>
     </div>
 
-    <!-- Formulario oculto -->
-    <form id="hiddenForm" action="{% url 'save_owner' %}" method="POST" style="display:none;">
-        {% csrf_token %}
-        <input type="hidden" id="hiddenDocument" name="document">
-        <input type="hidden" id="hiddenName" name="name">
-        <input type="hidden" id="hiddenLastName" name="lastName">
-        <input type="hidden" id="hiddenEmail" name="email">
-        <input type="hidden" id="hiddenPassword" name="password">
-        <input type="hidden" id="hiddenMethod" name="method">
-        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-    </form>
-    
-
-    <div class="gap">
-        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroArea" ><i class="bi bi-building-add"></i>Agregar Area</button>
-    </div>
-
-    <!-- Modal Para el registro de areas-->
-    <div class="modal fade" id="ModalRegistroArea" tabindex="-1" aria-labelledby="ModalRegistroAreaLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="ModalRegistroAreaLabel">Agregar Area</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                    {% if features %}
-                    <form  id="formArea" action="{% url 'area_create' %}" method="POST">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                                <select id="select-area" name="area_type" class="form-select input-select">
-                                    <option value="" selected disabled>Selecciona un área</option>
-                                    {% for key, value in area_types_set.items %}
-                                        <option value="{{ key }}">{{ value }}</option>
-                                    {% endfor %}
-                                </select>
-                                <div id="caracteristicas-container"></div>
-                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-                            
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
-                        </div>
-                    <!--</form>-->
-                    {% comment %} {%else%}
-                        <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
-                            {% csrf_token %}
-                            <div class="modal-body">
-                                No hay registros de caracteristicas en la bd, por favor, ejecute el script de llenado
-                            </div>
-                            <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary" id="resgistrarCaracteristicas" >Script de llenado</button>
-                            </div>
-                        </form> {% endcomment %}
-                    {%endif%}
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="gap">
-        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
-    </div>
-
-    <div class="gap"> 
-        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ estate.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
-    </div>
-
-    <!-- Modal para Borrar Inmueble-->
-    <div class="modal fade" id="modalBorrar{{ estate.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ estate.id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <h5 class="modal-title">Eliminar inmueble "{{ estate.name }}"</h5>
-                        <h4 class="text-dark"> ID del inmueble: {{estate.id}}</h4> 
-                    </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                {% comment %} El valor a eliminar, se debe enviar por el POST, agregar un input oculto que lo pase {% endcomment %}
-                <form action="{% url 'estate_delete' %}" method="post">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-                        <p>¿Estás seguro que deseas eliminar este inmueble?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-danger">Eliminar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+   
 
 {% endblock %}
 
@@ -269,6 +86,9 @@
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="imagenes-tab" data-bs-toggle="tab" data-bs-target="#imagenes" type="button" role="tab" aria-controls="imagenes" aria-selected="false">Imágenes</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="incidencia-tab" data-bs-toggle="tab" data-bs-target="#incidencia" type="button" role="tab" aria-controls="incidencia" aria-selected="false">Incidencia</button>
                         </li>
                     </ul>
                     {% csrf_token %}
@@ -404,10 +224,14 @@
                         </div>
 
 
+                        <!-- formulario de incidencias-->               
+                        <div class="tab-pane fade" id="incidencia" role="tabpanel" aria-labelledby="incidencia-tab">
+                            <div  class="form-group">
+                                <button type="button" class="btn btn-secondary"  data-bs-toggle="modal" data-bs-target="#ModalIncidencia"></i>Agregar Incidencia de Captación </button>
+                            </div>
+                        </div>
 
                     </div>
-
-
                 </div>
                 <div id="btn-special">
                     <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
@@ -570,12 +394,7 @@
 
 
                     
-                    <!-- formulario de incidencias-->               
-                    <div id="fifth-group" class="group mx-auto">
-                        <div  class="form-group">
-                            <button type="button" class="btn btn-secondary"  data-bs-toggle="modal" data-bs-target="#ModalIncidencia"></i>Agregar Incidencia de Captación </button>
-                        </div>
-                    </div>
+                                            <!-- MODAL DE INCIDENCIA, REFACTORIZAR -->
             
 
 
@@ -641,14 +460,199 @@
                     </div>
                     
                     <div class="pagination">
-                        <button class="btn-pag act-btn" onclick="form_change(this, 'first-group')">1</button>
-                        <button class="btn-pag" onclick="form_change(this, 'second-group')">2</button>
-                        <button class="btn-pag" onclick="form_change(this, 'third-group')">3</button>
-                        <button class="btn-pag" onclick="form_change(this, 'fourth-group')">4</button>
-                        <button class="btn-pag" onclick="form_change(this, 'fifth-group')">5</button>
+
                         <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#modalInformacionDetallada" >
                             <i class="bi bi-person-fill-add"></i>informacion detallada</button>
+                    
                     </div>
+                    
+                    <!--MODALES AGREGAR PROPIETARIO / BORRAR INMUEBLE / REGISTRAR AREAS-->      
+    <!-- Modal Para agregar propietario-->
+    <div class="modal fade" id="modalAgregarPropietario" tabindex="-1" aria-labelledby="modalAgregarPropietarioLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="modalAgregarPropietarioLabel">Agregar o eliminar propietarios de "{{state.name}}"</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Pestañas de navegación -->
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="buscar-tab" data-bs-toggle="tab" data-bs-target="#buscar" type="button" role="tab" aria-controls="buscar" aria-selected="true">Agregar por Cédula</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="registrar-tab" data-bs-toggle="tab" data-bs-target="#registrar" type="button" role="tab" aria-controls="registrar" aria-selected="false">Registrar Nuevo P.</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="eliminar-tab" data-bs-toggle="tab" data-bs-target="#eliminarPropietarios" type="button" role="tab" aria-controls="eliminarPropietarios" aria-selected="false">Eliminar P.</button>
+                        </li>
+                    </ul>
+    
+                    <div class="tab-content" id="myTabContent">
+                        <!-- Formulario de búsqueda por cédula -->
+                        <div class="tab-pane fade show active" id="buscar" role="tabpanel" aria-labelledby="buscar-tab">
+                            <form id="formBuscar" class="d-flex align-items-center">
+                                <div class="mb-3 mt-3">
+                                    <label for="cedulaBuscar" class="form-label">Número de Cédula <i>(propietario)</i></label>
+                                    <div class="d-flex mx-auto">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaBuscar" placeholder="Ingrese el número de cédula">
+                                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                        <button type="submit" class="btn btn-primary ms-2">Buscar</button>   
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="resumenPropietario" class="mt-3"></div>
+                        </div>
+    
+                        <!-- Formulario de registro completo -->
+                        <div class="tab-pane fade" id="registrar" role="tabpanel" aria-labelledby="registrar-tab">
+                            <form id="formRegistro">
+                                <div class="mt-4 mb-3">
+                                    <label for="cedulaRegistrar" class="form-label">Número de Cédula</label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" class="form-control" id="cedulaRegistrar" placeholder="Ingrese el número de cédula" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="nombre" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="apellido" class="form-label">Apellido</label>
+                                    <input type="text" class="form-control" id="apellido" placeholder="Ingrese el apellido" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correo" class="form-label">Correo</label>
+                                    <input type="email" class="form-control" id="correo" placeholder="Ingrese un correo" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" placeholder="Ingrese una contraseña" required>
+                                </div>
+                                
+                            </form>
+                        </div>
+
+                        <!-- Formulario para eliminar propietarios -->
+                        <div class="tab-pane fade" id="eliminarPropietarios" role="tabpanel" aria-labelledby="eliminar-tab">
+                            <form id="eliminarForm" action="{% url 'unlink_owner' %}" method="post">
+                                {% csrf_token %}
+                                {% if owners%}
+                                    {% for owner in owners %}
+                                        <div class="form-check">
+                                            <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                                            <input class="form-check-input" type="checkbox" id="owner{{ owner.id }}" name="selected_owners" value="{{ owner.id }}">
+                                            <label class="form-check-label" for="owner{{ owner.id }}">
+                                                {{owner.owner_id.document}} - {{ owner.owner_id.name }} - {{ owner.owner_id.last_name }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p class=" mt-3 text-center"><b>No hay propietarios asignados para este inmueble</b></p>
+                                {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarBtn" disabled>Agregar Propietario</button>
+                    <button type="button" class="btn btn-primary d-none" id="registrarBtn">Registrar</button>
+                    <button type="button" class="btn btn-danger d-none" id="eliminarBtn" disabled>Eliminar seleccionados</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- termina el Modal Para agregar propietario-->
+
+    <!-- Formulario oculto -->
+    <form id="hiddenForm" action="{% url 'save_owner' %}" method="POST" style="display:none;">
+        {% csrf_token %}
+        <input type="hidden" id="hiddenDocument" name="document">
+        <input type="hidden" id="hiddenName" name="name">
+        <input type="hidden" id="hiddenLastName" name="lastName">
+        <input type="hidden" id="hiddenEmail" name="email">
+        <input type="hidden" id="hiddenPassword" name="password">
+        <input type="hidden" id="hiddenMethod" name="method">
+        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+    </form>
+    
+    <!-- Modal Para el registro de areas-->
+    <div class="modal fade" id="ModalRegistroArea" tabindex="-1" aria-labelledby="ModalRegistroAreaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="ModalRegistroAreaLabel">Agregar Area</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                    {% if features %}
+                    <form  id="formArea" action="{% url 'area_create' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                                <select id="select-area" name="area_type" class="form-select input-select">
+                                    <option value="" selected disabled>Selecciona un área</option>
+                                    {% for key, value in area_types_set.items %}
+                                        <option value="{{ key }}">{{ value }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div id="caracteristicas-container"></div>
+                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                            
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary" id="registrarArea" disabled>Registrar Area</button>
+                        </div>
+                    <!--</form>-->
+                    {% comment %} {%else%}
+                        <form action="{% url 'scrip_llenado_caracteristicas' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                No hay registros de caracteristicas en la bd, por favor, ejecute el script de llenado
+                            </div>
+                            <input type="hidden" id="hiddenInmuebleId" name="inmueble_id" value="{{inmueble.id}}">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="resgistrarCaracteristicas" >Script de llenado</button>
+                            </div>
+                        </form> {% endcomment %}
+                    {%endif%}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- termina Modal Para el registro de areas-->
+
+    <!-- Modal para Borrar Inmueble-->
+    <div class="modal fade" id="modalBorrar{{ estate.id }}" tabindex="-1" aria-labelledby="modalBorrarLabel{{ estate.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title">Eliminar inmueble "{{ estate.name }}"</h5>
+                        <h4 class="text-dark"> ID del inmueble: {{estate.id}}</h4> 
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {% comment %} El valor a eliminar, se debe enviar por el POST, agregar un input oculto que lo pase {% endcomment %}
+                <form action="{% url 'estate_delete' %}" method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                        <p>¿Estás seguro que deseas eliminar este inmueble?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- terminal Modal para Borrar Inmueble-->
+<!--MODALES AGREGAR PROPIETARIO / BORRAR INMUEBLE / REGISTRAR AREAS-->  
                 
 
 

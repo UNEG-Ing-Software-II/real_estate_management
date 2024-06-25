@@ -39,12 +39,19 @@
                         />
                     </a>
               
-                <button id="menu-responsive" onclick="abrir()"><i class='bx bx-menu'></i></button>
                 
+               
                 
                 {% if request.user.role == "consultant" %}
 
-                <div class="add-button " id="nav-group">
+                {% block dynamic_button %}{% endblock %}
+
+                <button id="menu-responsive" onclick="abrir()"><i class='bx bx-menu'></i></button>
+            </div>
+
+            <div class="add-button" id="nav-group">
+
+
                 <button class="cerrar" onclick="cerrar()"><i class='bx bx-x'></i></button>
                 <div class="gap">
                     <a href="{% url 'my_account' %}" class="btn btn-secondary rounded-pill px-4 py-2 in"><i class='bx bx-user-circle' ></i>Cuenta</a>
@@ -54,154 +61,27 @@
                     </button>
                 </div>
 
-                <div class="modal fade" id="ModalRegistroInmueble" tabindex="-1" aria-labelledby="ModalLabelRegistroInmueble" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-scrollable modal-xl"> <!-- Cambié modal-lg a modal-xl para más ancho -->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5">Agregar inmueble</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body style-body-modal">
-                                <form method="post" id="add-form" action="{% url 'estate_create' %}">
-                                    {% csrf_token %}
-                                    
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label for="InputNombrePropiedad" class="form-label">Nombre de la propiedad</label>
-                                            <input type="text" class="form-control" name="name" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
-                                            <select class="form-select" name="type" required>
-                                                <option selected disabled hidden>Seleccione un tipo de propiedad</option>
-                                                <option value="apartment">Apartamento</option>
-                                                <option value="town_house">Town house</option>
-                                                <option value="country_house">Quinta</option>
-                                                <option value="house">Casa</option>
-                                                <option value="shed">Galpon</option>
-                                                <option value="office">Oficina</option>
-                                                <option value="f_trade">F comercio</option>
-                                                <option value="others">Otros</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label for="InputEstado" class="form-label">Estado</label>
-                                            <select class="form-select" name="state" required>
-                                                <option selected disabled hidden>Seleccione un tipo de estado</option>
-                                                <option value="sale">En venta</option>
-                                                <option value="rent">En alquiler</option>
-                                                <option value="finished">Finalizado</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="InputPrecio" class="form-label">Precio</label>
-                                            <input type="number" class="form-control" name="price"  min="0.001" step="0.001" required>
-                                        </div>
-                                    </div>
-                
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label for="InputNiveles" class="form-label">Niveles</label>
-                                            <input type="number" class="form-control" name="levels"  min="1" step="1" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
-                                            <input type="number" class="form-control" name="land_meters" min="0.001" step="0.001" required>
-                                        </div>
-                                    </div>
-                
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
-                                            <input type="number" class="form-control" name="construction_meters" min="0.001" step="0.001" required>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="bathroom">
-                                                <label for="InputBathroom" class="form-check-label">Baño</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="service_room">
-                                                <label for="InputCuartoServicio" class="form-check-label">Cuarto de servicio</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="office">
-                                                <label for="InputOficina" class="form-check-label">Oficina</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="parking">
-                                                <label for="InputEstacionamiento" class="form-check-label">Estacionamiento</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="half_bath">
-                                                <label for="InputHalfBath" class="form-check-label">Medio baño</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="terrace">
-                                                <label for="InputTerraza" class="form-check-label">Terraza</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="room">
-                                                <label for="InputHabitacion" class="form-check-label">Habitación</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" name="trunk">
-                                                <label for="InputMaletero" class="form-check-label">Maletero</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                
-                                   <!-- Agregar coordenadas geograficas por escrito
-                                    <div class="row mt-3">
-                                        <div class="col-md-6">
-                                            <label for="InputLatitud" class="form-label mt-2">Latitud</label>
-                                            <input type="number" class="form-control" name="latitud" min="-90" max="90" step="0.00000000000001" required>
-                                         
-                                        </div>
-                
-                                        <div class="col-md-6">
-                                            
-                                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
-                                    <input type="number" class="form-control" name="longitud" min="-180" max="180" step="0.00000000000001" required>
-                                
-                                        </div>
-                                    </div> 
-                                    -->
-                                <div class="row mt-3">
-                                    <div class="col align-self-center">
-                                        <div class="pb-4">
-                                            <label for="InputDirección" class="form-label">Dirección</label>
-                                            <input type="text" class="form-control" name="address" required>
-                                        </div>
-                                        
-                                    <div id="map"></div>
-                
-                                    <!-- Agregar coordenadas geográficas por mapa -->
-                                    <input type="hidden" name="latitude" id="CreateLatitude"value="">
-                                    <input type="hidden" name="altitude" id="CreateAltitude"value="">
-                
-                                    <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
-                                    <input type="file" accept="image/*">-->
-                                    </div>
-                                </div>
-                                    <div class="modal-footer mt-3">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                    </div>
-                                </form>
-                                <script src="{% static 'js/maps/mapsearch.js' %}"></script>
-                            </div>
-                        </div>
+                <div class="patch-btns-menu">
+                    <div class="gap">
+                        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" data-bs-toggle="modal" data-bs-target="#ModalRegistroArea" ><i class="bi bi-building-add"></i>Agregar Area</button>
+                    </div>
+                    
+                    <div class="gap">
+                        <button type="button" class="btn btn-secondary rounded-pill in" data-bs-toggle="modal" data-bs-target="#modalAgregarPropietario" >
+                            <i class="bi bi-person-fill-add"></i>Gestionar Propietarios</button>
+                    </div>
+                    
+                    <div class="gap">
+                        <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in" onclick="visible()"><i class='bx bx-edit'></i>Editar</button>
+                    </div>
+                    
+                    <div class="gap"> 
+                        <button class="btn-delete" type="button" data-bs-toggle="modal" data-bs-target="#modalBorrar{{ estate.id }}"><i class='bx bx-trash' ></i>Eliminar</button>
                     </div>
                 </div>
+
+
+                
 
 
 
@@ -216,16 +96,18 @@
                     <!-- Agrega otros botones o enlaces específicos para Director General" -->
                 
                 {% endif %}
+
+
                 
-                {% block dynamic_button %}{% endblock %}
+               
                 <div class="gap">
                     <a class="btn btn-secondary rounded-pill px-4 py-2 out" href="{% url 'sign_off' %}">
                     <i class='bx bx-log-out icn'></i>Cerrar sesión
                     </a>
                 </div>
+            </div>
             
-        </div>
-            
+          
             
                 
             {% else %}
@@ -245,6 +127,178 @@
     </nav>
 
 {%block content%} <!--NO PONER NADA (CONTENIDO DE LA VISTA HIJA)-->{%endblock%}
+
+
+
+
+
+<div class="modal fade" id="ModalRegistroInmueble" tabindex="-1" aria-labelledby="ModalLabelRegistroInmueble" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl"> <!-- Cambié modal-lg a modal-xl para más ancho -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5">Agregar inmueble</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body style-body-modal">
+                <form method="post" id="add-form" action="{% url 'estate_create' %}">
+                    {% csrf_token %}
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputNombrePropiedad" class="form-label">Nombre de la propiedad</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="InputPrecio" class="form-label">Precio</label>
+                            <input type="number" class="form-control" name="price"  min="0.001" step="0.001" required>
+                        </div>
+
+
+
+
+                        
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputEstado" class="form-label">Estado</label>
+                            <select class="form-select" name="state" required>
+                                <option selected disabled hidden>Seleccione un tipo de estado</option>
+                                <option value="sale">En venta</option>
+                                <option value="rent">En alquiler</option>
+                                <option value="finished">Finalizado</option>
+                            </select>
+                        </div>
+                    
+                        <div class="col-md-6">
+                            <label for="InputTipoDePropiedad" class="form-label">Tipo de propiedad</label>
+                            <select class="form-select" name="type" required>
+                                <option selected disabled hidden>Seleccione un tipo de propiedad</option>
+                                <option value="apartment">Apartamento</option>
+                                <option value="town_house">Town house</option>
+                                <option value="country_house">Quinta</option>
+                                <option value="house">Casa</option>
+                                <option value="shed">Galpon</option>
+                                <option value="office">Oficina</option>
+                                <option value="f_trade">F comercio</option>
+                                <option value="others">Otros</option>
+                            </select>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputNiveles" class="form-label">Niveles</label>
+                            <input type="number" class="form-control" name="levels"  min="1" step="1" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="InputMetrosTerreno" class="form-label">Metros² del terreno</label>
+                            <input type="number" class="form-control" name="land_meters" min="0.001" step="0.001" required>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputMetrosConstruccion" class="form-label">Metros² de construcción</label>
+                            <input type="number" class="form-control" name="construction_meters" min="0.001" step="0.001" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="InputDirección" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" name="address" required>
+                        </div>
+
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="bathroom">
+                                <label for="InputBathroom" class="form-check-label">Baño</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="service_room">
+                                <label for="InputCuartoServicio" class="form-check-label">Cuarto de servicio</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="office">
+                                <label for="InputOficina" class="form-check-label">Oficina</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="parking">
+                                <label for="InputEstacionamiento" class="form-check-label">Estacionamiento</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="half_bath">
+                                <label for="InputHalfBath" class="form-check-label">Medio baño</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="terrace">
+                                <label for="InputTerraza" class="form-check-label">Terraza</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="room">
+                                <label for="InputHabitacion" class="form-check-label">Habitación</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" name="trunk">
+                                <label for="InputMaletero" class="form-check-label">Maletero</label>
+                            </div>
+                        </div>
+                    </div>
+
+                   <!-- Agregar coordenadas geograficas por escrito
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <label for="InputLatitud" class="form-label mt-2">Latitud</label>
+                            <input type="number" class="form-control" name="latitud" min="-90" max="90" step="0.00000000000001" required>
+                         
+                        </div>
+
+                        <div class="col-md-6">
+                            
+                    <label for="InputLongitud" class="form-label mt-2">Longitud</label>
+                    <input type="number" class="form-control" name="longitud" min="-180" max="180" step="0.00000000000001" required>
+                
+                        </div>
+                    </div> 
+                    -->
+                <hr>
+
+                <div class="row mt-3">
+                    <div class="col align-self-center">
+                       
+                        
+                    <div id="map"></div>
+
+                    <!-- Agregar coordenadas geográficas por mapa -->
+                    <input type="hidden" name="latitude" id="CreateLatitude"value="">
+                    <input type="hidden" name="altitude" id="CreateAltitude"value="">
+
+                    <!--<label for="InputImagen" class="form-label">Imagen de portada</label>
+                    <input type="file" accept="image/*">-->
+                    </div>
+                </div>
+                    <div class="modal-footer mt-3">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+                <script src="{% static 'js/maps/mapsearch.js' %}"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 
 <script src="{% static 'js/menu-responsive.js' %}"></script>
