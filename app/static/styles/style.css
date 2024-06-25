@@ -260,7 +260,11 @@ h3{
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+  position: relative;
+  bottom: 0;
 }
 
 
@@ -574,11 +578,13 @@ option{
 
 .block{
   margin: 20px;
-  background-color: white;
+  background-color: rgb(254, 254, 254);
   -webkit-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   -moz-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   display: flex;
+  width: 80%;
+  min-height: 500px; /* Ajusta la altura mínima del contenedor */
   /* align-items: center; */
 }
 .inmueble{
@@ -587,15 +593,23 @@ option{
 }
 
 .carousel{
-  width: 100%;
+  width: 40%;
   height: 100%;
-  background-color: rgb(255, 255, 255);
-  position: static;
+  background-color: rgb(5, 3, 3);
+  border: 1px solid #fafafa;
+}
+
+@media (max-width: 768px) { /* Puedes ajustar el tamaño según tus necesidades */
+  .carousel {
+      margin-left: auto; /* Centra el elemento horizontalmente */
+      margin-right: auto; /* Centra el elemento horizontalmente */
+      width: 90%; /* Ajusta el ancho según sea necesario para móviles */
+  }
 }
 
 .info{
   width: 100%;
-  background-color: rgba(251, 251, 251, 0.791);
+  background-color: rgb(254, 254, 254);
   
 }
 

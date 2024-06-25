@@ -52,7 +52,7 @@ def role_required(role):
 # funcion temporal para cargar un registro a la tabla usuario
 
 def guardar_usuario():
-    Usuario.objects.create_user(
+    User.objects.create_user(
         cedula="123456789",
         password="admin",
         nombre="Admin",
