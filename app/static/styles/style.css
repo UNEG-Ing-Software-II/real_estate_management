@@ -194,6 +194,19 @@ a{
   background-color: #B05099;
 }
 
+.in1{
+  border: none;
+  color: white;
+  background-color: #B05099;
+}
+
+.in2{
+  border: none;
+  color: white;
+  margin-left: 10px;
+  background-color: #B05099;
+}
+
 h4{
   font-size: 11px;
   color:#343a40;
@@ -321,7 +334,6 @@ nav{
   z-index: var(--bs-backdrop-zindex);
   --bs-backdrop-zindex: 1050;
   width: 100vw;
-  position: fixed;
   padding: 10px;
   background-color: #2E2A37;
 }
@@ -615,7 +627,7 @@ option{
   -webkit-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   -moz-box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
-  display: flex;
+  display: flow;
   width: 80%;
   min-height: 500px; /* Ajusta la altura mínima del contenedor */
   /* align-items: center; */
@@ -623,15 +635,13 @@ option{
 .inmueble{
   width: 35%;
   height: 100%;
-  background-color: rgb(5, 3, 3);
-  border: 1px solid #fafafa;
+  background-color: rgb(255, 255, 255);
 }
 
 .carousel{
-  width: 40%;
+  width: 100%;
   height: 100%;
-  background-color: rgb(5, 3, 3);
-  border: 1px solid #fafafa;
+  background-color: rgb(255, 255, 255);
 }
 
 @media (max-width: 768px) { /* Puedes ajustar el tamaño según tus necesidades */
@@ -795,4 +805,33 @@ div.block-name{
 .card{
   margin-bottom: 30px;
   width: 100%;
+}
+
+.nav-tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+.nav-item {
+  flex: 1 1 auto;
+  text-align: center;
+  margin-bottom: 5px; 
+}
+
+.nav-link {
+  padding: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .nav-item {
+      flex: 1 0 auto; 
+      margin-bottom: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .nav-item {
+      flex: 1 0 auto; 
+      margin-bottom: 0;
+  }
 }

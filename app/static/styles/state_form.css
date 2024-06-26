@@ -18,7 +18,6 @@
         max-height: 200px; /* Ajusta la altura máxima del contenedor */
         display: flex;
         overflow: hidden; /* Asegura que el contenido que se desborda se recorte */
-        border: 1px solid #ccc;
         object-fit: cover;
         object-fit: contain; /* Mantiene la imagen dentro del contenedor sin recortarla */
     }
@@ -51,5 +50,28 @@
         top: 5px;
         right: 5px;
     }
+
+    .carousel-control-prev{
+        background-color: rgb(122, 122, 122);
+    }
+
+    .carousel-control-next{
+        background-color: rgb(122, 122, 122);
+    }
+
+    @media(width <= 500px){
+        .carousel-control-prev{
+            width: auto;
+            height: auto;
+        }
+    }
+
+    @media(width <= 500px){
+        .carousel-control-next{
+            width: auto;
+            height: auto;
+        }
+    }
+
 
 
