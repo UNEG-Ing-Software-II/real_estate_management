@@ -56,7 +56,9 @@
                     </div>
 
                 {% else %}
+                <div class="carousel align-self-center">
                     <img src="{% static 'img/Inmueble1.jpeg' %}" class="inmueble" alt="">
+                </div>
                 {% endif %}
 
 
@@ -251,6 +253,7 @@
 
                 <div class="info">
                     <h1 id="details-title">DETALLES DEL INMUEBLE</h1>
+                    <hr>
                     <div>
                         <form class="form-container d-flex" id="form" action="{% url 'estate_update'%}" enctype="multipart/form-data" method="post">
                             {% csrf_token %}
