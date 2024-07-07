@@ -385,13 +385,6 @@
                                     {% endif %}
                                 
                             </div>
-
-
-
-                            <div id="btn-special">
-                                <button class="btn-save" type="submit"><i class='bx bx-save'></i>Guardar</button>
-                                <button class="btn-x" type="button" onclick="visible()"><i class='bx bx-x second-view'></i>Cancelar</button>
-                            </div>
                         </form>
                     </div>    
 
@@ -462,7 +455,7 @@
                         </div>
                     </div>
                     
-                    <div class="pagination">
+                    <div class="pagination" style="margin-top:2rem;">
 
                         <button type="button" class="btn btn-secondary rounded-pill px-4 py-2 in1" data-bs-toggle="modal" data-bs-target="#modalInformacionDetallada" >
                             <i class="bi bi-person-fill-add"></i>informacion detallada</button>
@@ -656,7 +649,106 @@
     </div>
     <!-- terminal Modal para Borrar Inmueble-->
 <!--MODALES AGREGAR PROPIETARIO / BORRAR INMUEBLE / REGISTRAR AREAS-->  
-                
+    
+  
+{% for area in areas %}
+
+<div>
+    <div class="carousel align-self-center">
+        <img src="{% static 'img/Inmueble2.jpeg' %}" class="inmueble" alt="">
+    </div>
+    <div class="row">
+
+        <div class="col d-flex m-4 row justify-content-start">
+            <span><b>Tipo de Área:</b> {{ area.get_type_display }}</span>
+        </div>
+
+        <div class="col d-flex m-4 justify-content-end">
+            <div class="d-flex">
+                <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modificarArea{{ area.id }}">Modificar</button>
+                <button class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarArea{{ area.id }}">Borrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ul>
+                {% for area_feature in area.areafeature_set.all %}
+                    <li>{{ area_feature.feature_id.description }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>  
+
+
+      
+
+        <!-- Modal de eliminar area  -->
+        <div class="modal fade" id="eliminarArea{{ area.id }}" tabindex="-1" aria-labelledby="eliminarAreaLabel{{ area.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="eliminarAreaLabel{{ area.id }}">Borrar Area</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{% url 'area_delete' %}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
+                        <div class="modal-body">
+                            Seguro desea borrar esta area?: <b>{{area.get_type_display}}</b>
+                        </div>
+                        <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para modificar area -->
+        <div class="modal fade" id="modificarArea{{ area.id }}" tabindex="-1" aria-labelledby="modificarAreaLabel{{ area.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modificarAreaLabel{{ area.id }}">Modificar Área</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="modificarAreaForm{{ area.id }}" action="{% url 'area_update'%}" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
+                        <div class="modal-body">
+                            <p><b>Tipo de Área:</b> {{ area.get_type_display }}</p>
+                                <ul>
+                                    {% for feature in features %}
+                                        {% if feature.type == area.type %}
+                                            <li>
+                                                <input type="checkbox" name="features"  class="form-check-input" value="{{ feature.description }}"
+                                                    {% for area_feature in area.areafeature_set.all %}
+                                                        {% if feature.description == area_feature.feature_id.description %}
+                                                            checked
+                                                        {% endif %}
+                                                    {% endfor %}>
+                                                {{ feature.description }}
+                                            </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                        </div>
+                        <input type="hidden" name="estate_id" value="{{ estate.id }}">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="submitForm('{{ area.id }}')">Guardar Cambios</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endfor %}
 
 
 
@@ -671,98 +763,7 @@
 
             
         </div>
-        
-        {% for area in areas %}
-
-            <div class="block  d-block mb-4">
-                    <div class="row">
-                        <div class="col d-flex m-4 row justify-content-start">
-                            <span><b>Tipo de Área:</b> {{ area.get_type_display }}</span>
-                        </div>
-
-                        <div class="col d-flex m-4 justify-content-end">
-                            <div class="d-flex">
-                                <button class="btn btn-primary m-1" data-bs-toggle="modal" data-bs-target="#modificarArea{{ area.id }}">Modificar</button>
-                                <button class="btn btn-danger m-1" data-bs-toggle="modal" data-bs-target="#eliminarArea{{ area.id }}">Borrar</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col ms-4">
-                            <ul>
-                                {% for area_feature in area.areafeature_set.all %}
-                                    <li>{{ area_feature.feature_id.description }}</li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>    
-
-                <!-- Modal de eliminar area  -->
-                <div class="modal fade" id="eliminarArea{{ area.id }}" tabindex="-1" aria-labelledby="eliminarAreaLabel{{ area.id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="eliminarAreaLabel{{ area.id }}">Borrar Area</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form action="{% url 'area_delete' %}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
-                                <div class="modal-body">
-                                    Seguro desea borrar esta area?: <b>{{area.get_type_display}}</b>
-                                </div>
-                                <input type="hidden" id="hiddenEstateID" name="estate_id" value="{{estate.id}}">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-danger">Eliminar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal para modificar area -->
-                <div class="modal fade" id="modificarArea{{ area.id }}" tabindex="-1" aria-labelledby="modificarAreaLabel{{ area.id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="modificarAreaLabel{{ area.id }}">Modificar Área</h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form id="modificarAreaForm{{ area.id }}" action="{% url 'area_update'%}" method="post">
-                                {% csrf_token %}
-                                <input type="hidden" id="hiddenArea" name="area_id" value="{{area.id}}">
-                                <div class="modal-body">
-                                    <p><b>Tipo de Área:</b> {{ area.get_type_display }}</p>
-                                        <ul>
-                                            {% for feature in features %}
-                                                {% if feature.type == area.type %}
-                                                    <li>
-                                                        <input type="checkbox" name="features"  class="form-check-input" value="{{ feature.description }}"
-                                                            {% for area_feature in area.areafeature_set.all %}
-                                                                {% if feature.description == area_feature.feature_id.description %}
-                                                                    checked
-                                                                {% endif %}
-                                                            {% endfor %}>
-                                                        {{ feature.description }}
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </ul>
-                                </div>
-                                <input type="hidden" name="estate_id" value="{{ estate.id }}">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="button" class="btn btn-primary" onclick="submitForm('{{ area.id }}')">Guardar Cambios</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-        {% endfor %}
+      
         
     </div>
 

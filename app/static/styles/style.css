@@ -16,6 +16,15 @@ body{
   overflow-x: hidden;
 }
 
+ul{
+  display: grid;
+  grid-template-columns: repeat(4,2fr);
+}
+
+.row{
+  align-items: center;
+}
+
 
 .container-center{
   margin-top: 50px;
@@ -629,7 +638,7 @@ option{
   box-shadow: -4px 10px 19px -7px rgba(0,0,0,0.75);
   display: flow;
   width: 80%;
-  min-height: 500px; /* Ajusta la altura mínima del contenedor */
+  /* min-height: 500px; Ajusta la altura mínima del contenedor */
   /* align-items: center; */
 }
 .inmueble{
@@ -651,6 +660,10 @@ option{
       margin-left: auto; /* Centra el elemento horizontalmente */
       margin-right: auto; /* Centra el elemento horizontalmente */
       width: 100%; /* Ajusta el ancho según sea necesario para móviles */
+  }
+
+  ul{
+    grid-template-columns: repeat(2,2fr);
   }
 }
 
