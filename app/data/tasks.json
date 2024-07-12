@@ -2,12 +2,12 @@
     {"name": "Contacto con el propietario", "percentage": 20,"type":"Captacion"},
     {"name": "Preparacion de la documentacion del inmueble","percentage": 20,"type":"Captacion"},
     {"name": "Firma de contrato de exclusividad o mandato de venta","percentage": 20,"type":"Captacion"},
-    {"name": "Generar la estimación de valor","percentage": 20,"type":"Captacion"},
+    {"name": "Generar la estimacion de valor","percentage": 20,"type":"Captacion"},
     {"name": "Publicaciones y mercadeo del inmueble","percentage": 20,"type":"Captacion"},
     {"name": "Contacto con el optante comprador","percentage": 10,"type":"Venta"},
     {"name": "Visita por parte del optante comprador al inmueble","percentage": 20,"type":"Venta"},
     {"name": "Realizar busqueda de posibles optantes compradores al inmueble","percentage": 15,"type":"Venta"},
     {"name": "Atencion al cliente / generacion de ofertas de compra / realizacion de reunion con el cliente","percentage": 30,"type":"Venta"},
     {"name": "Asistencia en la fase de cierre de la venta","percentage": 15,"type":"Venta"},
-    {"name": "Preparación de datos de optante comprador y de propietario del inmueble para la postventa","percentage": 10,"type":"Venta"}
+    {"name": "Preparacion de datos de optante comprador y de propietario del inmueble para la postventa","percentage": 10,"type":"Venta"}
 ]
